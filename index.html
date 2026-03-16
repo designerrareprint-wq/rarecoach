@@ -1233,8 +1233,21 @@ var APP={user:null,xp:0,level:1,cm:[],ss:0,curMod:null,curSc:0,am:0,as_:0,al:1};
 var SD={};
 var step=0;
 
-function save(){try{localStorage.setItem('rc4',JSON.stringify({user:APP.user,xp:APP.xp,level:APP.level,cm:APP.cm,ss:APP.ss}))}catch(e){}}
-function load(){try{var s=localStorage.getItem('rc4');if(s){var d=JSON.parse(s);if(d.user){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=d.cm||[];APP.ss=d.ss||0;return true}}}catch(e){}return false}
+function save(){
+  if(!APP.user)return;
+  try{
+    var data={user:APP.user,xp:APP.xp,level:APP.level,cm:APP.cm,ss:APP.ss};
+    localStorage.setItem('rc_u_'+APP.user.email,JSON.stringify(data));
+    localStorage.setItem('rc_last',JSON.stringify(data));
+  }catch(e){}
+}
+function load(){
+  try{
+    var s=localStorage.getItem('rc_last');
+    if(s){var d=JSON.parse(s);if(d&&d.user){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;return true;}}
+  }catch(e){}
+  return false;
+}
 
 // ================================================================
 // NAV
@@ -1319,10 +1332,41 @@ function doLogin(){
   var em=document.getElementById('lem').value.trim();
   var pw=document.getElementById('lpw').value;
   hideErr('le');
-  if(!em){showErr('le','Please enter your email address.');return}
-  if(!pw){showErr('le','Please enter your password.');return}
-  if(APP.user&&APP.user.email===em&&APP.user.pass===pw){loadDash();show('pd');return}
-  try{var s=localStorage.getItem('rc4');if(s){var d=JSON.parse(s);if(d.user&&d.user.email===em&&d.user.pass===pw){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=d.cm||[];APP.ss=d.ss||0;loadDash();show('pd');return}}}catch(e){}
+  if(!em){showErr('le','Please enter your email address.');return;}
+  if(!pw){showErr('le','Please enter your password.');return;}
+  // Try email-specific key first
+  try{
+    var sk=localStorage.getItem('rc_u_'+em);
+    if(sk){
+      var dk=JSON.parse(sk);
+      if(dk&&dk.user&&dk.user.email===em&&dk.user.pass===pw){
+        APP.user=dk.user;APP.xp=dk.xp||0;APP.level=dk.level||1;APP.cm=Array.isArray(dk.cm)?dk.cm:[];APP.ss=dk.ss||0;
+        loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
+  // Try last session key
+  try{
+    var s=localStorage.getItem('rc_last');
+    if(s){
+      var d=JSON.parse(s);
+      if(d&&d.user&&d.user.email===em&&d.user.pass===pw){
+        APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;
+        loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
+  // Try old key for backwards compatibility
+  try{
+    var so=localStorage.getItem('rc4');
+    if(so){
+      var do_=JSON.parse(so);
+      if(do_&&do_.user&&do_.user.email===em&&do_.user.pass===pw){
+        APP.user=do_.user;APP.xp=do_.xp||0;APP.level=do_.level||1;APP.cm=Array.isArray(do_.cm)?do_.cm:[];APP.ss=do_.ss||0;
+        save();loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
   showErr('le','Email or password is incorrect. Please try again.');
 }
 
@@ -1334,7 +1378,13 @@ function doForgot(){
 
 function socialLogin(p){showToast(p+' login coming soon! Please use email signup for now.')}
 
-function logout(){if(confirm('Are you sure you want to logout?')){show('plo')}}
+function logout(){
+  if(confirm('Are you sure you want to logout?')){
+    APP.user=null;APP.xp=0;APP.level=1;APP.cm=[];APP.ss=0;
+    try{localStorage.removeItem('rc_last');}catch(e){}
+    show('plo');
+  }
+}
 
 // ================================================================
 // DASHBOARD
@@ -1439,7 +1489,8 @@ function openScens(id){
   APP.curMod=id;APP.curSc=0;
   var m=MODS.filter(function(x){return x.id===id})[0];
   document.getElementById('stn').textContent=m?m.name:id;
-  renderScen();show('psc');
+  show('psc');
+  setTimeout(function(){renderScen();},30);
 }
 
 function bkScen(){if(APP.curMod){openLesson(APP.curMod)}else{show('pd');loadDash()}}
@@ -1609,8 +1660,40 @@ function updSet(){
 }
 function chLang(){
   var ls=['en','hi','hinglish'],ln=['English','Hindi','Hinglish'];
-  var c=APP.user?APP.user.lang:'en';var i=ls.indexOf(c);var n=(i+1)%ls.length;
-  if(APP.user){APP.user.lang=ls[n];save();document.getElementById('slv').textContent=ln[n];showToast('Language changed to '+ln[n]);}
+  var c=APP.user?APP.user.lang:'en';
+  var i=ls.indexOf(c);
+  var n=(i+1)%ls.length;
+  if(APP.user){
+    APP.user.lang=ls[n];
+    save();
+    var slv=document.getElementById('slv');if(slv)slv.textContent=ln[n];
+    // Apply language to scenario topic labels
+    applyLang(ls[n]);
+    showToast('✅ Language changed to '+ln[n]);
+  }
+}
+
+function applyLang(lang){
+  // Update lesson tips language label
+  var hints={
+    en:{greeting:"Greet with Name + Title + Time",practice:"Start Practice"},
+    hi:{greeting:"नाम + शीर्षक + समय के साथ अभिवादन करें",practice:"अभ्यास शुरू करें"},
+    hinglish:{greeting:"Name ke saath greet karein",practice:"Practice Shuru Karein"}
+  };
+  // Update start practice button if visible
+  var spBtn=document.getElementById('lessonStartBtn');
+  if(spBtn&&hints[lang]){
+    var scens=SC[APP.curMod]||[];
+    spBtn.textContent='⚡ '+(hints[lang].practice||'Start Practice')+' ('+scens.length+' Scenarios)';
+  }
+  // Update scenario instruction text based on language
+  var sctag=document.querySelector('.sctag');
+  if(sctag){
+    var labels={en:'SCENARIO',hi:'परिदृश्य',hinglish:'SCENARIO'};
+    // Will apply on next renderScen call
+  }
+  // Save language preference
+  if(APP.user)APP.user.lang=lang;
 }
 
 // ================================================================
@@ -1621,7 +1704,12 @@ function showXP(){var p=document.getElementById('xppop');p.classList.add('sh');s
 if(!Array.prototype.findIndex){Array.prototype.findIndex=function(fn){for(var i=0;i<this.length;i++)if(fn(this[i],i))return i;return -1}}
 
 window.onload=function(){
-  if(load()&&APP.user){loadDash();show('pd')}else{show('plo')}
+  var loaded=false;
+  // Try new key
+  try{var s=localStorage.getItem('rc_last');if(s){var d=JSON.parse(s);if(d&&d.user){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;loaded=true;}}}catch(e){}
+  // Try old key rc4 for backward compatibility
+  if(!loaded){try{var s2=localStorage.getItem('rc4');if(s2){var d2=JSON.parse(s2);if(d2&&d2.user){APP.user=d2.user;APP.xp=d2.xp||0;APP.level=d2.level||1;APP.cm=Array.isArray(d2.cm)?d2.cm:[];APP.ss=d2.ss||0;loaded=true;save();}}}catch(e){}}
+  if(loaded&&APP.user){loadDash();show('pd');}else{show('plo');}
 };
 </script>
 </body>
