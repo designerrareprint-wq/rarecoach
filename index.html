@@ -767,6 +767,33 @@ var LVXP=[0,500,1200,2500,5000,10000];
 
 // Scenarios
 var SC={
+mindset:[
+{t:"SCENARIO: You made 15 calls today and got 14 rejections. What is the CHAMPION response?",o:[
+{t:"Stop calling for the day. This is clearly not working today.",c:false,f:"Sales is a numbers game. 14 rejections out of 15 is not failure – it's progress. Champions keep going and learn from each call."},
+{t:"Analyse what you can improve, then make 5 more calls before end of day.",c:true,f:""},
+{t:"Feel deeply demotivated and question your career choice.",c:false,f:"Champions don't question the path after a hard day. They review what they can learn and get back up. Rejection is data, not judgment."},
+{t:"Send an angry message to your manager about the bad lead quality.",c:false,f:"Blaming external factors is the amateur response. Champions control what they can and improve what they can."}]},
+{t:"SCENARIO: A customer was rude to you on a call and insulted your company. What do you do NEXT?",o:[
+{t:"Argue back and defend your company aggressively.",c:false,f:"Arguing with a rude customer never ends in a sale. Stay calm, professional, and move on."},
+{t:"Stay calm, thank them for their time, end professionally, and immediately call the next prospect.",c:true,f:""},
+{t:"Cry and feel deeply upset for the rest of the day.",c:false,f:"Taking personal offense to customer behavior is part of the journey. Process it, learn from it, move on. Don't let one call ruin the whole day."},
+{t:"Tell all your colleagues and spend 30 minutes complaining about the rude customer.",c:false,f:"Venting is natural but unproductive. The time spent complaining is time not spent calling the next prospect."}]},
+{t:"SCENARIO: You haven't hit your target for 3 months. What does a champion salesperson do?",o:[
+{t:"Blame the market conditions and bad leads.",c:false,f:"External blame is the first sign of a fixed mindset. Champions ask: What can I do differently? What skill can I improve?"},
+{t:"Analyse your numbers, identify where deals are dropping off, and get a coach or mentor to help improve.",c:true,f:""},
+{t:"Reduce your target so it becomes easier to hit.",c:false,f:"Lowering the bar means lowering your potential. Champions raise their skills to meet the target, not lower the target to meet their skills."},
+{t:"Give up on sales and look for another career.",c:false,f:"3 bad months in sales is a learning phase, not a signal to quit. Every top salesperson has been here. The ones who push through become champions."}]},
+{t:"SCENARIO: You feel nervous before making an important sales call. What should you do?",o:[
+{t:"Avoid the call and send a WhatsApp message instead.",c:false,f:"Avoiding nervousness makes it worse over time. The only cure for call anxiety is making more calls. Champions do it scared."},
+{t:"Take 3 deep breaths, smile, review your key points, and dial with confidence.",c:true,f:""},
+{t:"Wait until you feel confident before calling.",c:false,f:"Confidence comes AFTER action, not before it. Waiting to feel confident means waiting forever. Do the call, confidence follows."},
+{t:"Ask a colleague to make the call for you this time.",c:false,f:"Delegating your fear helps no one. Every call you avoid is a skill you never build. Face it directly."}]},
+{t:"SCENARIO: Your competitor just launched a lower-priced product. What is the champion mindset?",o:[
+{t:"Drop your prices immediately to compete.",c:false,f:"A race to the bottom serves no one. Competing purely on price is a losing strategy long-term. Focus on your unique value."},
+{t:"Study your competitor, strengthen your value proposition, and focus on customers who value quality over price.",c:true,f:""},
+{t:"Tell all your customers that your competitor's product is bad.",c:false,f:"Speaking negatively about competitors is unprofessional and backfires. Focus on your own strengths, not their weaknesses."},
+{t:"Panic and lose confidence in your product.",c:false,f:"A competitor having a lower price does not diminish your product's value. Know your worth and communicate it clearly."}]}
+],
 greeting:[
 {t:"SCENARIO: You're calling PRASHANT at 10 AM Monday. Select the best greeting:",o:[{t:"Hey WhatsApp buddy! How do you do bhai? 😂",c:false,f:"Too casual and unprofessional. Always use NAME + TITLE + TIME greeting."},
 {t:"Hi Sir, Good Morning! How are you today?",c:false,f:"Good morning is correct but you MISSED his name 'Prashant'. Always use the customer's name first."},
@@ -871,7 +898,316 @@ whatsapp:[
 {t:"SCENARIO: Customer read your WhatsApp message but didn't reply for 2 days. What do you do?",o:[{t:"Send 3 messages: 'Seen but no reply?', 'Hello?', 'Are you interested or not?'",c:false,f:"Multiple follow-ups in quick succession feel desperate. One follow-up with value is sufficient."},
 {t:"Wait 3-4 days, then send a NEW value message – a testimonial, tip, or news – with no mention of previous message.",c:true,f:""},
 {t:"Remove them from your list. They're not interested.",c:false,f:"'Seen' means they read it. They may be busy. A value-add follow-up after 3-4 days is often effective."},
-{t:"Call them immediately. WhatsApp is not working.",c:false,f:"Jumping to a call after being seen-but-not-replied can feel aggressive. Continue WhatsApp with new value first."}]}
+{t:"Call them immediately. WhatsApp is not working.",c:false,f:"Jumping to a call after being seen-but-not-replied can feel aggressive. Continue WhatsApp with new value first."}]},
+{t:"SCENARIO: How should you format a WhatsApp sales message for maximum readability on mobile?",o:[
+{t:"One long paragraph with all details, pricing, terms, and contact info.",c:false,f:"Long unformatted paragraphs are hard to read on mobile. Use short sentences, line breaks, and emojis for scannable messages."},
+{t:"Short message with line breaks, 1-2 relevant emojis, and ONE clear question at the end.",c:true,f:""},
+{t:"Voice note only – typing takes too long.",c:false,f:"Voice notes are great for existing relationships but can feel intrusive for first contacts."},
+{t:"Bullet points listing every feature of your product.",c:false,f:"Feature lists are not conversations. WhatsApp selling is conversational. Ask questions and build dialogue."}]},
+{t:"SCENARIO: A prospect replies to your WhatsApp with just 'OK'. What do you do?",o:[
+{t:"Reply 'OK' back and wait.",c:false,f:"'OK' is ambiguous – it could mean interest or dismissal. Always follow up with an open question to keep the conversation going."},
+{t:"Reply: 'Great Sameer Sir! 😊 Just to understand your requirement better – what type of printing work do you need most frequently?'",c:true,f:""},
+{t:"Send your full catalogue immediately.",c:false,f:"Sending a catalogue before understanding their specific need is premature. First qualify their requirement."},
+{t:"Call them immediately – WhatsApp isn't working.",c:false,f:"Escalating to a call for a mild response is too aggressive. Continue building the WhatsApp conversation first."}]}
+],
+intro:[
+{t:"SCENARIO: You are calling VIKRAM MEHTA for the first time. He doesn't know you. Best introduction?",o:[
+{t:"Hi Vikram Sir, I'm calling from a company. We sell many things. Can I have 2 minutes?",c:false,f:"'Selling many things' is vague and gives zero value. Be specific about your company name and what you do for THEM."},
+{t:"Hi Vikram Sir, I'm Rahul from PrintPro Solutions. We help businesses reduce printing costs by 30%. Is this a good time for 2 minutes?",c:true,f:""},
+{t:"Hello, my name is Rahul Sharma, Sales Executive, PrintPro Solutions, established 2010, 50 employees, serving clients across India...",c:false,f:"Too long and self-focused. Nobody cares about company history in the first 20 seconds. Lead with VALUE to them."},
+{t:"Hi Vikram bhai! I heard you do printing work so thought I'd call!",c:false,f:"Informal and no structure. No company name, no value proposition. Even friendly markets need a proper introduction."}]},
+{t:"SCENARIO: You have 30 seconds to introduce your services. What is the most effective opening?",o:[
+{t:"We offer high quality printing with fast delivery and good prices.",c:false,f:"Vague and generic. Every competitor says this. What SPECIFICALLY makes you different? What RESULT do you deliver?"},
+{t:"We help businesses get premium printing delivered in 24 hours – guaranteed, or it's free.",c:true,f:""},
+{t:"We are a printing company with modern machinery and experienced staff.",c:false,f:"Feature-focused. Machinery and staff are not benefits. What result does the customer get?"},
+{t:"Please check our website for all information about our services.",c:false,f:"Redirecting before delivering value loses the customer immediately."}]},
+{t:"SCENARIO: After your intro, customer says 'I already have a printing vendor.' What do you say?",o:[
+{t:"Oh okay Sir. No problem. I'll call some other time.",c:false,f:"You gave up immediately. This is the most common response and least effective. Every successful sale starts with an existing supplier."},
+{t:"That's great Vikram Sir! Many of our best clients said the same thing. What matters most to you – price, quality, or delivery speed?",c:true,f:""},
+{t:"Our company is much better than your current vendor. They are not reliable.",c:false,f:"Never attack a competitor. It's unprofessional and puts the customer on the defensive immediately."},
+{t:"Sir please at least try once. Please give me a chance.",c:false,f:"Begging undermines your value. Don't beg – redirect to their interests and ask what they value most."}]},
+{t:"SCENARIO: A prospect asks 'How are you different from others?' What is the BEST answer?",o:[
+{t:"We have been in business for 10 years and have 500 clients.",c:false,f:"Years and client count are credentials, not differentiators. Connect these to a customer outcome they care about."},
+{t:"Great question! Three things: we guarantee 24-hour delivery, we assign you a dedicated account manager, and we redo anything you're not 100% happy with – free.",c:true,f:""},
+{t:"We are simply the best in the market.",c:false,f:"'Best in the market' is an unsubstantiated claim everyone makes. Be specific about what makes you genuinely different."},
+{t:"Our machines are imported from Germany with the latest technology.",c:false,f:"Machine specs are features. Connect features to outcomes: 'which means your prints will always be consistent and colour-accurate.'"}]},
+{t:"SCENARIO: You are introducing yourself on WhatsApp for the first time. Which message format is best?",o:[
+{t:"Hi, I'm Rahul. I do printing. Need anything?",c:false,f:"Too short, no company name, no value, no reference. This message will be ignored by 95% of recipients."},
+{t:"Hi Vikram Sir 🙏 I'm Rahul from PrintPro. Suresh from your network suggested I reach out. We help businesses like yours with quality printing and same-day delivery. Would you be open to a quick 2-min chat? 😊",c:true,f:""},
+{t:"[Sends full company profile PDF] Hi Sir, please check our profile.",c:false,f:"Sending a heavy PDF as a first message with no context is the fastest way to get ignored or blocked."},
+{t:"Hello sir. Please check our rates and let me know if interested.",c:false,f:"Leading with rates before establishing any value or relationship is backwards. Build connection first."}]}
+],
+rapport:[
+{t:"SCENARIO: Your customer RAHUL is from AHMEDABAD. The T20 World Cup was hosted there recently. How do you build common ground?",o:[
+{t:"So Rahul Sir, let's talk about our services. We have great offers this month.",c:false,f:"Skipped rapport entirely. Jumping to offers without connection feels cold and transactional."},
+{t:"Rahul Sir, you're from Ahmedabad – it must have been incredible when the T20 World Cup was hosted there! How was the energy in the city?",c:true,f:""},
+{t:"Sir Ahmedabad mein bahut heat hoti hai na? Kaisi lagti hai garmi?",c:false,f:"Weather is a weak opener. The T20 World Cup is a far more emotionally charged and memorable common ground topic."},
+{t:"Rahul Sir, Ahmedabad is famous for Sabarmati Ashram. Have you visited?",c:false,f:"A tourist attraction is weaker than a recent exciting event. Always choose CURRENT, EMOTIONALLY RELEVANT common ground."}]},
+{t:"SCENARIO: You notice your customer PRIYA's WhatsApp DP shows her at a hill station. How do you use this?",o:[
+{t:"Priya Ma'am, I noticed your profile picture – it looks like a beautiful place! Where was that?",c:true,f:""},
+{t:"Ma'am your profile picture is very nice.",c:false,f:"Too generic. Name the place or describe it specifically to show you actually noticed. Specific observation shows genuine interest."},
+{t:"Ma'am I don't have time for chit-chat. Let me tell you about our offer.",c:false,f:"Rapport is not wasted time – it's investment time. These few minutes dramatically increase your chance of closing."},
+{t:"Ma'am you travel a lot? Must be rich then! Can you buy our premium package?",c:false,f:"Completely inappropriate. Never assume purchasing power from personal details or connect personal info to sales pressure."}]},
+{t:"SCENARIO: A customer mentions their son just passed his 10th board exams. What do you say?",o:[
+{t:"Oh nice. So coming back to our product...",c:false,f:"Dismissing good news immediately signals you only care about the sale. This destroys rapport instantly."},
+{t:"Sir that's wonderful news! Congratulations to him and you! That must be such a proud moment. Which stream is he thinking about?",c:true,f:""},
+{t:"Good. So can you make a decision today?",c:false,f:"Completely tone-deaf. A customer sharing happy family news is opening up to you. Lean in, not away."},
+{t:"My son also passed 10th. Let me tell you about our services now.",c:false,f:"Making it about yourself is a rapport killer. Acknowledge their moment fully before introducing anything else."}]},
+{t:"SCENARIO: It's the first call with a new prospect from MUMBAI. What is the best way to start building rapport?",o:[
+{t:"Sir let me directly explain our product. No need for small talk.",c:false,f:"Skipping rapport is skipping trust-building. People buy from people they like. Give rapport the time it deserves."},
+{t:"Sir, Mumbai! The monsoon there must be something else this year! How is the city treating you?",c:true,f:""},
+{t:"Sir are you from Mumbai? That's a very expensive city. Do you have budget for our services?",c:false,f:"Connecting their city to budget is inappropriate and offensive. Build connection, not financial assumptions."},
+{t:"Sir I also want to live in Mumbai someday. It's my dream city.",c:false,f:"Making the conversation about yourself immediately redirects the spotlight. Keep it on them."}]},
+{t:"SCENARIO: A customer you spoke to 3 months ago calls back. How do you re-establish rapport?",o:[
+{t:"Hello sir, please remind me who you are.",c:false,f:"Forgetting a customer who called 3 months ago signals they don't matter to you. Always note customer details."},
+{t:"Rahul Sir! Great to hear from you! How has business been? Did that event order we discussed work out well for you?",c:true,f:""},
+{t:"Yes Sir. Tell me your requirement.",c:false,f:"Abrupt and transactional. A returning customer deserves warm, personal acknowledgment."},
+{t:"Oh yes! So are you ready to place an order now?",c:false,f:"Jumping straight to order on a returning call misses a huge rapport opportunity. Ask about them first."}]}
+],
+listening:[
+{t:"SCENARIO: A customer is explaining a problem with their supplier. They're talking for 3 minutes. What should you do?",o:[
+{t:"[Interrupt] Yes yes, I understand the problem. Let me tell you how we solve it.",c:false,f:"Interrupting a customer mid-sentence is one of the top sales mistakes. Their full story reveals more opportunities than you expect."},
+{t:"[Listen fully] 'That sounds really frustrating. So if I understand correctly, the main issue is delays. Is that right?'",c:true,f:""},
+{t:"[Nod and say 'okay okay' repeatedly while thinking about your next pitch]",c:false,f:"Fake listening is worse than no listening. Customers feel when you're not present. Active listening means mentally processing."},
+{t:"[Check your phone while they talk since it's taking too long]",c:false,f:"Checking your phone during a customer conversation is the ultimate signal of disrespect. Never do this."}]},
+{t:"SCENARIO: Customer says 'I need it by next week but I'm not sure about the price.' Which part needs most attention first?",o:[
+{t:"The price concern – immediately discuss discounts.",c:false,f:"Jumping to price before understanding their timeline and purpose is a mistake. Acknowledge urgency first."},
+{t:"Both parts equally – first acknowledge the deadline, then understand the price concern specifically.",c:true,f:""},
+{t:"The 'next week' part – tell them our standard delivery is 2 weeks.",c:false,f:"Leading with a limitation before understanding their full situation will likely end the conversation."},
+{t:"Neither – this is a signal they're not ready to buy.",c:false,f:"Wrong. A customer discussing both timeline AND price is actively engaged in buying. This is a very positive signal."}]},
+{t:"SCENARIO: After explaining your product, the customer says 'Hmm.' What do you do?",o:[
+{t:"Continue talking and add more features.",c:false,f:"'Hmm' is a signal to pause and ask, not add more information. More talking when they're hesitating creates resistance."},
+{t:"Pause and ask: 'Vikram Sir, what's going through your mind right now? I want to make sure this makes sense for you.'",c:true,f:""},
+{t:"Ask immediately: 'So shall I proceed with the order?'",c:false,f:"Closing on a 'Hmm' without understanding what it means will almost always result in a soft rejection."},
+{t:"Take it as a yes and move to delivery details.",c:false,f:"'Hmm' is not a yes. Assuming it is will create awkwardness and erode trust."}]},
+{t:"SCENARIO: Customer is speaking very quickly and seems stressed. What should you do?",o:[
+{t:"Match their speed and rush through your pitch to keep pace.",c:false,f:"Matching stress with more stress escalates the situation. Instead, be the calm voice that slows things down gently."},
+{t:"Slow your own pace, acknowledge their stress: 'Sounds like you have a lot on right now. Let me keep this brief and focus on what matters most to you.'",c:true,f:""},
+{t:"Tell them to slow down because you can't understand them.",c:false,f:"Criticizing how a customer speaks is disrespectful. Adapt to them, don't criticize them."},
+{t:"Postpone the call since they seem busy.",c:false,f:"A stressed customer who is still talking to you is engaged. Use active listening to be their relief, not another problem."}]},
+{t:"SCENARIO: The customer gave you a lot of information about their needs. What is the BEST next step?",o:[
+{t:"Immediately launch into your product pitch.",c:false,f:"Before pitching, reflect back what you heard. This confirms understanding and shows the customer you were genuinely listening."},
+{t:"Summarise back: 'So if I understand correctly, your three main needs are X, Y, and Z. Is that right?' Then present your solution.",c:true,f:""},
+{t:"Ask them to repeat themselves because you missed some points.",c:false,f:"Admitting you weren't fully listening damages credibility. Take notes actively so you never need to ask again."},
+{t:"Move to pricing since you have enough information.",c:false,f:"Confirming your understanding before pricing prevents mismatches and builds trust."}]}
+],
+questions:[
+{t:"SCENARIO: Customer SURESH says he is 'thinking about' using your service. What question do you ask?",o:[
+{t:"Okay Sir, so will you buy or not?",c:false,f:"Closed pressure question. Forces Yes/No decision before the customer is ready. Almost always results in 'No'."},
+{t:"What specific outcomes are you hoping to achieve? Tell me more about your current situation.",c:true,f:""},
+{t:"Do you have budget for this?",c:false,f:"Jumping to budget before understanding their need is a red flag. Also a closed question that stops the conversation."},
+{t:"Have you seen our catalogue? It has everything you need.",c:false,f:"Pushing materials before understanding needs is backwards. First understand, then present. Always."}]},
+{t:"SCENARIO: A new prospect agreed to speak with you. What is the BEST first question?",o:[
+{t:"How much budget do you have?",c:false,f:"Asking for budget first feels like you're qualifying whether they're worth your time. Build value first."},
+{t:"What are the biggest challenges you're currently facing in your business?",c:true,f:""},
+{t:"Have you heard about our company before?",c:false,f:"This is a closed question about YOUR company. Your focus should be entirely on them in the first question."},
+{t:"When can you give me your order?",c:false,f:"Asking for an order in the first question is aggressive and tone-deaf. Build rapport and understand needs first."}]},
+{t:"SCENARIO: Customer says 'We might need some printing work.' Which follow-up question is best?",o:[
+{t:"How much quantity?",c:false,f:"Jumping to quantity before understanding the type of work narrows the conversation too early."},
+{t:"What kind of printing work are you thinking about, and what's the occasion or purpose?",c:true,f:""},
+{t:"When do you want it done?",c:false,f:"Timeline is important but secondary to understanding the NATURE of the work first. Start broad, then go specific."},
+{t:"Do you want our best quality or normal quality?",c:false,f:"Offering a quality choice before understanding their needs and budget puts them in an uncomfortable position."}]},
+{t:"SCENARIO: During a call, the customer goes silent for 5 seconds after you ask a question. What do you do?",o:[
+{t:"Quickly rephrase the question to fill the silence.",c:false,f:"The silence means they're thinking. If you fill it, you interrupt their thought process and lose a valuable answer."},
+{t:"Wait. The silence means they're thinking. Let them complete their thought.",c:true,f:""},
+{t:"Say 'Are you still there?'",c:false,f:"Interrupting thinking time breaks the flow. Wait at least 7-8 seconds before any response to silence."},
+{t:"Move to the next question to keep momentum.",c:false,f:"Moving on before they answer signals you don't actually care about their response. Always wait."}]},
+{t:"SCENARIO: Customer gives a very short answer 'Yes, we do printing.' How do you dig deeper?",o:[
+{t:"Ask: 'Do you need more volume?'",c:false,f:"Another closed question that gets a Yes/No. You need to open the conversation, not narrow it further."},
+{t:"Ask: 'That's great! What kind of printing takes up the most of your budget currently?'",c:true,f:""},
+{t:"Tell them about your printing services immediately.",c:false,f:"You don't have enough information yet to pitch. One short answer is not enough to understand their situation."},
+{t:"Ask: 'Are you happy with your current supplier?'",c:false,f:"Closed question again. Ask WHAT, HOW, or WHY to get a detailed, useful answer."}]}
+],
+needs:[
+{t:"SCENARIO: Customer says 'I want affordable printing.' What does this REALLY mean?",o:[
+{t:"He wants the cheapest price. Give maximum discount immediately.",c:false,f:"'Affordable' means good value, not just cheap. Ask what 'affordable' means to them specifically."},
+{t:"Ask: 'When you say affordable, what budget range are you thinking, and what quality level are you expecting?'",c:true,f:""},
+{t:"Send him the cheapest option from your catalogue.",c:false,f:"Assuming affordable means cheapest without understanding their context leads to wrong recommendations."},
+{t:"Tell him affordable is relative and your premium service is worth the price.",c:false,f:"Dismissing their stated need with a sales pitch is confrontational. First understand, then present value."}]},
+{t:"SCENARIO: A customer keeps asking about delivery speed. What underlying need should you explore?",o:[
+{t:"They just love fast delivery. Quote your fastest option.",c:false,f:"Speed is a symptom. The real need is WHY they need it fast. An event? A deadline? Understanding WHY opens up better solutions."},
+{t:"Ask: 'What's driving the urgency around delivery? Is there a specific event or deadline coming up?'",c:true,f:""},
+{t:"Tell them your delivery is the fastest in the market.",c:false,f:"Making a speed claim before understanding their specific requirement might not match what they actually need."},
+{t:"Ask if they're willing to pay extra for express delivery.",c:false,f:"Jumping to pricing before understanding their reason skips the discovery that could reveal a bigger opportunity."}]},
+{t:"SCENARIO: Customer says 'I want something that looks professional.' What is the best response?",o:[
+{t:"Show them your premium product range immediately.",c:false,f:"'Professional' means different things to different people. Understand what professional looks like to THEM before showing anything."},
+{t:"Ask: 'What does professional mean to you specifically? Do you have examples of designs you've liked?'",c:true,f:""},
+{t:"Tell them all our products look professional.",c:false,f:"Generic assurance without understanding their specific standard of 'professional' is meaningless."},
+{t:"Show them your most expensive option since that looks most professional.",c:false,f:"Expensive doesn't always mean professional to every customer. Understand their aesthetic and standard first."}]},
+{t:"SCENARIO: Customer seems interested but keeps changing the subject when you discuss details. What does this signal?",o:[
+{t:"They are not interested. Move on.",c:false,f:"Subject-changing is often a sign of an unspoken concern, not disinterest. The real objection hasn't surfaced yet."},
+{t:"Pause and ask: 'Rahul Sir, I sense something might be on your mind. Is there something specific you'd like to discuss?'",c:true,f:""},
+{t:"Keep pushing through your pitch regardless.",c:false,f:"Ignoring the customer's subtle signals and pushing your pitch creates resistance and feels tone-deaf."},
+{t:"Ask them directly: 'Are you going to buy or not?'",c:false,f:"A direct close when there's clearly an unspoken concern will result in a hard No. Surface the concern first."}]},
+{t:"SCENARIO: Two customers both say 'I need good quality printing.' One owns a salon, the other runs a corporate firm. Are their needs the same?",o:[
+{t:"Yes, quality means the same thing to both.",c:false,f:"Quality is relative to context. A salon owner cares about visual elegance and warmth. A corporate firm cares about precision, brand consistency, and professionalism. Always explore context."},
+{t:"No – ask each what 'good quality' means to their specific business and customer base.",c:true,f:""},
+{t:"Give both the same products since quality is quality.",c:false,f:"Sending the same solution without understanding context leads to mismatched recommendations and lost trust."},
+{t:"The corporate firm needs better quality. Give them premium and the salon standard.",c:false,f:"Never assume one business needs higher quality than another without understanding their specific requirements."}]}
+],
+value:[
+{t:"SCENARIO: A customer asks 'What makes your printing better than others?' What is the BEST response?",o:[
+{t:"We use the latest 8-color printing machines with German technology.",c:false,f:"This is a feature answer. Machines don't matter to the customer – what the machine PRODUCES for their business does."},
+{t:"Our printing gives your brand the premium look that makes your customers take you more seriously – which means more trust and more sales for you.",c:true,f:""},
+{t:"We are the best quality in the city.",c:false,f:"'Best quality' is an unsubstantiated claim every competitor also makes. Be specific about the outcome quality creates for them."},
+{t:"We have 10 years of experience and 500 happy clients.",c:false,f:"Experience and client count are credentials, not benefits. Connect them to a customer outcome."}]},
+{t:"SCENARIO: Customer says 'Let me compare with others first.' How do you respond?",o:[
+{t:"Sir please don't compare. We are the best.",c:false,f:"Telling someone not to compare triggers resistance. Comparison is natural buying behavior. Work with it."},
+{t:"Absolutely! While you compare, keep in mind what matters most: quality consistency, on-time delivery, and after-order support – these are where we shine.",c:true,f:""},
+{t:"Okay Sir, let me know what you find. Bye.",c:false,f:"Passive response with zero value framing. Set comparison criteria that favor your strengths before they compare."},
+{t:"Our price is lower than everyone else in the market.",c:false,f:"Competing purely on price is a race to the bottom. Frame value beyond price before comparison."}]},
+{t:"SCENARIO: You want to explain the benefit of same-day delivery. Which statement is BEST?",o:[
+{t:"We offer same-day delivery as a standard service.",c:false,f:"This is a feature. What does same-day delivery MEAN for the customer's business? Connect it to their outcome."},
+{t:"Same-day delivery means you can take last-minute orders from your clients and still deliver on time – which means you never lose a rush order again.",c:true,f:""},
+{t:"Same-day delivery is our USP.",c:false,f:"'USP' is business jargon that means nothing to a customer. Translate it into something they can feel and relate to."},
+{t:"We deliver faster than any competitor.",c:false,f:"Speed comparison without context of what it means for the customer's life or business is an empty claim."}]},
+{t:"SCENARIO: Customer says your competitor's product looks the same but costs less. How do you respond?",o:[
+{t:"Sir our product is actually very different. Let me explain all the technical differences.",c:false,f:"Launching into technical differences is not the same as communicating value. Focus on what those differences mean for their business."},
+{t:"Sir, you're right that they might look similar. The difference shows up in the results: our clients report 40% fewer reprints, which saves more money than the initial price difference.",c:true,f:""},
+{t:"Lower price always means lower quality. That's basic.",c:false,f:"This is a generalisation that may not be true and can sound arrogant. Prove your value specifically, don't make assumptions about competitors."},
+{t:"Okay Sir, I can match their price then.",c:false,f:"Immediately matching price without demonstrating value difference erases your margin and implies your original price was inflated."}]}
+],
+storytelling:[
+{t:"SCENARIO: A customer says 'I don't need better printing, mine is fine.' What story technique do you use?",o:[
+{t:"Tell them their current printing is probably low quality.",c:false,f:"Attacking their current choice creates defensiveness. Use a story to show what's possible, not criticize what they have."},
+{t:"'I hear you! I had a similar conversation with Vikram from Andheri 6 months ago. He said the same thing. Then he tried our samples... [tell specific before/after story]'",c:true,f:""},
+{t:"Tell them all the features of your printing machine.",c:false,f:"Feature lists don't change minds. Stories change minds. A customer who said the same thing and then changed – that's compelling."},
+{t:"Give them a big discount to change their mind.",c:false,f:"Discounting before a story skips the value-building step. Tell the story first, build the value, then price is secondary."}]},
+{t:"SCENARIO: You want to use the Before/After/Bridge storytelling structure. Which is correct?",o:[
+{t:"Our company is great. We have helped many clients. Buy from us.",c:false,f:"This is a generic claim, not a story. Before/After/Bridge requires specific structure: problem, outcome, then the solution."},
+{t:"'Before working with us, Priya's boutique had inconsistent label quality losing customers. After 3 months, her reorder rate doubled. The bridge? We created a custom template and free design review each order.'",c:true,f:""},
+{t:"Our printing is high quality and fast delivery.",c:false,f:"Feature claims without story context. A before/after story transforms features into lived experiences prospects can feel."},
+{t:"Many of our clients love us.",c:false,f:"Vague and unverifiable. Name a specific client, their specific problem, the specific result, and how you bridged the gap."}]},
+{t:"SCENARIO: What makes a sales story most believable and persuasive?",o:[
+{t:"Making it sound very dramatic and emotional.",c:false,f:"Overdramatic stories sound fabricated. Authenticity and specific detail create believability, not dramatic exaggeration."},
+{t:"Using specific names, locations, numbers, and realistic timelines.",c:true,f:""},
+{t:"Keeping it very short – one sentence.",c:false,f:"One sentence gives no detail and creates no emotional connection. A good story needs enough detail to transport the listener into the experience."},
+{t:"Making the story about your company's achievements.",c:false,f:"Sales stories should have the CUSTOMER as the hero. Your role is the guide or solution, not the star."}]},
+{t:"SCENARIO: Customer says 'I've heard promises like this before.' Which story response is BEST?",o:[
+{t:"Sir, I promise this time it will be different.",c:false,f:"Another promise after they just said they're tired of promises is counterproductive. Prove it with specific evidence, not another promise."},
+{t:"I understand completely Sir. Let me share what happened with Ravi, who had the exact same skepticism. [Tell specific story with outcome and his exact words]",c:true,f:""},
+{t:"Sir, we are honest people. You can trust us.",c:false,f:"'Trust us' without evidence is the weakest possible response to skepticism. Evidence is the only cure for broken trust."},
+{t:"Sir, if we don't deliver, we'll refund your money.",c:false,f:"A refund promise addresses the wrong fear. The customer isn't afraid of losing money – they're afraid of wasting time. Address that specifically."}]}
+],
+persuasion:[
+{t:"SCENARIO: Customer MEENA says 'Let me think about it.' You want to use SCARCITY ethically. What do you say?",o:[
+{t:"LAST CHANCE! Offer ends TODAY! Please decide now!",c:false,f:"Fake urgency is instantly detected and permanently destroys trust. Only use scarcity when it's absolutely real."},
+{t:"Meena Ma'am, of course take your time! Just so you know, our current pricing is valid through end of this month as costs are increasing. I can hold a slot for you while you decide.",c:true,f:""},
+{t:"Ma'am everyone is buying this. 50 people ordered yesterday.",c:false,f:"Unverifiable social proof sounds fake. Use specific, honest proof: 'Last month, 12 businesses in your area ordered from us.'"},
+{t:"Okay Ma'am. Call me whenever.",c:false,f:"Passive response with no urgency trigger. 'Think about it' customers rarely call back without a gentle nudge."}]},
+{t:"SCENARIO: A prospect hasn't heard of you. Which AUTHORITY-building statement is most effective?",o:[
+{t:"We are the best printing company in India.",c:false,f:"Self-proclaimed 'best in India' is meaningless without evidence. Use specific verifiable proof instead."},
+{t:"We've helped 200+ businesses in Lucknow, including Goel Brothers and Sharma Enterprises, increase their brand quality in the last 2 years.",c:true,f:""},
+{t:"We have been in business for 10 years.",c:false,f:"Years alone is not compelling authority. Connect your experience to specific outcomes and recognizable client names."},
+{t:"Our machines are the latest model from Germany.",c:false,f:"Machine specs are features, not authority. Authority comes from proven results and recognizable clients."}]},
+{t:"SCENARIO: You want to use RECIPROCITY to open a new relationship. What do you do?",o:[
+{t:"Give them a free gift and then immediately ask for the order.",c:false,f:"Reciprocity works when giving feels genuine. Giving with an immediate ask feels manipulative and cancels the effect."},
+{t:"Share a genuinely useful tip, insight, or resource relevant to their business – with no immediate sales ask.",c:true,f:""},
+{t:"Tell them they owe you because you've been trying to reach them.",c:false,f:"Reciprocity cannot be demanded. It must arise naturally from genuine generosity."},
+{t:"Promise a gift but deliver it only after they buy.",c:false,f:"Conditional gifts are incentives, not reciprocity. Reciprocity means giving FIRST, unconditionally."}]},
+{t:"SCENARIO: You want to use SOCIAL PROOF to convince a hesitant customer. Which is MOST effective?",o:[
+{t:"Many people buy from us and are very happy.",c:false,f:"Vague social proof has almost no persuasive power. Specific, local, named social proof is what actually moves people."},
+{t:"Last month, Anil from Gomti Nagar – who had the same concern you have – switched to us and saved ₹12,000 on his quarterly print order.",c:true,f:""},
+{t:"We have thousands of satisfied customers.",c:false,f:"Large vague numbers feel fabricated. One specific real story is more convincing than 'thousands of customers'."},
+{t:"Our Google rating is 4.8 stars.",c:false,f:"Ratings help but don't address specific concerns. A story from someone with the SAME concern is the most targeted proof."}]},
+{t:"SCENARIO: Customer says 'I'll decide next month.' You want to create genuine urgency. What do you say?",o:[
+{t:"Sir if you don't decide today, we can't guarantee availability.",c:false,f:"If this isn't true, it's a lie. Fake urgency is remembered and poisons the entire relationship permanently."},
+{t:"Of course Sir! Just to help with your planning – our current rate card is valid till month end as we have a cost revision coming. Would you like me to lock in today's pricing for a future order?",c:true,f:""},
+{t:"Okay Sir, talk to you next month.",c:false,f:"Accepting a month-long delay with no action creates a lost opportunity. Always leave with a clear next step."},
+{t:"Sir next month might be too late. Our products sell out fast.",c:false,f:"Artificial inventory scarcity that isn't real is manipulation. Use only honest urgency triggers."}]}
+],
+upselling:[
+{t:"SCENARIO: Customer just confirmed an order for 500 visiting cards. What is the BEST upsell?",o:[
+{t:"Sir please also buy our premium package. It has everything.",c:false,f:"Generic upsell without context or logic. The upsell must feel like a natural next step, not a sales grab."},
+{t:"Since you're getting visiting cards, many clients also add a letterhead at the same time – it saves the setup cost. Want me to include it?",c:true,f:""},
+{t:"Our premium service costs ₹5,000 more. Want that?",c:false,f:"No value explanation. Why would they pay ₹5,000 more? Explain the benefit before the cost."},
+{t:"Forget the 500. Let's talk about our biggest package instead.",c:false,f:"Replacing their confirmed order with a bigger one without context feels like you're after money, not serving their need."}]},
+{t:"SCENARIO: Customer says 'No thanks' to your cross-sell suggestion. What do you do?",o:[
+{t:"Convince them they are making a mistake.",c:false,f:"Arguing with a 'no' to an upsell is high pressure and damages the primary sale. Accept gracefully."},
+{t:"Accept gracefully: 'Of course Sir! No problem at all. Your main order is confirmed. I'll get started right away.'",c:true,f:""},
+{t:"Keep suggesting other products until one sticks.",c:false,f:"Multiple rejected upsells feel like harassment. One suggestion, graceful acceptance of 'no', done."},
+{t:"Add the cross-sell to the order without telling them.",c:false,f:"Adding unrequested items to an order is fraud and completely destroys trust."}]},
+{t:"SCENARIO: When is the BEST time to suggest an upsell?",o:[
+{t:"Before the customer has made any decision.",c:false,f:"Upselling before the primary decision is made overwhelms the customer and can derail the main sale."},
+{t:"Right after the customer confirms the primary purchase – while they're in 'buying mode'.",c:true,f:""},
+{t:"Only after you've delivered the order.",c:false,f:"Post-delivery upselling works for repeat orders but misses the powerful moment right after the purchase decision when the customer is most receptive."},
+{t:"At the very beginning of the conversation.",c:false,f:"Upselling at the start before understanding needs or building rapport is a significant mistake."}]},
+{t:"SCENARIO: Customer orders 500 business cards. You want to upsell to 1000. Which approach is BEST?",o:[
+{t:"Sir, 1000 is better. Take 1000.",c:false,f:"No reason given. 'Better' without explanation gives the customer nothing to agree with."},
+{t:"Sir, for just ₹300 more, you get 1000 cards – that's essentially half price for the extra 500. Many clients take this because cards run out faster than expected. Want me to add it?",c:true,f:""},
+{t:"Sir if you take less, you'll regret it later.",c:false,f:"Fear-based upsell feels manipulative. Give a positive reason to upgrade, not a negative consequence of not upgrading."},
+{t:"Our 1000-card package has better paper quality.",c:false,f:"Implying that the 500-card package has inferior quality undermines their current choice and creates doubt."}]}
+],
+retention:[
+{t:"SCENARIO: A regular customer hasn't ordered in 2 months. What do you do?",o:[
+{t:"Nothing – if they need something they'll call.",c:false,f:"Passive customer relationship management loses 20-30% of your customers every year to competitors. Always stay in contact."},
+{t:"Call or WhatsApp: 'Hi Rahul Sir! Just checking in – hope all is well! It's been a while since your last order. Is there anything I can help with?'",c:true,f:""},
+{t:"Send them a bulk promotional message with current offers.",c:false,f:"Generic bulk messages are impersonal. A personal check-in shows you noticed their absence and value the relationship."},
+{t:"Assume they switched to a competitor and focus on new customers.",c:false,f:"Assuming loss without investigation is a mistake. A simple check-in can reactivate 30-50% of inactive customers."}]},
+{t:"SCENARIO: A customer complains their order had a small printing error. How do you handle it?",o:[
+{t:"Sir it was a minor issue. Please adjust.",c:false,f:"Minimizing a customer's complaint is one of the fastest ways to lose them permanently."},
+{t:"Rahul Sir, I sincerely apologize. This should not have happened. I'm fixing this immediately and adding a priority slot for your next order at no extra charge.",c:true,f:""},
+{t:"Sir we have 99% accuracy. One error can happen.",c:false,f:"Defending with statistics when a customer has a complaint feels cold. Acknowledge first, fix second, explain later."},
+{t:"This is the courier's fault, not ours.",c:false,f:"Blame-shifting is a relationship killer. You are responsible for the complete customer experience including delivery."}]},
+{t:"SCENARIO: A loyal customer tells you they're thinking of trying a competitor. What do you say?",o:[
+{t:"Okay Sir, try them. You'll come back.",c:false,f:"Arrogance disguised as confidence. This dismissive response almost guarantees they'll leave and never return."},
+{t:"I appreciate you telling me Sir. May I ask what's making you consider the switch? I'd love the chance to address it if I can.",c:true,f:""},
+{t:"Sir don't go to them, their quality is bad.",c:false,f:"Never speak negatively about competitors. It sounds desperate and unprofessional."},
+{t:"I'll give you maximum discount to stay.",c:false,f:"Instantly offering maximum discount signals that you've been overcharging them all along. First understand their reason, then respond."}]},
+{t:"SCENARIO: After delivering an order, what is the BEST message to send within 24 hours?",o:[
+{t:"Nothing – the transaction is complete.",c:false,f:"The transaction ends at delivery but the relationship continues. A post-delivery check-in is one of the highest-ROI activities in sales."},
+{t:"Hi Rahul Sir, hope everything arrived perfectly! Was the quality as expected? Your feedback means a lot to us. 😊",c:true,f:""},
+{t:"Sir please leave us a 5-star review on Google.",c:false,f:"Asking for a review before checking if they're satisfied first is backwards and pushy. Confirm satisfaction, then ask."},
+{t:"Sir when is your next order?",c:false,f:"Asking for the next order before checking satisfaction on the current one signals you care more about revenue than their experience."}]}
+],
+referral:[
+{t:"SCENARIO: Customer just received their order and says 'This is exactly what I wanted!' When do you ask for a referral?",o:[
+{t:"Wait for the next order before asking.",c:false,f:"The best time to ask for a referral is RIGHT NOW – at peak happiness. This golden moment passes quickly."},
+{t:"Right now! 'I'm so glad it worked out! By the way, do you have one business owner friend who might also benefit from this?'",c:true,f:""},
+{t:"Never ask for referrals. It feels awkward.",c:false,f:"Referrals are the highest quality leads available – warm, pre-sold, and free. A happy customer is usually happy to help."},
+{t:"Send them a formal referral form to fill out.",c:false,f:"A formal form creates friction. Ask conversationally in the moment of happiness. Keep it personal and simple."}]},
+{t:"SCENARIO: Customer agrees to give a referral but seems unsure who to refer. How do you help?",o:[
+{t:"Okay Sir, think and let me know.",c:false,f:"'Think and let me know' rarely produces results. Help them think right now by giving specific prompts."},
+{t:"Think about your network – any business owners running a printing business, boutique, or restaurant? Even one name is perfect.",c:true,f:""},
+{t:"Give me all your contacts and I'll find the right people myself.",c:false,f:"Asking for a full contact list is invasive. Ask for specific names, not full contact lists."},
+{t:"It's okay. Don't worry about it.",c:false,f:"Letting the moment pass without a specific prompt wastes the referral opportunity. Guide them gently with category suggestions."}]},
+{t:"SCENARIO: You want to create a simple referral program. Which approach is MOST effective?",o:[
+{t:"Tell customers: 'Refer anyone and get a gift.'",c:false,f:"Vague rewards with no structure or clear value are quickly forgotten. Be specific about what they get and how it works."},
+{t:"'For every friend you refer who places an order, I'll give you ₹500 off your next order. Simple and straightforward.'",c:true,f:""},
+{t:"Don't create any referral program. Referrals should be natural.",c:false,f:"Natural referrals do happen, but a structured program makes them 3-5x more likely. Don't leave referrals to chance."},
+{t:"Post a referral request on your WhatsApp broadcast to all contacts.",c:false,f:"A broadcast message asking for referrals from people who don't know you is spam. Referral programs work between existing satisfied customers."}]},
+{t:"SCENARIO: A referred customer calls you. How do you open the conversation?",o:[
+{t:"Hello sir, how can I help you?",c:false,f:"Generic opener that doesn't acknowledge the referral. The referral is your most powerful trust asset – use it immediately."},
+{t:"Hi Suresh Sir! Rahul Ji suggested I should connect with you. He spoke very highly of your business. How are you?",c:true,f:""},
+{t:"Hi, I was referred to you by someone. Are you interested in printing?",c:false,f:"'Someone' weakens the referral. Always name the person who referred you – it's your credibility transfer."},
+{t:"Hi Sir, Rahul gave me your number. Do you want printing?",c:false,f:"Too abrupt. Acknowledge the referral warmly, build a moment of connection with the mutual contact, then ease into the conversation."}]}
+],
+telecalling:[
+{t:"SCENARIO: You're making a cold call. The person picks up and says 'Who is this?' How do you respond?",o:[
+{t:"Sir I'm calling from a company about printing.",c:false,f:"Vague and uninspiring. 'From a company' sounds like a robocall. Be specific about your name, company, and value."},
+{t:"Hi! I'm Rahul from PrintPro. I help businesses in your area reduce printing costs. Is this a good time for a 2-minute conversation?",c:true,f:""},
+{t:"Sir I'm calling because your number was given by someone. Can I explain?",c:false,f:"Vague 'someone' reference without specifics creates suspicion. Always name the referral if you have one."},
+{t:"Sir please don't disconnect, I have a very important offer for you.",c:false,f:"'Please don't disconnect' signals insecurity and immediately puts the customer in control. Lead with confidence and value."}]},
+{t:"SCENARIO: A gatekeeper says 'Sir is not available. Call tomorrow.' What is the best response?",o:[
+{t:"Okay. I'll call tomorrow.",c:false,f:"No information gathered, no relationship built with the gatekeeper. Treat gatekeepers as allies, not obstacles."},
+{t:"Could you help me? I want to make sure I call at a good time for him. When is he typically available? And may I know your name?",c:true,f:""},
+{t:"Can I have his direct number or email?",c:false,f:"Asking for direct contact before building any relationship with the gatekeeper is too forward. Win the gatekeeper first."},
+{t:"Tell him Rahul called. It's urgent.",c:false,f:"Fake urgency to a gatekeeper is transparent and unprofessional. Build authentic connection instead."}]},
+{t:"SCENARIO: You open a cold call and the prospect says 'I'm very busy right now.' What do you say?",o:[
+{t:"Okay Sir, I'll call later.",c:false,f:"'Call later' with no specific time means you'll play phone tag forever. Always try to schedule a specific time before hanging up."},
+{t:"Of course Sir! I completely understand. Would tomorrow at 10 AM or Thursday at 3 PM work for a 5-minute conversation?",c:true,f:""},
+{t:"Sir it will only take 1 minute. Please hear me out.",c:false,f:"Pressuring a busy person after they said they're busy damages the relationship before it starts."},
+{t:"Sir this is very important and urgent. Please give me 2 minutes.",c:false,f:"Creating fake urgency on a cold call with someone who said they're busy is disrespectful and counterproductive."}]},
+{t:"SCENARIO: A prospect answers your call and asks 'How did you get my number?' What do you say?",o:[
+{t:"It's publicly available on the internet.",c:false,f:"This answer feels invasive even if true. It immediately raises privacy concerns and puts the prospect on the defensive."},
+{t:"Vijay Singh from Karol Bagh suggested I reach out to you – he mentioned you might be looking for quality printing solutions.",c:true,f:""},
+{t:"I got it from a database.",c:false,f:"'Database' sounds like mass cold calling with no personal connection. This reduces your credibility instantly."},
+{t:"I don't remember exactly. Can I tell you about our service?",c:false,f:"Admitting you don't know how you got their number is the worst answer possible. Always be prepared with a clear, honest answer."}]},
+{t:"SCENARIO: After your opening pitch on a call, the customer says 'Not interested.' What do you do?",o:[
+{t:"Thank them and hang up immediately.",c:false,f:"'Not interested' at the opening stage usually means 'I don't have enough information yet.' One question can turn this around."},
+{t:"'I completely understand Sir! May I ask – is it the timing that's not right, or is there a specific reason? I just want to make sure I'm not bothering you with something irrelevant.'",c:true,f:""},
+{t:"Tell them why they should be interested.",c:false,f:"Telling someone why they should be interested after they said they're not is confrontational. Ask a question instead."},
+{t:"Ask them to reconsider and give you a chance.",c:false,f:"Begging undermines your professional position. A single curious question is far more effective than asking for a chance."}]}
 ]
 };
 
