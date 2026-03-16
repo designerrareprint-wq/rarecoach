@@ -1393,27 +1393,42 @@ var LCONTENT={
 
 function openLesson(id){
   APP.curMod=id;APP.curSc=0;
-  var m=MODS.filter(function(x){return x.id===id})[0];
+  var m=null;
+  for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){m=MODS[mi];break;}}
   var c=LCONTENT[id];
+  var scens=SC[id]||[];
   document.getElementById('lhn').textContent=m?m.name:id;
   document.getElementById('lpfi').style.width='15%';
   document.getElementById('lbk').onclick=function(){show('pd');loadDash()};
   var lb=document.getElementById('lb');
-  if(!c){
-    lb.innerHTML='<div style="text-align:center;padding:2rem;color:var(--t2)"><div style="font-size:3rem;margin-bottom:1rem">'+(m?m.ic:'📚')+'</div><h2 style="font-family:var(--fn);font-size:1.2rem;margin-bottom:.5rem">'+(m?m.name:'Module')+'</h2><p style="font-size:.88rem;line-height:1.6;margin-bottom:1.5rem">'+(m?m.desc:'Training content coming soon!')+'</p></div>';
-    var scens=SC[id];
-    if(scens&&scens.length){lb.innerHTML+='<div style="padding:0 0 1rem"><button class="spcta" id="spcta2">⚡ Start '+scens.length+' Scenarios</button></div>';document.getElementById('spcta2').onclick=function(){openScens(id)}}
-    show('pl');return;
+  var html='';
+  if(c){
+    html+='<div class="li" style="background:'+c.bg+'">'+c.ic+'</div>';
+    html+='<h1 class="ltit">'+c.ti+'</h1>';
+    html+='<p class="lint">'+c.intro+'</p>';
+    for(var ti=0;ti<c.tips.length;ti++){
+      html+='<div class="tbox"><div class="ttag">💡 '+c.tips[ti].l+'</div><p>'+c.tips[ti].t+'</p></div>';
+    }
+    html+='<div class="qbox"><p>'+c.q.t+'</p><div class="qau">— '+c.q.a+'</div></div>';
+    html+='<div class="dodont"><div class="docard"><div class="dolbl">✅ Do This</div><p>'+c.do+'</p></div><div class="dntcard"><div class="dolbl">❌ Not This</div><p>'+c.dont+'</p></div></div>';
+  } else {
+    html+='<div style="text-align:center;padding:2rem 1rem">';
+    html+='<div style="font-size:3.5rem;margin-bottom:.8rem">'+(m?m.ic:'📚')+'</div>';
+    html+='<h2 style="font-family:var(--fn);font-size:1.2rem;font-weight:900;margin-bottom:.5rem">'+(m?m.name:'Module')+'</h2>';
+    html+='<p style="font-size:.88rem;line-height:1.6;color:var(--t2);margin-bottom:1.5rem">'+(m?m.desc:'Learning module')+'</p>';
+    html+='</div>';
   }
-  var html='<div class="li" style="background:'+c.bg+'">'+c.ic+'</div><h1 class="ltit">'+c.ti+'</h1><p class="lint">'+c.intro+'</p>';
-  c.tips.forEach(function(t){html+='<div class="tbox"><div class="ttag">💡 '+t.l+'</div><p>'+t.t+'</p></div>'});
-  html+='<div class="qbox"><p>'+c.q.t+'</p><div class="qau">— '+c.q.a+'</div></div>';
-  html+='<div class="dodont"><div class="docard"><div class="dolbl">✅ Do This</div><p>'+c.do+'</p></div><div class="dntcard"><div class="dolbl">❌ Not This</div><p>'+c.dont+'</p></div></div>';
-  var scens=SC[id];
-  if(scens&&scens.length)html+='<button class="spcta" id="spcbtn">⚡ Start Practice ('+scens.length+' Scenarios)</button>';
+  if(scens.length>0){
+    html+='<button class="spcta" id="lessonStartBtn">⚡ Start Practice ('+scens.length+' Scenarios)</button>';
+  } else {
+    html+='<div style="text-align:center;padding:1rem;color:var(--t3);font-size:.85rem;background:var(--bg);border-radius:10px;margin-top:1rem">✏️ More scenarios coming soon!</div>';
+  }
   html+='<div style="height:2rem"></div>';
   lb.innerHTML=html;
-  if(document.getElementById('spcbtn'))document.getElementById('spcbtn').onclick=function(){openScens(id)};
+  var startBtn=document.getElementById('lessonStartBtn');
+  if(startBtn){
+    startBtn.addEventListener('click',function(){openScens(id);});
+  }
   show('pl');
 }
 
@@ -1430,48 +1445,78 @@ function openScens(id){
 function bkScen(){if(APP.curMod){openLesson(APP.curMod)}else{show('pd');loadDash()}}
 
 function renderScen(){
-  var id=APP.curMod,scens=SC[id],i=APP.curSc;
-  if(!scens||!scens.length||i>=scens.length){showCompl();return}
+  var id=APP.curMod;
+  var scens=SC[id]||[];
+  var i=APP.curSc;
+  if(!scens.length||i>=scens.length){showCompl();return;}
   var sc=scens[i],tot=scens.length,L=['A','B','C','D'];
   document.getElementById('sct').textContent=(i+1)+'/'+tot;
   document.getElementById('spfi').style.width=Math.round(i/tot*100)+'%';
   var body=document.getElementById('sb');
-  var html='<div class="sccard"><div class="sctag">📋 SCENARIO '+(i+1)+' of '+tot+'</div><div class="sctxt">'+sc.t+'</div></div><div class="owrap" id="ow">';
-  sc.o.forEach(function(opt,j){html+='<button class="obtn" id="o'+j+'"><div class="oltr">'+L[j]+'</div><div>'+opt.t+'</div></button>'});
+  var html='<div class="sccard"><div class="sctag">📋 SCENARIO '+(i+1)+' of '+tot+'</div><div class="sctxt">'+sc.t+'</div></div>';
+  html+='<div class="owrap">';
+  for(var j=0;j<sc.o.length;j++){
+    html+='<button class="obtn" id="scopt'+j+'"><div class="oltr">'+L[j]+'</div><div>'+sc.o[j].t+'</div></button>';
+  }
   html+='</div><div id="fbw"></div><div style="height:2rem"></div>';
-  body.innerHTML=html;body.scrollTop=0;
-  sc.o.forEach(function(opt,j){(function(idx){var b=document.getElementById('o'+idx);if(b)b.onclick=function(){pickAns(idx)}})(j)});
+  body.innerHTML=html;
+  body.scrollTop=0;
+  for(var j=0;j<sc.o.length;j++){
+    (function(optIdx){
+      var btn=document.getElementById('scopt'+optIdx);
+      if(btn){
+        btn.addEventListener('click',function(){pickAns(optIdx);});
+      }
+    })(j);
+  }
 }
 
 function pickAns(idx){
-  var id=APP.curMod,sc=SC[id][APP.curSc],opt=sc.o[idx],L=['A','B','C','D'];
-  sc.o.forEach(function(o,i){var b=document.getElementById('o'+i);if(b){b.classList.add('dis');b.onclick=null}});
-  var btn=document.getElementById('o'+idx),fb=document.getElementById('fbw');
-  if(opt.c){
-    btn.classList.add('crt');
-    APP.xp+=50;APP.ss++;chkLvl();save();
-    fb.innerHTML='<div class="fbpnl fbc"><div class="fbhd">✅ Excellent! Correct Answer!</div><div class="fbbd">Perfect technique! +50 XP earned! 🔥</div></div><button class="nqbtn" id="nqb">Next →</button>';
-    document.getElementById('nqb').onclick=function(){APP.curSc++;renderScen()};
-    showXP();
-    var el=document.getElementById('xnw');if(el)el.textContent=APP.xp;
-  } else {
-    btn.classList.add('wrg');
-    fb.innerHTML='<div class="fbpnl fbw"><div class="fbhd">❌ Not Quite Right</div><div class="fbbd">'+opt.f+'</div></div><button class="rtbtn" id="rtb">🔄 Try Again</button>';
-    document.getElementById('rtb').onclick=function(){renderScen()};
+  var id=APP.curMod;
+  var sc=SC[id][APP.curSc];
+  var opt=sc.o[idx];
+  var L=['A','B','C','D'];
+  for(var i=0;i<sc.o.length;i++){
+    var b=document.getElementById('scopt'+i);
+    if(b){b.classList.add('dis');b.replaceWith(b.cloneNode(true));}
   }
-  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+  var btn=document.getElementById('scopt'+idx);
+  var fb=document.getElementById('fbw');
+  if(opt.c){
+    if(btn)btn.classList.add('crt');
+    APP.xp+=50;APP.ss++;chkLvl();save();
+    fb.innerHTML='<div class="fbpnl fbc"><div class="fbhd">✅ Correct Answer!</div><div class="fbbd">Perfect technique! +50 XP earned! 🔥</div></div><button class="nqbtn" id="nqbtn">Next →</button>';
+    var nqbtn=document.getElementById('nqbtn');
+    if(nqbtn){nqbtn.addEventListener('click',function(){APP.curSc++;renderScen();});}
+    showXP();
+    var xnwEl=document.getElementById('xnw');if(xnwEl)xnwEl.textContent=APP.xp;
+  } else {
+    if(btn)btn.classList.add('wrg');
+    fb.innerHTML='<div class="fbpnl fbw"><div class="fbhd">❌ Not Quite Right</div><div class="fbbd">'+opt.f+'</div></div><button class="rtbtn" id="rtbtn">🔄 Try Again</button>';
+    var rtbtn=document.getElementById('rtbtn');
+    if(rtbtn){rtbtn.addEventListener('click',function(){renderScen();});}
+  }
+  if(fb){fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
 }
 
 function showCompl(){
-  var id=APP.curMod,m=MODS.filter(function(x){return x.id===id})[0];
-  if(m&&APP.cm.indexOf(id)===-1){APP.cm.push(id);APP.xp+=200;chkLvl();save()}
-  document.getElementById('sb').innerHTML='<div class="compl"><div class="ci">🏆</div><h2>Module Mastered!</h2><p>You completed <strong>'+(m?m.name:'this module')+'</strong>!<br>Keep going – every module unlocks new skills.</p><div class="xpeb">+200 XP earned! 🔥</div><button class="btn btn-s" id="nmb" style="margin-bottom:.6rem">▶ Next Module</button><button class="btn btn-o" id="dmb">← Dashboard</button></div>';
-  document.getElementById('dmb').onclick=function(){loadDash();show('pd')};
-  document.getElementById('nmb').onclick=function(){
-    var idx=MODS.findIndex(function(x){return x.id===id});
-    var nxt=MODS[idx+1];
-    if(nxt)openLesson(nxt.id);else{loadDash();show('pd')};
-  };
+  var id=APP.curMod;
+  var m=null;
+  for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){m=MODS[mi];break;}}
+  if(m&&APP.cm.indexOf(id)===-1){APP.cm.push(id);APP.xp+=200;chkLvl();save();}
+  var sb=document.getElementById('sb');
+  sb.innerHTML='<div class="compl"><div class="ci">🏆</div><h2>Module Mastered!</h2><p>You completed <strong>'+(m?m.name:'this module')+'</strong>!<br>Keep going – every module unlocks new skills.</p><div class="xpeb">+200 XP earned! 🔥</div><button class="btn btn-s" id="nmbtn" style="margin-bottom:.6rem">▶ Next Module</button><button class="btn btn-o" id="dmbtn">← Dashboard</button></div>';
+  var dmbtn=document.getElementById('dmbtn');
+  if(dmbtn){dmbtn.addEventListener('click',function(){loadDash();show('pd');});}
+  var nmbtn=document.getElementById('nmbtn');
+  if(nmbtn){
+    nmbtn.addEventListener('click',function(){
+      var idx=-1;
+      for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){idx=mi;break;}}
+      if(idx>=0&&idx<MODS.length-1){openLesson(MODS[idx+1].id);}
+      else{loadDash();show('pd');}
+    });
+  }
 }
 
 function chkLvl(){
