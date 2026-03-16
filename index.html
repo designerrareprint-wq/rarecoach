@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>RareCoach – AI Sales Training v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+:root{
+  --bg:#f4f6ff;--white:#ffffff;--border:#dde1f0;
+  --primary:#4f46e5;--pdark:#4338ca;--plight:#ede9fe;--pglow:rgba(79,70,229,.15);
+  --accent:#f59e0b;--ag:#fffbeb;--success:#10b981;--sg:#ecfdf5;
+  --danger:#ef4444;--dg:#fef2f2;
+  --text:#111827;--t2:#374151;--t3:#9ca3af;
+  --fn:'Nunito',sans-serif;--fb:'Inter',sans-serif;
+  --r:20px;--rs:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh}
+h1,h2,h3,h4,h5{font-family:var(--fn)}
+input,select,button,textarea{font-family:var(--fb)}
+.page{display:none;min-height:100vh;flex-direction:column}
+
+/* ========== AUTH WRAPPER ========== */
+.auth-wrap{
+  min-height:100vh;display:flex;flex-direction:column;
+  background:#fff;position:relative;overflow:hidden;
+}
+/* Decorative blobs */
+.auth-wrap::before{
+  content:'';position:absolute;top:-120px;right:-80px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,#ede9fe 0%,transparent 70%);
+  pointer-events:none;
+}
+.auth-wrap::after{
+  content:'';position:absolute;bottom:-100px;left:-60px;
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,#dbeafe 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ========== TOP BRAND BAR ========== */
+.brand-bar{
+  padding:1.2rem 1.5rem 0;display:flex;align-items:center;gap:.7rem;
+  position:relative;z-index:2;
+}
+.brand-bar .bico{
+  width:42px;height:42px;background:var(--primary);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  box-shadow:0 4px 12px var(--pglow);
+}
+.brand-bar .btxt{font-family:var(--fn);font-weight:900;font-size:1.2rem;color:var(--primary)}
+.brand-bar .btag{font-size:.72rem;color:var(--t3);margin-top:1px}
+
+/* ========== HERO SECTION ========== */
+.auth-hero{
+  padding:1.5rem 1.5rem .5rem;position:relative;z-index:2;
+}
+.auth-hero h1{
+  font-family:var(--fn);font-size:1.85rem;font-weight:900;
+  color:var(--text);line-height:1.2;margin-bottom:.5rem;
+}
+.auth-hero h1 span{color:var(--primary)}
+.auth-hero p{font-size:.9rem;color:var(--t2);line-height:1.6}
+.hero-pills{display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap}
+.hpill{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:var(--plight);color:var(--primary);
+  border-radius:20px;padding:.3rem .75rem;font-size:.75rem;font-weight:700;
+}
+
+/* ========== AUTH CARD ========== */
+.auth-card{
+  background:var(--white);margin:1rem 1.2rem 1.5rem;border-radius:24px;
+  padding:1.6rem 1.4rem;position:relative;z-index:2;
+  box-shadow:0 8px 40px rgba(79,70,229,.1),0 2px 8px rgba(0,0,0,.04);
+  border:1px solid rgba(79,70,229,.06);
+}
+.auth-card-title{
+  font-family:var(--fn);font-size:1.15rem;font-weight:900;
+  margin-bottom:1.3rem;color:var(--text);
+  display:flex;align-items:center;gap:.5rem;
+}
+.auth-card-title .step-ico{
+  width:32px;height:32px;background:var(--plight);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+}
+
+/* ========== STEP PROGRESS ========== */
+.step-prog{display:flex;align-items:center;gap:0;margin-bottom:1.4rem}
+.sp-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem;cursor:default}
+.sp-circle{
+  width:30px;height:30px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;
+  font-weight:800;color:var(--t3);background:var(--white);
+  transition:all .3s;font-family:var(--fn);
+}
+.sp-circle.act{border-color:var(--primary);background:var(--primary);color:#fff;box-shadow:0 0 0 4px var(--pglow)}
+.sp-circle.dn{border-color:var(--success);background:var(--success);color:#fff}
+.sp-label{font-size:.65rem;font-weight:700;color:var(--t3);text-align:center}
+.sp-label.act{color:var(--primary)}
+.sp-label.dn{color:var(--success)}
+.sp-line{flex:1;height:2px;background:var(--border);transition:background .3s;margin-bottom:1.1rem;max-width:40px}
+.sp-line.dn{background:var(--success)}
+
+/* ========== FORM FIELDS ========== */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.field{margin-bottom:.85rem}
+.field label{
+  display:block;font-size:.72rem;font-weight:700;color:var(--t2);
+  margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;
+}
+.field input,.field select{
+  width:100%;padding:.8rem 1rem;background:#fafbff;
+  border:1.5px solid var(--border);border-radius:var(--rs);
+  color:var(--text);font-size:.92rem;outline:none;
+  transition:border .2s,box-shadow .2s;-webkit-appearance:none;
+}
+.field input:focus,.field select:focus{
+  border-color:var(--primary);background:#fff;
+  box-shadow:0 0 0 3px var(--pglow);
+}
+.field input::placeholder{color:var(--t3);font-size:.88rem}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.5rem;cursor:pointer;
+}
+.field select option{background:#fff;color:var(--text)}
+.pwrap{position:relative}
+.pwrap input{padding-right:3rem}
+.eyebtn{
+  position:absolute;right:.8rem;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--t3);
+  font-size:1rem;padding:0;line-height:1;width:auto;
+}
+.input-icon-wrap{position:relative}
+.input-icon-wrap .iico{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none}
+.input-icon-wrap input{padding-left:2.5rem}
+
+/* ========== BUTTONS ========== */
+.btn{
+  width:100%;padding:.92rem;border:none;border-radius:var(--rs);
+  font-family:var(--fn);font-weight:800;font-size:.95rem;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--primary);color:#fff;box-shadow:0 4px 16px var(--pglow)}
+.btn-p:hover{background:var(--pdark);box-shadow:0 6px 20px var(--pglow)}
+.btn-o{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+.btn-s{background:var(--success);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,.25)}
+.btn-sm{padding:.7rem 1rem;font-size:.85rem;border-radius:10px}
+
+/* ========== DIVIDER ========== */
+.divider{display:flex;align-items:center;gap:.7rem;margin:.9rem 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.divider span{font-size:.75rem;color:var(--t3);font-weight:600;white-space:nowrap}
+
+/* ========== SOCIAL LOGIN BUTTONS ========== */
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.9rem}
+.sbtn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.75rem;border-radius:var(--rs);border:1.5px solid var(--border);
+  background:#fff;font-size:.82rem;font-weight:700;cursor:pointer;
+  color:var(--text);transition:border-color .2s,background .2s;
+  font-family:var(--fn);
+}
+.sbtn:hover{border-color:var(--primary);background:var(--plight)}
+.sbtn img{width:18px;height:18px}
+
+/* ========== MESSAGES ========== */
+.emsg{
+  background:var(--dg);border:1px solid #fca5a5;border-radius:10px;
+  padding:.7rem .9rem;font-size:.82rem;color:var(--danger);
+  margin-bottom:.8rem;display:none;display:flex;align-items:flex-start;gap:.4rem;
+}
+.emsg::before{content:'⚠️';font-size:.9rem;flex-shrink:0;margin-top:.05rem}
+.omsg{
+  background:var(--sg);border:1px solid #6ee7b7;border-radius:10px;
+  padding:.7rem .9rem;font-size:.82rem;color:#065f46;
+  margin-bottom:.8rem;display:none;display:flex;align-items:center;gap:.4rem;
+}
+.omsg::before{content:'✅';font-size:.9rem;flex-shrink:0}
+
+/* ========== FOOTER LINK ========== */
+.auth-foot{text-align:center;margin:0 0 1.5rem;font-size:.87rem;color:var(--t2);position:relative;z-index:2}
+.auth-foot a{color:var(--primary);font-weight:800;cursor:pointer;text-decoration:none}
+.auth-foot a:hover{text-decoration:underline}
+
+/* ========== FORGOT LINK ========== */
+.flnk{display:block;text-align:right;font-size:.8rem;color:var(--primary);font-weight:700;cursor:pointer;margin-top:-.4rem;margin-bottom:.9rem}
+
+/* ========== FEATURE STRIP ========== */
+.feat-strip{
+  display:flex;gap:.7rem;padding:.8rem 1.5rem 1.2rem;
+  overflow-x:auto;position:relative;z-index:2;scrollbar-width:none;
+}
+.feat-strip::-webkit-scrollbar{display:none}
+.feat-card{
+  background:var(--white);border-radius:14px;padding:.8rem 1rem;
+  min-width:130px;border:1.5px solid var(--border);flex-shrink:0;
+  display:flex;flex-direction:column;gap:.3rem;
+}
+.feat-card .fic{font-size:1.3rem}
+.feat-card .ftxt{font-size:.72rem;font-weight:700;color:var(--t2);line-height:1.3}
+.feat-card .fnum{font-size:1.1rem;font-weight:900;color:var(--primary);font-family:var(--fn)}
+
+/* ========== STEP CONTENT ========== */
+.sstep{display:none}
+.sstep.active{display:block}
+
+/* ========== PASSWORD STRENGTH ========== */
+.pstr{display:flex;gap:3px;margin-top:.4rem}
+.pstr-bar{flex:1;height:3px;border-radius:3px;background:var(--border);transition:background .3s}
+.pstr-bar.w{background:var(--danger)}
+.pstr-bar.m{background:var(--accent)}
+.pstr-bar.s{background:var(--success)}
+.pstr-lbl{font-size:.7rem;color:var(--t3);margin-top:.3rem;height:.9rem}
+
+/* ========== CHECKBOX ========== */
+.chkrow{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.9rem}
+.chkrow input[type=checkbox]{width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;margin-top:.1rem;cursor:pointer}
+.chkrow label{font-size:.82rem;color:var(--t2);cursor:pointer;line-height:1.5}
+.chkrow label a{color:var(--primary);font-weight:700}
+
+/* ========== DASHBOARD ========== */
+#pd{padding:0;background:var(--bg)}
+.dhead{
+  background:linear-gradient(135deg,var(--primary) 0%,#7c3aed 100%);
+  padding:1.4rem 1.3rem 3.2rem;position:relative;overflow:hidden;
+}
+.dhead::after{content:'';position:absolute;bottom:-28px;left:0;right:0;height:56px;background:var(--bg);border-radius:28px 28px 0 0}
+.dhead::before{content:'';position:absolute;top:-40px;right:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07)}
+.dhi{position:relative;z-index:1}
+.dnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem}
+.dnav .logo{font-family:var(--fn);font-weight:900;font-size:1.1rem;color:#fff;display:flex;align-items:center;gap:.5rem}
+.iconbtn{width:36px;height:36px;background:rgba(255,255,255,.2);border:none;border-radius:9px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.dwelc{color:#fff}
+.dwelc .dg{font-size:.82rem;opacity:.75;margin-bottom:.15rem}
+.dwelc h2{font-family:var(--fn);font-size:1.25rem;font-weight:900}
+.dwelc .dc{font-size:.78rem;opacity:.65;margin-top:.2rem;display:flex;align-items:center;gap:.3rem}
+.dbody{flex:1;overflow-y:auto;padding:1.1rem;margin-top:-1rem;position:relative;z-index:1}
+.xpcard{background:var(--white);border-radius:var(--r);padding:1rem 1.2rem;box-shadow:0 2px 16px rgba(79,70,229,.07);margin-bottom:.9rem;border:1px solid rgba(79,70,229,.06)}
+.xptop{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.xplbl{font-family:var(--fn);font-size:.85rem;font-weight:800}
+.xpvl{font-family:var(--fn);font-weight:900;color:var(--primary);font-size:.85rem}
+.xptr{background:#e8eaf6;border-radius:20px;height:9px;overflow:hidden}
+.xpfi{background:linear-gradient(90deg,var(--primary),#7c3aed);height:100%;border-radius:20px;transition:width .6s}
+.strk{display:flex;gap:.35rem;margin:.45rem 0}
+.sd{width:9px;height:9px;border-radius:50%;background:var(--border)}
+.sd.on{background:var(--accent)}
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.9rem}
+.scard{background:var(--white);border-radius:14px;padding:.9rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);border:1px solid var(--border)}
+.scard .si{font-size:1.3rem;margin-bottom:.25rem}
+.scard .sv{font-family:var(--fn);font-size:1.35rem;font-weight:900}
+.scard .sl{font-size:.7rem;color:var(--t3);font-weight:600}
+.sh3{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;margin-top:.3rem}
+.sh3 h3{font-family:var(--fn);font-size:.95rem;font-weight:800}
+.sh3 a{font-size:.8rem;color:var(--primary);font-weight:700;cursor:pointer}
+.mcard{background:var(--white);border-radius:var(--r);padding:.95rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:.65rem;display:flex;align-items:center;gap:.85rem;cursor:pointer;transition:transform .1s,box-shadow .2s;border:2px solid transparent}
+.mcard:active{transform:scale(.98)}
+.mcard.mlk{opacity:.5;pointer-events:none}
+.mcard.mac{border-color:rgba(79,70,229,.3)}
+.mcard.mdn{border-color:rgba(16,185,129,.4)}
+.micn{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.minf{flex:1}
+.mname{font-family:var(--fn);font-size:.88rem;font-weight:800}
+.mdesc{font-size:.73rem;color:var(--t3);margin-top:2px}
+.mprg{height:3px;background:#e8eaf6;border-radius:3px;margin-top:.45rem;overflow:hidden}
+.mpr{height:100%;background:var(--primary);border-radius:3px}
+.mbadge{font-size:.68rem;font-weight:700;padding:.2rem .55rem;border-radius:20px;white-space:nowrap}
+.bgo{background:var(--plight);color:var(--primary)}
+.bdn{background:var(--sg);color:var(--success)}
+.blk{background:#f3f4f6;color:var(--t3)}
+.bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding:.55rem 0 .8rem;position:sticky;bottom:0;z-index:20}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:.3rem 0}
+.ni .nic{font-size:1.25rem}
+.ni .nil{font-size:.63rem;font-weight:700;color:var(--t3);font-family:var(--fn)}
+.ni.act .nil{color:var(--primary)}
+.abnr{background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:var(--r);padding:1.1rem 1.2rem;margin-bottom:.9rem;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(79,70,229,.25)}
+.abnr h3{font-family:var(--fn);font-size:.95rem;font-weight:800;margin-bottom:.25rem}
+.abnr p{font-size:.78rem;opacity:.8}
+.alvrow{display:flex;gap:.35rem;margin-top:.75rem}
+.alv{background:rgba(255,255,255,.18);border-radius:6px;padding:.25rem .55rem;font-size:.72rem;font-weight:700;color:#fff}
+.alv.ulk{background:rgba(255,255,255,.92);color:var(--primary)}
+
+/* ========== LESSON ========== */
+#pl,#psc,#par,#pset,#pmods{padding:0;background:var(--bg)}
+.lhdr,.schdr,.mhdr,.sethdr{background:var(--white);padding:.9rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem;position:sticky;top:0;z-index:10}
+.ahdr{background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:.9rem 1.2rem;display:flex;align-items:center;gap:.8rem}
+.bkbtn{width:34px;height:34px;background:var(--plight);border:none;border-radius:9px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text);font-weight:700}
+.ahdr .bkbtn{background:rgba(255,255,255,.2);color:#fff}
+.lpw{flex:1}
+.ltn{font-family:var(--fn);font-size:.82rem;font-weight:800;color:var(--t2)}
+.ahdr .ltn{color:rgba(255,255,255,.8)}
+.lpt{background:#e8eaf6;border-radius:10px;height:5px;margin-top:.3rem;overflow:hidden}
+.lpfi{background:var(--primary);height:100%;border-radius:10px;transition:width .4s}
+.lbdy,.sbdy{flex:1;overflow-y:auto;padding:1.2rem}
+.li{width:68px;height:68px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1rem}
+.ltit{font-family:var(--fn);font-size:1.35rem;font-weight:900;text-align:center;margin-bottom:.45rem;line-height:1.2}
+.lint{color:var(--t2);font-size:.88rem;line-height:1.7;margin-bottom:1.3rem}
+.tbox{background:var(--white);border-radius:var(--rs);padding:.95rem 1rem;margin-bottom:.75rem;border-left:3.5px solid var(--primary);box-shadow:0 2px 10px rgba(79,70,229,.06)}
+.ttag{font-size:.68rem;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:.3rem;letter-spacing:.06em}
+.tbox p{font-size:.85rem;line-height:1.65;color:var(--t2)}
+.qbox{background:var(--plight);border:1px solid rgba(79,70,229,.15);border-radius:var(--rs);padding:.95rem 1rem;margin-bottom:1.1rem}
+.qbox p{font-size:.85rem;line-height:1.65;font-style:italic;color:var(--text);margin-bottom:.35rem}
+.qau{font-size:.73rem;color:var(--primary);font-weight:700}
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.1rem}
+.docard{background:var(--sg);border:1px solid #6ee7b7;border-radius:var(--rs);padding:.85rem}
+.dntcard{background:var(--dg);border:1px solid #fca5a5;border-radius:var(--rs);padding:.85rem}
+.dolbl{font-size:.68rem;font-weight:700;text-transform:uppercase;margin-bottom:.35rem}
+.docard .dolbl{color:var(--success)}
+.dntcard .dolbl{color:var(--danger)}
+.docard p,.dntcard p{font-size:.8rem;line-height:1.5;color:var(--t2)}
+.spcta{background:var(--primary);color:#fff;font-family:var(--fn);font-weight:800;font-size:.95rem;border:none;border-radius:var(--rs);padding:.95rem;width:100%;cursor:pointer;margin-top:.9rem;box-shadow:0 4px 14px var(--pglow)}
+.scctr{font-size:.73rem;color:var(--t3);font-weight:700;white-space:nowrap}
+.xpmi{background:var(--ag);color:var(--accent);border-radius:20px;padding:.22rem .65rem;font-size:.75rem;font-weight:800}
+.sccard{background:var(--white);border-radius:var(--r);padding:1.1rem 1.1rem;box-shadow:0 2px 12px rgba(0,0,0,.05);margin-bottom:1rem;border:1px solid var(--border)}
+.sctag{font-size:.68rem;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:.45rem;letter-spacing:.05em}
+.sctxt{font-size:.9rem;line-height:1.65;font-weight:600;color:var(--text)}
+.owrap{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.9rem}
+.obtn{background:var(--white);border:2px solid var(--border);border-radius:var(--rs);padding:.85rem .95rem;text-align:left;cursor:pointer;font-size:.86rem;line-height:1.5;color:var(--text);display:flex;align-items:flex-start;gap:.65rem;width:100%;transition:border-color .15s,background .15s}
+.obtn:hover{border-color:var(--primary);background:var(--plight)}
+.oltr{background:#f0f0ff;border-radius:7px;min-width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem;font-family:var(--fn);flex-shrink:0;margin-top:1px;color:var(--t2)}
+.obtn.crt{border-color:var(--success);background:var(--sg)}
+.obtn.crt .oltr{background:var(--success);color:#fff}
+.obtn.wrg{border-color:var(--danger);background:var(--dg)}
+.obtn.wrg .oltr{background:var(--danger);color:#fff}
+.obtn.dis{pointer-events:none;opacity:.85}
+.fbpnl{border-radius:var(--rs);padding:.95rem 1rem;margin-bottom:.75rem}
+.fbw{background:var(--dg);border:1px solid #fca5a5}
+.fbc{background:var(--sg);border:1px solid #6ee7b7}
+.fbhd{font-family:var(--fn);font-size:.88rem;font-weight:800;margin-bottom:.35rem}
+.fbw .fbhd{color:var(--danger)}
+.fbc .fbhd{color:var(--success)}
+.fbbd{font-size:.82rem;line-height:1.6;color:var(--t2)}
+.nqbtn{background:var(--primary);color:#fff;font-family:var(--fn);font-weight:800;border:none;border-radius:var(--rs);padding:.9rem;width:100%;cursor:pointer;font-size:.9rem;margin-bottom:.5rem}
+.rtbtn{background:transparent;color:var(--primary);font-family:var(--fn);font-weight:700;border:2px solid var(--primary);border-radius:var(--rs);padding:.85rem;width:100%;cursor:pointer;font-size:.86rem}
+.xppop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:var(--primary);color:#fff;border-radius:16px;padding:.9rem 1.8rem;font-family:var(--fn);font-weight:900;font-size:1.2rem;z-index:999;transition:transform .3s,opacity .3s;opacity:0;pointer-events:none;text-align:center;box-shadow:0 8px 24px var(--pglow)}
+.xppop.sh{transform:translate(-50%,-50%) scale(1);opacity:1}
+/* Arena */
+.alvtit{font-family:var(--fn);font-size:.95rem;font-weight:800;color:#fff;flex:1}
+.aspl{background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:.22rem .75rem;font-size:.78rem;font-weight:700}
+.achat{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.85rem}
+.cmsg{max-width:83%}
+.cmsg.aimsg{align-self:flex-start}
+.cmsg.umsg{align-self:flex-end}
+.mlbl{font-size:.65rem;font-weight:700;margin-bottom:3px;color:var(--t3)}
+.umsg .mlbl{text-align:right}
+.mbbl{padding:.85rem 1rem;border-radius:18px;font-size:.88rem;line-height:1.6}
+.aimsg .mbbl{background:var(--white);border:1px solid var(--border);border-bottom-left-radius:4px;color:var(--text)}
+.umsg .mbbl{background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.tdots{display:flex;gap:4px;padding:.3rem 0}
+.tdots span{width:7px;height:7px;border-radius:50%;background:var(--t3);animation:td 1.2s infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.areps{padding:.75rem 1rem 1.1rem;background:var(--white);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.45rem}
+.repbtn{background:#fafbff;border:1.5px solid var(--border);border-radius:10px;padding:.75rem .95rem;font-size:.84rem;cursor:pointer;text-align:left;color:var(--text);transition:border-color .15s,background .15s}
+.repbtn:hover{border-color:var(--primary);background:var(--plight)}
+/* Settings */
+.setsec{background:var(--white);border-radius:var(--r);box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:.9rem;overflow:hidden;border:1px solid var(--border)}
+.setstit{padding:.75rem 1.2rem;font-family:var(--fn);font-size:.72rem;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);background:#fafbff}
+.setr{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.2rem;border-bottom:1px solid var(--border);cursor:pointer}
+.setr:last-child{border-bottom:none}
+.setl{display:flex;align-items:center;gap:.75rem}
+.setic{font-size:1.1rem;width:26px;text-align:center}
+.setlb{font-size:.88rem;font-weight:500}
+.setv{font-size:.78rem;color:var(--t3)}
+.setar{color:var(--t3);font-size:.85rem}
+.upcard{background:var(--white);border-radius:var(--r);padding:1.1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:.9rem;display:flex;align-items:center;gap:.9rem;border:1px solid var(--border)}
+.uav{width:52px;height:52px;border-radius:14px;background:var(--plight);display:flex;align-items:center;justify-content:center;font-family:var(--fn);font-size:1.3rem;font-weight:900;color:var(--primary);flex-shrink:0}
+.uinf h3{font-family:var(--fn);font-weight:900;font-size:.98rem}
+.uinf p{font-size:.78rem;color:var(--t3);margin-top:2px}
+.urole{font-size:.72rem;background:var(--plight);color:var(--primary);border-radius:20px;padding:.18rem .55rem;display:inline-block;font-weight:700;margin-top:.3rem}
+/* Toast & completion */
+.toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--text);color:#fff;padding:.65rem 1.4rem;border-radius:20px;font-size:.82rem;font-weight:600;z-index:1000;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.toast.sh{opacity:1;transform:translateX(-50%) translateY(0)}
+.compl{padding:2rem 1.5rem;text-align:center}
+.compl .ci{font-size:4rem;margin-bottom:.9rem}
+.compl h2{font-family:var(--fn);font-size:1.5rem;font-weight:900;color:var(--success);margin-bottom:.45rem}
+.compl p{font-size:.88rem;color:var(--t2);line-height:1.6;margin-bottom:1.3rem}
+.xpeb{display:inline-flex;align-items:center;gap:.35rem;background:var(--ag);color:var(--accent);border-radius:20px;padding:.45rem 1.1rem;font-family:var(--fn);font-weight:900;font-size:1rem;margin-bottom:1.3rem}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="xppop" id="xppop">+50 XP 🔥</div>
+
+<!-- ================================================================
+     PAGE: LOGIN  
+================================================================ -->
+<div class="page auth-wrap" id="plo" style="display:flex">
+
+  <div class="brand-bar">
+    <div class="bico">🏆</div>
+    <div><div class="btxt">RareCoach</div><div class="btag">AI Sales Training Platform</div></div>
+  </div>
+
+  <div class="auth-hero">
+    <h1>Close more deals.<br><span>Earn more money.</span></h1>
+    <p>Train with AI-powered scenarios from the world's best sales coaches.</p>
+    <div class="hero-pills">
+      <span class="hpill">⚡ 200+ Scenarios</span>
+      <span class="hpill">🎯 20 Modules</span>
+      <span class="hpill">🤖 AI Roleplay</span>
+    </div>
+  </div>
+
+  <div class="feat-strip">
+    <div class="feat-card"><div class="fic">📚</div><div class="fnum">20</div><div class="ftxt">Training Modules</div></div>
+    <div class="feat-card"><div class="fic">🎯</div><div class="fnum">200+</div><div class="ftxt">Live Scenarios</div></div>
+    <div class="feat-card"><div class="fic">🤖</div><div class="fnum">5</div><div class="ftxt">AI Arena Levels</div></div>
+    <div class="feat-card"><div class="fic">⚡</div><div class="fnum">XP</div><div class="ftxt">Gamified Learning</div></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-card-title"><div class="step-ico">👋</div> Welcome Back!</div>
+    <div class="emsg" id="le" style="display:none"></div>
+
+    <div class="field">
+      <label>Email Address</label>
+      <div class="input-icon-wrap">
+        <span class="iico">📧</span>
+        <input type="email" id="lem" placeholder="your@email.com" autocomplete="email">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <div class="pwrap">
+        <input type="password" id="lpw" placeholder="Enter your password" autocomplete="current-password">
+        <button class="eyebtn" onclick="tpw('lpw',this)" type="button">👁</button>
+      </div>
+    </div>
+
+    <span class="flnk" onclick="show('pfp')">Forgot password?</span>
+
+    <button class="btn btn-p" onclick="doLogin()" style="margin-bottom:.9rem">
+      Login to RareCoach →
+    </button>
+
+    <div class="divider"><span>OR CONTINUE WITH</span></div>
+
+    <div class="social-row">
+      <button class="sbtn" onclick="socialLogin('Google')">
+        <span>🔵</span> Google
+      </button>
+      <button class="sbtn" onclick="socialLogin('LinkedIn')">
+        <span>💼</span> LinkedIn
+      </button>
+    </div>
+  </div>
+
+  <div class="auth-foot">
+    New to RareCoach? <a onclick="show('psu')">Create free account →</a>
+  </div>
+
+</div>
+
+<!-- ================================================================
+     PAGE: SIGNUP (3-step)
+================================================================ -->
+<div class="page auth-wrap" id="psu">
+
+  <div class="brand-bar">
+    <div class="bico">🏆</div>
+    <div><div class="btxt">RareCoach</div><div class="btag">Start your free journey today</div></div>
+  </div>
+
+  <div class="auth-hero" style="padding-bottom:.2rem">
+    <h1>Train smarter.<br><span>Sell better.</span></h1>
+    <p>Join thousands of sales professionals mastering their craft.</p>
+  </div>
+
+  <div class="auth-card">
+    <!-- Step progress indicator -->
+    <div class="step-prog">
+      <div class="sp-item">
+        <div class="sp-circle act" id="sc0">1</div>
+        <div class="sp-label act" id="sl0">Account</div>
+      </div>
+      <div class="sp-line" id="sln0"></div>
+      <div class="sp-item">
+        <div class="sp-circle" id="sc1">2</div>
+        <div class="sp-label" id="sl1">Business</div>
+      </div>
+      <div class="sp-line" id="sln1"></div>
+      <div class="sp-item">
+        <div class="sp-circle" id="sc2">3</div>
+        <div class="sp-label" id="sl2">Experience</div>
+      </div>
+    </div>
+
+    <div class="emsg" id="sue" style="display:none"></div>
+
+    <!-- STEP 1: Account Info -->
+    <div class="sstep active" id="ss0">
+      <div class="auth-card-title" style="margin-bottom:1rem"><div class="step-ico">👤</div> Your Account</div>
+      <div class="frow">
+        <div class="field"><label>First Name</label><input id="sfn" type="text" placeholder="Rahul"></div>
+        <div class="field"><label>Last Name</label><input id="sln_" type="text" placeholder="Sharma"></div>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <div class="input-icon-wrap">
+          <span class="iico">📧</span>
+          <input id="se" type="email" placeholder="your@email.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="pwrap">
+          <input id="sp" type="password" placeholder="Min 6 characters" oninput="checkPwd(this.value)" autocomplete="new-password">
+          <button class="eyebtn" onclick="tpw('sp',this)" type="button">👁</button>
+        </div>
+        <div class="pstr"><div class="pstr-bar" id="pb0"></div><div class="pstr-bar" id="pb1"></div><div class="pstr-bar" id="pb2"></div></div>
+        <div class="pstr-lbl" id="pstrlbl"></div>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="pwrap">
+          <input id="sp2" type="password" placeholder="Repeat password" autocomplete="new-password">
+          <button class="eyebtn" onclick="tpw('sp2',this)" type="button">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-p" onclick="nxt(1)">Continue → Step 2 of 3</button>
+    </div>
+
+    <!-- STEP 2: Business Info -->
+    <div class="sstep" id="ss1">
+      <div class="auth-card-title" style="margin-bottom:1rem"><div class="step-ico">💼</div> Your Business</div>
+      <div class="field">
+        <label>Business Name</label>
+        <div class="input-icon-wrap">
+          <span class="iico">🏢</span>
+          <input id="sb" type="text" placeholder="ABC Printing Solutions">
+        </div>
+      </div>
+      <div class="field"><label>Your Role</label>
+        <select id="sr">
+          <option value="">-- Select your role --</option>
+          <option>Student</option>
+          <option>Business Owner</option>
+          <option>Sales Executive</option>
+          <option>Sales Manager</option>
+          <option>Freelancer</option>
+        </select>
+      </div>
+      <div class="field"><label>Industry Type</label>
+        <select id="si">
+          <option value="">-- Select your industry --</option>
+          <option value="printing">🖨️ Printing Business</option>
+          <option value="clinic">🏥 Medical Clinic / Healthcare</option>
+          <option value="real_estate">🏠 Real Estate</option>
+          <option value="insurance">🛡️ Insurance</option>
+          <option value="retail">🛒 Retail Shop</option>
+          <option value="mobile_shop">📱 Mobile / Electronics Shop</option>
+          <option value="clothing">👗 Clothing Store</option>
+          <option value="beauty">💄 Beauty Salon / Parlour</option>
+          <option value="digital">💻 Digital Marketing Agency</option>
+          <option value="restaurant">🍽️ Restaurant / Food Business</option>
+          <option value="software">⚙️ Software / IT Services</option>
+          <option value="general">🌐 General / Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Preferred Language</label>
+        <select id="sl_">
+          <option value="en">🇬🇧 English</option>
+          <option value="hi">🇮🇳 Hindi</option>
+          <option value="hinglish">🇮🇳 Hinglish (Hindi + English)</option>
+        </select>
+      </div>
+      <button class="btn btn-p" onclick="nxt(2)" style="margin-bottom:.6rem">Continue → Step 3 of 3</button>
+      <button class="btn btn-o" onclick="nxt(0)">← Back</button>
+    </div>
+
+    <!-- STEP 3: Sales Experience -->
+    <div class="sstep" id="ss2">
+      <div class="auth-card-title" style="margin-bottom:1rem"><div class="step-ico">📈</div> Sales Experience</div>
+      <div class="field"><label>Years of Sales Experience</label>
+        <select id="sex">
+          <option value="0">🌱 Fresher – No experience yet</option>
+          <option value="1">📗 Less than 1 year</option>
+          <option value="2">📘 1 – 3 years</option>
+          <option value="3">📙 3 – 5 years</option>
+          <option value="4">📕 5+ years (Senior)</option>
+        </select>
+      </div>
+      <div class="field"><label>Primary Sales Channel</label>
+        <select id="sch">
+          <option value="telecalling">📞 Telecalling</option>
+          <option value="whatsapp">💬 WhatsApp Sales</option>
+          <option value="face">🤝 Face-to-Face Selling</option>
+          <option value="retail">🏪 Retail Counter Sales</option>
+          <option value="online">🌐 Online Sales</option>
+        </select>
+      </div>
+      <div class="field"><label>Team Size (Optional)</label>
+        <select id="su-team">
+          <option value="solo">👤 Just me (Solo)</option>
+          <option value="small">👥 2 – 5 people</option>
+          <option value="medium">👨‍👩‍👧‍👦 6 – 15 people</option>
+          <option value="large">🏢 15+ people</option>
+        </select>
+      </div>
+      <div class="chkrow">
+        <input type="checkbox" id="agr">
+        <label for="agr">I agree to the <a>Terms of Service</a> and <a>Privacy Policy</a></label>
+      </div>
+      <button class="btn btn-s" onclick="doSignup()" style="margin-bottom:.6rem">🚀 Start My Training!</button>
+      <button class="btn btn-o" onclick="nxt(1)">← Back</button>
+    </div>
+  </div>
+
+  <div class="auth-foot">
+    Already have an account? <a onclick="show('plo')">Login here →</a>
+  </div>
+
+</div>
+
+<!-- ================================================================
+     PAGE: FORGOT PASSWORD
+================================================================ -->
+<div class="page auth-wrap" id="pfp">
+
+  <div class="brand-bar">
+    <div class="bico">🔑</div>
+    <div><div class="btxt">RareCoach</div><div class="btag">Password Recovery</div></div>
+  </div>
+
+  <div class="auth-hero">
+    <h1>Reset your<br><span>password</span></h1>
+    <p>Enter your email and we'll send you instructions to reset your password.</p>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-card-title"><div class="step-ico">✉️</div> Enter your email</div>
+    <div class="omsg" id="fok" style="display:none">✅ Reset instructions sent! Check your inbox.</div>
+    <div class="field">
+      <label>Email Address</label>
+      <div class="input-icon-wrap">
+        <span class="iico">📧</span>
+        <input id="fem" type="email" placeholder="your@email.com">
+      </div>
+    </div>
+    <button class="btn btn-p" onclick="doForgot()" style="margin-bottom:.6rem">Send Reset Link 📨</button>
+    <button class="btn btn-o" onclick="show('plo')">← Back to Login</button>
+  </div>
+
+</div>
+
+<!-- ================================================================
+     PAGE: DASHBOARD
+================================================================ -->
+<div class="page" id="pd">
+  <div class="dhead"><div class="dhi">
+    <div class="dnav">
+      <div class="logo"><span>🏆</span> RareCoach</div>
+      <div><button class="iconbtn" onclick="show('pset');updSet()">⚙️</button></div>
+    </div>
+    <div class="dwelc">
+      <div class="dg" id="dg">Good morning,</div>
+      <h2 id="dn">Champion!</h2>
+      <div class="dc" id="dc"><span>🏢</span><span>Your business</span></div>
+    </div>
+  </div></div>
+  <div class="dbody" id="db">
+    <div class="xpcard">
+      <div class="xptop"><span class="xplbl">⚡ Level <span id="xlv">1</span> – <span id="xln">Rookie Seller</span></span><span class="xpvl"><span id="xnw">0</span>/<span id="xmx">500</span> XP</span></div>
+      <div class="strk" id="strk"></div>
+      <div class="xptr"><div class="xpfi" id="xpfi" style="width:0%"></div></div>
+    </div>
+    <div class="srow">
+      <div class="scard"><div class="si">📚</div><div class="sv" id="stm">0</div><div class="sl">Modules Done</div></div>
+      <div class="scard"><div class="si">🎯</div><div class="sv" id="ssc">0</div><div class="sl">Scenarios Solved</div></div>
+    </div>
+    <div class="abnr" onclick="show('par');loadArena(1)">
+      <h3>⚔️ AI Customer Arena</h3>
+      <p>Interact with a live AI customer. Close the deal to WIN!</p>
+      <div class="alvrow" id="alvrow"></div>
+    </div>
+    <div class="sh3"><h3>📚 Training Modules</h3><a onclick="show('pmods');loadMods()">See all →</a></div>
+    <div id="dmp"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni act" onclick="show('pd');loadDash()"><div class="nic">🏠</div><div class="nil">Home</div></div>
+    <div class="ni" onclick="show('pmods');loadMods()"><div class="nic">📚</div><div class="nil">Modules</div></div>
+    <div class="ni" onclick="show('par');loadArena(1)"><div class="nic">⚔️</div><div class="nil">Arena</div></div>
+    <div class="ni" onclick="show('pset');updSet()"><div class="nic">👤</div><div class="nil">Profile</div></div>
+  </div>
+</div>
+
+<!-- MODULES PAGE -->
+<div class="page" id="pmods">
+  <div class="mhdr"><button class="bkbtn" onclick="show('pd');loadDash()">←</button><div style="font-family:var(--fn);font-size:.95rem;font-weight:800">All Training Modules</div></div>
+  <div style="flex:1;overflow-y:auto;padding:1.1rem" id="aml"></div>
+</div>
+
+<!-- LESSON PAGE -->
+<div class="page" id="pl">
+  <div class="lhdr">
+    <button class="bkbtn" id="lbk">←</button>
+    <div class="lpw"><div class="ltn" id="lhn">Topic</div><div class="lpt"><div class="lpfi" id="lpfi" style="width:15%"></div></div></div>
+    <div class="xpmi">⚡ XP</div>
+  </div>
+  <div class="lbdy" id="lb"></div>
+</div>
+
+<!-- SCENARIO PAGE -->
+<div class="page" id="psc">
+  <div class="schdr">
+    <button class="bkbtn" onclick="bkScen()">←</button>
+    <div class="lpw"><div class="ltn" id="stn">Practice</div><div class="lpt"><div class="lpfi" id="spfi" style="width:0%"></div></div></div>
+    <div class="scctr" id="sct">1/5</div>
+  </div>
+  <div class="sbdy" id="scenBody"></div>
+</div>
+
+<!-- ARENA PAGE -->
+<div class="page" id="par">
+  <div class="ahdr">
+    <button class="bkbtn" onclick="show('pd');loadDash()">←</button>
+    <div class="alvtit" id="alt">Level 1</div>
+    <div class="aspl" id="asp">Score: 0</div>
+  </div>
+  <div class="achat" id="ach"></div>
+  <div class="areps" id="arp"></div>
+</div>
+
+<!-- SETTINGS PAGE -->
+<div class="page" id="pset">
+  <div class="sethdr"><button class="bkbtn" onclick="show('pd');loadDash()">←</button><div style="font-family:var(--fn);font-size:.95rem;font-weight:800">Profile & Settings</div></div>
+  <div style="flex:1;overflow-y:auto;padding:1.1rem">
+    <div class="upcard"><div class="uav" id="uav">R</div><div class="uinf"><h3 id="unm">Rahul</h3><p id="uco">Business</p><span class="urole" id="url">Role</span></div></div>
+    <div class="setsec">
+      <div class="setstit">Account Settings</div>
+      <div class="setr" onclick="chLang()"><div class="setl"><div class="setic">🌐</div><div class="setlb">Language</div></div><div style="display:flex;align-items:center;gap:.5rem"><div class="setv" id="slv">English</div><div class="setar">›</div></div></div>
+      <div class="setr"><div class="setl"><div class="setic">🎯</div><div class="setlb">Sales Channel</div></div><div class="setv" id="scv">–</div></div>
+      <div class="setr"><div class="setl"><div class="setic">🏭</div><div class="setlb">Industry</div></div><div class="setv" id="siv">–</div></div>
+    </div>
+    <div class="setsec">
+      <div class="setstit">My Progress</div>
+      <div class="setr"><div class="setl"><div class="setic">⚡</div><div class="setlb">Total XP Earned</div></div><div class="setv" id="sxv">0 XP</div></div>
+      <div class="setr"><div class="setl"><div class="setic">📚</div><div class="setlb">Modules Completed</div></div><div class="setv" id="smv">0</div></div>
+      <div class="setr"><div class="setl"><div class="setic">🎯</div><div class="setlb">Scenarios Solved</div></div><div class="setv" id="ssv">0</div></div>
+    </div>
+    <div class="setsec">
+      <div class="setstit">App</div>
+      <div class="setr" onclick="logout()"><div class="setl"><div class="setic">🚪</div><div class="setlb" style="color:var(--danger)">Logout</div></div><div class="setar">›</div></div>
+    </div>
+    <div style="height:2rem"></div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// DATA
+// ================================================================
+var IND={printing:{l:"Printing Business",c:"business owner"},clinic:{l:"Medical Clinic",c:"patient"},real_estate:{l:"Real Estate",c:"home buyer"},insurance:{l:"Insurance",c:"family person"},retail:{l:"Retail Shop",c:"customer"},mobile_shop:{l:"Mobile Shop",c:"tech buyer"},clothing:{l:"Clothing Store",c:"shopper"},beauty:{l:"Beauty Salon",c:"lady client"},digital:{l:"Digital Marketing",c:"business client"},restaurant:{l:"Restaurant",c:"diner"},software:{l:"Software/IT",c:"business client"},general:{l:"General Sales",c:"prospect"}};
+var MODS=[{id:"mindset",ic:"🧘",bg:"#eef0fd",name:"Sales Mindset",desc:"Build the champion mindset"},{id:"greeting",ic:"👋",bg:"#fff4ed",name:"Greeting Customers",desc:"Perfect first impressions"},{id:"intro",ic:"🤝",bg:"#f0fdf4",name:"Self Introduction",desc:"Powerful 30-second pitch"},{id:"rapport",ic:"💛",bg:"#fffbeb",name:"Building Rapport",desc:"Win trust before you sell"},{id:"listening",ic:"👂",bg:"#fdf2f8",name:"Active Listening",desc:"Hear what customers mean"},{id:"questions",ic:"💬",bg:"#ecfeff",name:"Open-Ended Questions",desc:"Ask better, sell more"},{id:"spin",ic:"🔍",bg:"#eef0fd",name:"SPIN Selling",desc:"Neil Rackham's system"},{id:"needs",ic:"🎯",bg:"#fff4ed",name:"Understanding Needs",desc:"Find the real motive"},{id:"value",ic:"💎",bg:"#f0fdf4",name:"Presenting Value",desc:"Benefits not features"},{id:"storytelling",ic:"📖",bg:"#fffbeb",name:"Storytelling in Sales",desc:"Stories that close deals"},{id:"objections",ic:"🛡️",bg:"#fdf2f8",name:"Handling Objections",desc:"Turn No into Yes"},{id:"closing",ic:"🎯",bg:"#ecfeff",name:"Closing Techniques",desc:"Ask for the sale"},{id:"negotiation",ic:"⚖️",bg:"#eef0fd",name:"Negotiation Skills",desc:"Win-win every deal"},{id:"followup",ic:"📲",bg:"#fff4ed",name:"Follow-Up Techniques",desc:"Fortune in the follow-up"},{id:"whatsapp",ic:"💚",bg:"#f0fdf4",name:"WhatsApp Sales",desc:"Sell on India's #1 app"},{id:"telecalling",ic:"📞",bg:"#fffbeb",name:"Telecalling Skills",desc:"Phone sales mastery"},{id:"persuasion",ic:"🧠",bg:"#fdf2f8",name:"Persuasion Psychology",desc:"Cialdini's 6 principles"},{id:"upselling",ic:"📈",bg:"#ecfeff",name:"Upselling & Cross-Selling",desc:"Increase order value"},{id:"retention",ic:"🤗",bg:"#eef0fd",name:"Customer Retention",desc:"Keep customers for life"},{id:"referral",ic:"🌟",bg:"#fff4ed",name:"Referral Selling",desc:"Your best leads are free"}];
+var LVNAMES=["Rookie Seller","Bronze Closer","Silver Persuader","Gold Negotiator","Platinum Champion","Diamond Legend"];
+var LVXP=[0,500,1200,2500,5000,10000];
+
+// Scenarios
+var SC={
+mindset:[
+{t:"SCENARIO: You made 15 calls today and got 14 rejections. What is the CHAMPION response?",o:[
+{t:"Stop calling for the day. This is clearly not working today.",c:false,f:"Sales is a numbers game. 14 rejections out of 15 is not failure – it's progress. Champions keep going and learn from each call."},
+{t:"Analyse what you can improve, then make 5 more calls before end of day.",c:true,f:""},
+{t:"Feel deeply demotivated and question your career choice.",c:false,f:"Champions don't question the path after a hard day. They review what they can learn and get back up. Rejection is data, not judgment."},
+{t:"Send an angry message to your manager about the bad lead quality.",c:false,f:"Blaming external factors is the amateur response. Champions control what they can and improve what they can."}]},
+{t:"SCENARIO: A customer was rude to you on a call and insulted your company. What do you do NEXT?",o:[
+{t:"Argue back and defend your company aggressively.",c:false,f:"Arguing with a rude customer never ends in a sale. Stay calm, professional, and move on."},
+{t:"Stay calm, thank them for their time, end professionally, and immediately call the next prospect.",c:true,f:""},
+{t:"Cry and feel deeply upset for the rest of the day.",c:false,f:"Taking personal offense to customer behavior is part of the journey. Process it, learn from it, move on. Don't let one call ruin the whole day."},
+{t:"Tell all your colleagues and spend 30 minutes complaining about the rude customer.",c:false,f:"Venting is natural but unproductive. The time spent complaining is time not spent calling the next prospect."}]},
+{t:"SCENARIO: You haven't hit your target for 3 months. What does a champion salesperson do?",o:[
+{t:"Blame the market conditions and bad leads.",c:false,f:"External blame is the first sign of a fixed mindset. Champions ask: What can I do differently? What skill can I improve?"},
+{t:"Analyse your numbers, identify where deals are dropping off, and get a coach or mentor to help improve.",c:true,f:""},
+{t:"Reduce your target so it becomes easier to hit.",c:false,f:"Lowering the bar means lowering your potential. Champions raise their skills to meet the target, not lower the target to meet their skills."},
+{t:"Give up on sales and look for another career.",c:false,f:"3 bad months in sales is a learning phase, not a signal to quit. Every top salesperson has been here. The ones who push through become champions."}]},
+{t:"SCENARIO: You feel nervous before making an important sales call. What should you do?",o:[
+{t:"Avoid the call and send a WhatsApp message instead.",c:false,f:"Avoiding nervousness makes it worse over time. The only cure for call anxiety is making more calls. Champions do it scared."},
+{t:"Take 3 deep breaths, smile, review your key points, and dial with confidence.",c:true,f:""},
+{t:"Wait until you feel confident before calling.",c:false,f:"Confidence comes AFTER action, not before it. Waiting to feel confident means waiting forever. Do the call, confidence follows."},
+{t:"Ask a colleague to make the call for you this time.",c:false,f:"Delegating your fear helps no one. Every call you avoid is a skill you never build. Face it directly."}]},
+{t:"SCENARIO: Your competitor just launched a lower-priced product. What is the champion mindset?",o:[
+{t:"Drop your prices immediately to compete.",c:false,f:"A race to the bottom serves no one. Competing purely on price is a losing strategy long-term. Focus on your unique value."},
+{t:"Study your competitor, strengthen your value proposition, and focus on customers who value quality over price.",c:true,f:""},
+{t:"Tell all your customers that your competitor's product is bad.",c:false,f:"Speaking negatively about competitors is unprofessional and backfires. Focus on your own strengths, not their weaknesses."},
+{t:"Panic and lose confidence in your product.",c:false,f:"A competitor having a lower price does not diminish your product's value. Know your worth and communicate it clearly."}]}
+],
+greeting:[
+{t:"SCENARIO: You're calling PRASHANT at 10 AM Monday. Select the best greeting:",o:[{t:"Hey WhatsApp buddy! How do you do bhai? 😂",c:false,f:"Too casual and unprofessional. Always use NAME + TITLE + TIME greeting."},
+{t:"Hi Sir, Good Morning! How are you today?",c:false,f:"Good morning is correct but you MISSED his name 'Prashant'. Always use the customer's name first."},
+{t:"Hi Prashant Sir, Good Morning! Hope you are doing great today 😊",c:true,f:""},
+{t:"Kaise ho Prashant bhai? Sab theek?",c:false,f:"Very informal, no time greeting. Professional sales needs NAME + TITLE + TIME GREETING."}]},
+{t:"SCENARIO: SUNITA MA'AM walks into your shop at 3:30 PM. First meeting. How do you greet her?",o:[{t:"Hello! What are you looking for today?",c:false,f:"Skipped greeting entirely. Use name + time greeting before going to business."},
+{t:"Good Afternoon Sunita Ma'am! Welcome! So glad you're here today 😊",c:true,f:""},
+{t:"Namaste! Aao baitho.",c:false,f:"No name used, too casual. Use NAME + TITLE + TIME GREETING for first meetings."},
+{t:"Hey! Nice to meet you!",c:false,f:"No name, no time greeting. Lacks professional warmth needed in sales."}]},
+{t:"SCENARIO: WhatsApp message comes in at 7:30 PM from DEEPAK. How do you reply?",o:[{t:"Hi! How can I help?",c:false,f:"No name, no greeting. Use 'Good Evening Deepak Sir 🙏' – takes 3 seconds but creates a completely different impression."},
+{t:"Good Evening Deepak Sir! 🙏 Hope you had a great day! How can I help you?",c:true,f:""},
+{t:"Hello, please tell me your requirement.",c:false,f:"No name, no greeting. Feels like a bot. WhatsApp needs even more warmth since there's no face-to-face energy."},
+{t:"Hi Deepak! What do you want?",c:false,f:"Name used but 'What do you want?' is blunt. Add proper greeting and softer language."}]},
+{t:"SCENARIO: Cold calling ANJALI SHARMA at 11:30 AM. What is your opening line?",o:[{t:"Hello, I am calling from a company. Do you have time?",c:false,f:"No name used, no value proposition, asking 'do you have time?' without giving a reason to say yes."},
+{t:"Hi Anjali Ma'am, Good Morning! I'm Rahul from PrintPro. Is this a good time for a 2-minute call?",c:true,f:""},
+{t:"Hi! Good morning! PrintPro calling!",c:false,f:"Missing her name and title. Sounds like a call center bot."},
+{t:"Anjali Ji, namaste! Aap printing ka kaam karti hain?",c:false,f:"No proper introduction. Always introduce yourself before asking sales questions."}]},
+{t:"SCENARIO: Known customer RAJESH calls you. You remember him. How do you answer?",o:[{t:"Hello? Who is this?",c:false,f:"Never answer a known customer like a stranger. A customer feeling forgotten feels they don't matter."},
+{t:"Hello, XYZ company speaking.",c:false,f:"Generic. This customer has a relationship with you. Acknowledge them personally immediately."},
+{t:"Rajesh Sir! Good afternoon! Great to hear from you! How have you been?",c:true,f:""},
+{t:"Yes, tell me.",c:false,f:"Abrupt and cold. Always use their name and show warmth – especially for returning customers."}]}
+],
+objections:[
+{t:"SCENARIO: Customer says 'Your price is too high.' What is the BEST response?",o:[{t:"Okay Sir, I can give 20% discount right now.",c:false,f:"Immediately caving destroys credibility, signals your original price was fake, and trains them to always demand discounts."},
+{t:"I understand Sir. When you say too high, what are you comparing it to? Help me understand.",c:true,f:""},
+{t:"Sir our quality is best, that's why the price is high.",c:false,f:"Dismissing the concern with a quality claim feels defensive. First understand what they're comparing to."},
+{t:"Price is not important Sir. Quality matters.",c:false,f:"Telling a customer price is not important invalidates their concern. Price is always relevant."}]},
+{t:"SCENARIO: Customer says 'I need to think about it.' How do you respond?",o:[{t:"Okay Sir, take your time. Call me when you're ready.",c:false,f:"Passive with no action plan. 'Think about it' customers rarely call back. You need to understand WHAT they need to think about."},
+{t:"Of course Sir! May I ask – what specific part do you need to think about? I can help you think through it right now.",c:true,f:""},
+{t:"Sir please decide today, offer ends today!",c:false,f:"Fake urgency is detected instantly and permanently loses trust."},
+{t:"Sir why are you hesitating? You clearly like the product.",c:false,f:"Pushing back on hesitation without understanding it creates resistance. Ask what they need to think about instead."}]},
+{t:"SCENARIO: Customer says 'I'll buy from Company X, they're cheaper.' What do you say?",o:[{t:"Company X has very bad quality. Don't go there.",c:false,f:"Never speak negatively about a competitor. It's unprofessional and backfires – customers defend their choice when attacked."},
+{t:"That's great Sir! Besides price, what other factors matter to you? Let me show you our complete value.",c:true,f:""},
+{t:"Okay Sir, buy from them. Good luck.",c:false,f:"Giving up without presenting your value leaves money on the table."},
+{t:"Our price is also good! Let me give you our lowest price.",c:false,f:"Immediately matching price makes price the only differentiator. Present value first."}]},
+{t:"SCENARIO: Customer says 'I don't need this right now.' How do you handle this?",o:[{t:"Okay Sir, I'll call after 6 months.",c:false,f:"6 months with no agreed plan. Ask WHEN and WHY, then schedule a specific follow-up."},
+{t:"I understand Sir. Most clients said the same before their busy season hit. When do your peak orders typically happen?",c:true,f:""},
+{t:"Sir you do need this. Let me explain why.",c:false,f:"Telling a customer they need something they just said they don't need creates immediate resistance."},
+{t:"No problem Sir. Take care.",c:false,f:"Zero effort to understand their timeline. 'Not now' is often 'not yet' – explore when would be right."}]},
+{t:"SCENARIO: Customer says 'Send me more information first.' What do you do?",o:[{t:"Sure Sir! I'll email everything today. Bye.",c:false,f:"Information sent without context or follow-up dies in their inbox. Always set up a review call."},
+{t:"Of course Sir! I'll send by 3 PM today. Can we have a 10-minute call tomorrow at 11 to walk through it together?",c:true,f:""},
+{t:"Sir no need for information. Let me explain everything now.",c:false,f:"Ignoring a customer request for information signals you don't respect their process."},
+{t:"What specific information do you need? We have many brochures.",c:false,f:"Asking them to specify everything without offering to simplify it creates friction."}]}
+],
+closing:[
+{t:"SCENARIO: Customer DEEPAK has listened to your full pitch and seems interested. Best closing statement?",o:[{t:"So Deepak Sir, let me know whenever you feel like ordering.",c:false,f:"Passive closing = no close. Always ask for the order explicitly."},
+{t:"So Deepak Sir, we've discussed quality, price, and delivery. Shall I go ahead and book your order for this week?",c:true,f:""},
+{t:"Sir kya lagta hai? Lena hai kya?",c:false,f:"Informal and lacks conviction. Closing needs confidence and a clear summary of what was agreed."},
+{t:"Sir please think and confirm. I'll wait for your call.",c:false,f:"Handing control back to the customer and giving permission to delay = guaranteed ghosting."}]},
+{t:"SCENARIO: You've asked for the order and customer goes silent for 5 seconds. What do you do?",o:[{t:"Break the silence – say 'So shall I process it?' again.",c:false,f:"The Silence Close means you wait. The next person to speak loses. Fill silence and you undo the close."},
+{t:"Wait in silence. Don't say a single word.",c:true,f:""},
+{t:"Offer a discount to speed up the decision.",c:false,f:"Offering a discount during silence signals insecurity. The silence likely means they're deciding YES. Wait."},
+{t:"Say 'I know this is a big decision. Take your time.'",c:false,f:"Giving permission to delay after asking the closing question is a fatal mistake."}]},
+{t:"SCENARIO: Customer says 'Send me a quote and I'll decide.' What is the BEST response?",o:[{t:"Sure Sir, I'll email the quote today.",c:false,f:"Quote without a follow-up plan dies in their inbox. Always set a review call when sending a quote."},
+{t:"Of course Sir! I'll send by 3 PM. Can we have a 10-min call tomorrow at 11 to walk through it together?",c:true,f:""},
+{t:"Sir why can't you decide now? I have all the info here.",c:false,f:"Pressuring a customer who asked for time will end the conversation."},
+{t:"Sir our quote is our best price. No negotiation after this.",c:false,f:"Setting conditions before they've even seen the quote is aggressive."}]}
+],
+spin:[
+{t:"SCENARIO: First meeting with a business owner. Select the BEST SPIN Situation question:",o:[{t:"Which supplier are you currently using for your printing needs?",c:true,f:""},
+{t:"Our product is the best in the market! Let me show you everything!",c:false,f:"This is a pitch, not a Situation question. SPIN starts with understanding their world, not promoting yours."},
+{t:"Isn't your current supplier giving you problems?",c:false,f:"This is a leading Problem question. You haven't gathered situation data yet. Always follow the SPIN sequence."},
+{t:"How much money are you wasting on printing right now?",c:false,f:"Assuming they're wasting money is presumptuous. First understand their current situation neutrally."}]},
+{t:"SCENARIO: Customer confirmed they have a current supplier. Best SPIN Problem question?",o:[{t:"Have you ever faced delays or quality issues that affected your business deadlines?",c:true,f:""},
+{t:"Your current supplier is not good. Our quality is much better.",c:false,f:"Never attack the competitor. Problem questions let the customer discover their own dissatisfaction."},
+{t:"Would you like to try our product for free?",c:false,f:"A free trial offer skips the entire problem-discovery phase. The customer hasn't acknowledged a problem yet."},
+{t:"How much do they charge per 1000 business cards?",c:false,f:"Price comparison is a Situation question, not a Problem question."}]},
+{t:"SCENARIO: Customer says their vendor 'sometimes' has delays. Best SPIN Implication question?",o:[{t:"Okay, so do you want to switch vendors?",c:false,f:"Too direct too soon. Implication questions help the customer feel the IMPACT of the problem themselves."},
+{t:"When those delays happen, how does it affect your delivery commitments to your own clients?",c:true,f:""},
+{t:"That's a small problem. Most companies face that.",c:false,f:"Minimizing the customer's problem is a major mistake. They need to feel the implication, not have it dismissed."},
+{t:"We never have delays. Our track record is perfect.",c:false,f:"Making a claim before the customer has felt the implication reduces your credibility."}]},
+{t:"SCENARIO: Customer acknowledged delays cost them clients. Best SPIN Need-Payoff question?",o:[{t:"So our product will solve all your problems!",c:false,f:"Let the customer articulate the value of a solution themselves. Telling them is 50% effective. Letting them say it is 100%."},
+{t:"If you had a supplier who guaranteed on-time delivery every time – how would that change things for your client relationships?",c:true,f:""},
+{t:"Would you like our service now?",c:false,f:"Asking for the order before the customer has articulated the value of a solution is premature."},
+{t:"We have a 99% on-time delivery record. Let me show you the data.",c:false,f:"Data presentation should come AFTER the customer has expressed what value reliability would provide."}]}
+],
+followup:[
+{t:"SCENARIO: Customer POOJA said 'I'll think about it' 5 days ago. Which WhatsApp follow-up do you send?",o:[{t:"Hi Pooja, did you decide? Waiting for your reply.",c:false,f:"Pressure follow-up with zero value gets ignored. Every follow-up must offer something NEW."},
+{t:"Hi Pooja Ma'am 🙏 Quick share – one of our clients saved ₹8,000 this month using our service. Thought this might help your decision. Any questions? 😊",c:true,f:""},
+{t:"Pooja ji LAST CHANCE! Offer ending today! Please confirm!",c:false,f:"Fake urgency permanently damages trust."},
+{t:"Hi. Following up on our conversation. Please let me know.",c:false,f:"No value, no personality, no reason to respond. Every follow-up needs a new hook."}]},
+{t:"SCENARIO: Customer placed order 2 weeks ago. How do you follow up to build loyalty?",o:[{t:"Don't follow up. The sale is done.",c:false,f:"The relationship doesn't end at the sale – it STARTS there. Post-sale follow-up builds loyalty and leads to referrals."},
+{t:"Hi Rahul Sir, hope the materials arrived well! Was everything as expected? Any feedback? 😊",c:true,f:""},
+{t:"Hi Sir, do you have new orders? We have a discount this week.",c:false,f:"Asking for more business before checking satisfaction feels transactional, not relationship-driven."},
+{t:"Send a generic discount message to all previous customers.",c:false,f:"Generic bulk messages feel impersonal. A personalized check-in is 10x more effective."}]}
+],
+negotiation:[
+{t:"SCENARIO: Customer ANIL says 'Give me 20% discount.' What is the BEST response?",o:[{t:"Okay Sir, 20% discount done. When will you pay?",c:false,f:"Immediately accepting destroys credibility, signals your price was fake, and trains them to always demand discounts."},
+{t:"Sir, price is fixed. No discount.",c:false,f:"Hard refusal closes the door. Acknowledge their desire for value then explore alternatives."},
+{t:"Anil Sir, if you commit to a 3-month contract, I can add free delivery and priority support worth ₹5,000. Would that work?",c:true,f:""},
+{t:"Sir everyone gets same price. No exceptions.",c:false,f:"Sounds defensive. Acknowledge the concern, then offer an alternative value proposition."}]},
+{t:"SCENARIO: Negotiation: customer says 'Your competitor gives 30% off.' How do you respond?",o:[{t:"Then go to the competitor Sir.",c:false,f:"Giving up on a competitor comparison without exploring it is weak."},
+{t:"That's possible Sir! Was that the same paper quality, same design service, and same delivery guarantee? Let me help you compare the full value.",c:true,f:""},
+{t:"Okay Sir, I can also give 30% if you order today.",c:false,f:"Matching price without understanding the comparison leaves value on the table and trains future discounting."},
+{t:"That's impossible. No one gives 30% off in this market.",c:false,f:"Calling the customer a liar ends the negotiation. Explore the comparison with curiosity."}]}
+],
+whatsapp:[
+{t:"SCENARIO: New lead SAMEER KHAN, clothing shop owner in Pune. Best FIRST WhatsApp message?",o:[{t:"[Sends 10-page catalogue PDF] Hi, check our catalogue and tell me what you need.",c:false,f:"Catalogue as first message = spam. No rapport, no introduction. Most people delete immediately."},
+{t:"Hi Sameer Sir 🙏 I'm Rahul from PrintPro. Vijay referred me – said you might need quality label printing. We've helped 30+ clothing businesses in Pune. Open to a quick chat? 😊",c:true,f:""},
+{t:"Hi Sameer. Good offers available. Interested?",c:false,f:"Vague, no context, no reference, no value. One of the lowest-converting first messages possible."},
+{t:"Namaste Sameer Ji! Aaj bahut achha offer hai, sirf aaj ke liye!",c:false,f:"Fake urgency on first contact destroys credibility. They don't know you yet."}]},
+{t:"SCENARIO: Customer read your WhatsApp message but didn't reply for 2 days. What do you do?",o:[{t:"Send 3 messages: 'Seen but no reply?', 'Hello?', 'Are you interested or not?'",c:false,f:"Multiple follow-ups in quick succession feel desperate. One follow-up with value is sufficient."},
+{t:"Wait 3-4 days, then send a NEW value message – a testimonial, tip, or news – with no mention of previous message.",c:true,f:""},
+{t:"Remove them from your list. They're not interested.",c:false,f:"'Seen' means they read it. They may be busy. A value-add follow-up after 3-4 days is often effective."},
+{t:"Call them immediately. WhatsApp is not working.",c:false,f:"Jumping to a call after being seen-but-not-replied can feel aggressive. Continue WhatsApp with new value first."}]},
+{t:"SCENARIO: How should you format a WhatsApp sales message for maximum readability on mobile?",o:[
+{t:"One long paragraph with all details, pricing, terms, and contact info.",c:false,f:"Long unformatted paragraphs are hard to read on mobile. Use short sentences, line breaks, and emojis for scannable messages."},
+{t:"Short message with line breaks, 1-2 relevant emojis, and ONE clear question at the end.",c:true,f:""},
+{t:"Voice note only – typing takes too long.",c:false,f:"Voice notes are great for existing relationships but can feel intrusive for first contacts."},
+{t:"Bullet points listing every feature of your product.",c:false,f:"Feature lists are not conversations. WhatsApp selling is conversational. Ask questions and build dialogue."}]},
+{t:"SCENARIO: A prospect replies to your WhatsApp with just 'OK'. What do you do?",o:[
+{t:"Reply 'OK' back and wait.",c:false,f:"'OK' is ambiguous – it could mean interest or dismissal. Always follow up with an open question to keep the conversation going."},
+{t:"Reply: 'Great Sameer Sir! 😊 Just to understand your requirement better – what type of printing work do you need most frequently?'",c:true,f:""},
+{t:"Send your full catalogue immediately.",c:false,f:"Sending a catalogue before understanding their specific need is premature. First qualify their requirement."},
+{t:"Call them immediately – WhatsApp isn't working.",c:false,f:"Escalating to a call for a mild response is too aggressive. Continue building the WhatsApp conversation first."}]}
+],
+intro:[
+{t:"SCENARIO: You are calling VIKRAM MEHTA for the first time. He doesn't know you. Best introduction?",o:[
+{t:"Hi Vikram Sir, I'm calling from a company. We sell many things. Can I have 2 minutes?",c:false,f:"'Selling many things' is vague and gives zero value. Be specific about your company name and what you do for THEM."},
+{t:"Hi Vikram Sir, I'm Rahul from PrintPro Solutions. We help businesses reduce printing costs by 30%. Is this a good time for 2 minutes?",c:true,f:""},
+{t:"Hello, my name is Rahul Sharma, Sales Executive, PrintPro Solutions, established 2010, 50 employees, serving clients across India...",c:false,f:"Too long and self-focused. Nobody cares about company history in the first 20 seconds. Lead with VALUE to them."},
+{t:"Hi Vikram bhai! I heard you do printing work so thought I'd call!",c:false,f:"Informal and no structure. No company name, no value proposition. Even friendly markets need a proper introduction."}]},
+{t:"SCENARIO: You have 30 seconds to introduce your services. What is the most effective opening?",o:[
+{t:"We offer high quality printing with fast delivery and good prices.",c:false,f:"Vague and generic. Every competitor says this. What SPECIFICALLY makes you different? What RESULT do you deliver?"},
+{t:"We help businesses get premium printing delivered in 24 hours – guaranteed, or it's free.",c:true,f:""},
+{t:"We are a printing company with modern machinery and experienced staff.",c:false,f:"Feature-focused. Machinery and staff are not benefits. What result does the customer get?"},
+{t:"Please check our website for all information about our services.",c:false,f:"Redirecting before delivering value loses the customer immediately."}]},
+{t:"SCENARIO: After your intro, customer says 'I already have a printing vendor.' What do you say?",o:[
+{t:"Oh okay Sir. No problem. I'll call some other time.",c:false,f:"You gave up immediately. This is the most common response and least effective. Every successful sale starts with an existing supplier."},
+{t:"That's great Vikram Sir! Many of our best clients said the same thing. What matters most to you – price, quality, or delivery speed?",c:true,f:""},
+{t:"Our company is much better than your current vendor. They are not reliable.",c:false,f:"Never attack a competitor. It's unprofessional and puts the customer on the defensive immediately."},
+{t:"Sir please at least try once. Please give me a chance.",c:false,f:"Begging undermines your value. Don't beg – redirect to their interests and ask what they value most."}]},
+{t:"SCENARIO: A prospect asks 'How are you different from others?' What is the BEST answer?",o:[
+{t:"We have been in business for 10 years and have 500 clients.",c:false,f:"Years and client count are credentials, not differentiators. Connect these to a customer outcome they care about."},
+{t:"Great question! Three things: we guarantee 24-hour delivery, we assign you a dedicated account manager, and we redo anything you're not 100% happy with – free.",c:true,f:""},
+{t:"We are simply the best in the market.",c:false,f:"'Best in the market' is an unsubstantiated claim everyone makes. Be specific about what makes you genuinely different."},
+{t:"Our machines are imported from Germany with the latest technology.",c:false,f:"Machine specs are features. Connect features to outcomes: 'which means your prints will always be consistent and colour-accurate.'"}]},
+{t:"SCENARIO: You are introducing yourself on WhatsApp for the first time. Which message format is best?",o:[
+{t:"Hi, I'm Rahul. I do printing. Need anything?",c:false,f:"Too short, no company name, no value, no reference. This message will be ignored by 95% of recipients."},
+{t:"Hi Vikram Sir 🙏 I'm Rahul from PrintPro. Suresh from your network suggested I reach out. We help businesses like yours with quality printing and same-day delivery. Would you be open to a quick 2-min chat? 😊",c:true,f:""},
+{t:"[Sends full company profile PDF] Hi Sir, please check our profile.",c:false,f:"Sending a heavy PDF as a first message with no context is the fastest way to get ignored or blocked."},
+{t:"Hello sir. Please check our rates and let me know if interested.",c:false,f:"Leading with rates before establishing any value or relationship is backwards. Build connection first."}]}
+],
+rapport:[
+{t:"SCENARIO: Your customer RAHUL is from AHMEDABAD. The T20 World Cup was hosted there recently. How do you build common ground?",o:[
+{t:"So Rahul Sir, let's talk about our services. We have great offers this month.",c:false,f:"Skipped rapport entirely. Jumping to offers without connection feels cold and transactional."},
+{t:"Rahul Sir, you're from Ahmedabad – it must have been incredible when the T20 World Cup was hosted there! How was the energy in the city?",c:true,f:""},
+{t:"Sir Ahmedabad mein bahut heat hoti hai na? Kaisi lagti hai garmi?",c:false,f:"Weather is a weak opener. The T20 World Cup is a far more emotionally charged and memorable common ground topic."},
+{t:"Rahul Sir, Ahmedabad is famous for Sabarmati Ashram. Have you visited?",c:false,f:"A tourist attraction is weaker than a recent exciting event. Always choose CURRENT, EMOTIONALLY RELEVANT common ground."}]},
+{t:"SCENARIO: You notice your customer PRIYA's WhatsApp DP shows her at a hill station. How do you use this?",o:[
+{t:"Priya Ma'am, I noticed your profile picture – it looks like a beautiful place! Where was that?",c:true,f:""},
+{t:"Ma'am your profile picture is very nice.",c:false,f:"Too generic. Name the place or describe it specifically to show you actually noticed. Specific observation shows genuine interest."},
+{t:"Ma'am I don't have time for chit-chat. Let me tell you about our offer.",c:false,f:"Rapport is not wasted time – it's investment time. These few minutes dramatically increase your chance of closing."},
+{t:"Ma'am you travel a lot? Must be rich then! Can you buy our premium package?",c:false,f:"Completely inappropriate. Never assume purchasing power from personal details or connect personal info to sales pressure."}]},
+{t:"SCENARIO: A customer mentions their son just passed his 10th board exams. What do you say?",o:[
+{t:"Oh nice. So coming back to our product...",c:false,f:"Dismissing good news immediately signals you only care about the sale. This destroys rapport instantly."},
+{t:"Sir that's wonderful news! Congratulations to him and you! That must be such a proud moment. Which stream is he thinking about?",c:true,f:""},
+{t:"Good. So can you make a decision today?",c:false,f:"Completely tone-deaf. A customer sharing happy family news is opening up to you. Lean in, not away."},
+{t:"My son also passed 10th. Let me tell you about our services now.",c:false,f:"Making it about yourself is a rapport killer. Acknowledge their moment fully before introducing anything else."}]},
+{t:"SCENARIO: It's the first call with a new prospect from MUMBAI. What is the best way to start building rapport?",o:[
+{t:"Sir let me directly explain our product. No need for small talk.",c:false,f:"Skipping rapport is skipping trust-building. People buy from people they like. Give rapport the time it deserves."},
+{t:"Sir, Mumbai! The monsoon there must be something else this year! How is the city treating you?",c:true,f:""},
+{t:"Sir are you from Mumbai? That's a very expensive city. Do you have budget for our services?",c:false,f:"Connecting their city to budget is inappropriate and offensive. Build connection, not financial assumptions."},
+{t:"Sir I also want to live in Mumbai someday. It's my dream city.",c:false,f:"Making the conversation about yourself immediately redirects the spotlight. Keep it on them."}]},
+{t:"SCENARIO: A customer you spoke to 3 months ago calls back. How do you re-establish rapport?",o:[
+{t:"Hello sir, please remind me who you are.",c:false,f:"Forgetting a customer who called 3 months ago signals they don't matter to you. Always note customer details."},
+{t:"Rahul Sir! Great to hear from you! How has business been? Did that event order we discussed work out well for you?",c:true,f:""},
+{t:"Yes Sir. Tell me your requirement.",c:false,f:"Abrupt and transactional. A returning customer deserves warm, personal acknowledgment."},
+{t:"Oh yes! So are you ready to place an order now?",c:false,f:"Jumping straight to order on a returning call misses a huge rapport opportunity. Ask about them first."}]}
+],
+listening:[
+{t:"SCENARIO: A customer is explaining a problem with their supplier. They're talking for 3 minutes. What should you do?",o:[
+{t:"[Interrupt] Yes yes, I understand the problem. Let me tell you how we solve it.",c:false,f:"Interrupting a customer mid-sentence is one of the top sales mistakes. Their full story reveals more opportunities than you expect."},
+{t:"[Listen fully] 'That sounds really frustrating. So if I understand correctly, the main issue is delays. Is that right?'",c:true,f:""},
+{t:"[Nod and say 'okay okay' repeatedly while thinking about your next pitch]",c:false,f:"Fake listening is worse than no listening. Customers feel when you're not present. Active listening means mentally processing."},
+{t:"[Check your phone while they talk since it's taking too long]",c:false,f:"Checking your phone during a customer conversation is the ultimate signal of disrespect. Never do this."}]},
+{t:"SCENARIO: Customer says 'I need it by next week but I'm not sure about the price.' Which part needs most attention first?",o:[
+{t:"The price concern – immediately discuss discounts.",c:false,f:"Jumping to price before understanding their timeline and purpose is a mistake. Acknowledge urgency first."},
+{t:"Both parts equally – first acknowledge the deadline, then understand the price concern specifically.",c:true,f:""},
+{t:"The 'next week' part – tell them our standard delivery is 2 weeks.",c:false,f:"Leading with a limitation before understanding their full situation will likely end the conversation."},
+{t:"Neither – this is a signal they're not ready to buy.",c:false,f:"Wrong. A customer discussing both timeline AND price is actively engaged in buying. This is a very positive signal."}]},
+{t:"SCENARIO: After explaining your product, the customer says 'Hmm.' What do you do?",o:[
+{t:"Continue talking and add more features.",c:false,f:"'Hmm' is a signal to pause and ask, not add more information. More talking when they're hesitating creates resistance."},
+{t:"Pause and ask: 'Vikram Sir, what's going through your mind right now? I want to make sure this makes sense for you.'",c:true,f:""},
+{t:"Ask immediately: 'So shall I proceed with the order?'",c:false,f:"Closing on a 'Hmm' without understanding what it means will almost always result in a soft rejection."},
+{t:"Take it as a yes and move to delivery details.",c:false,f:"'Hmm' is not a yes. Assuming it is will create awkwardness and erode trust."}]},
+{t:"SCENARIO: Customer is speaking very quickly and seems stressed. What should you do?",o:[
+{t:"Match their speed and rush through your pitch to keep pace.",c:false,f:"Matching stress with more stress escalates the situation. Instead, be the calm voice that slows things down gently."},
+{t:"Slow your own pace, acknowledge their stress: 'Sounds like you have a lot on right now. Let me keep this brief and focus on what matters most to you.'",c:true,f:""},
+{t:"Tell them to slow down because you can't understand them.",c:false,f:"Criticizing how a customer speaks is disrespectful. Adapt to them, don't criticize them."},
+{t:"Postpone the call since they seem busy.",c:false,f:"A stressed customer who is still talking to you is engaged. Use active listening to be their relief, not another problem."}]},
+{t:"SCENARIO: The customer gave you a lot of information about their needs. What is the BEST next step?",o:[
+{t:"Immediately launch into your product pitch.",c:false,f:"Before pitching, reflect back what you heard. This confirms understanding and shows the customer you were genuinely listening."},
+{t:"Summarise back: 'So if I understand correctly, your three main needs are X, Y, and Z. Is that right?' Then present your solution.",c:true,f:""},
+{t:"Ask them to repeat themselves because you missed some points.",c:false,f:"Admitting you weren't fully listening damages credibility. Take notes actively so you never need to ask again."},
+{t:"Move to pricing since you have enough information.",c:false,f:"Confirming your understanding before pricing prevents mismatches and builds trust."}]}
+],
+questions:[
+{t:"SCENARIO: Customer SURESH says he is 'thinking about' using your service. What question do you ask?",o:[
+{t:"Okay Sir, so will you buy or not?",c:false,f:"Closed pressure question. Forces Yes/No decision before the customer is ready. Almost always results in 'No'."},
+{t:"What specific outcomes are you hoping to achieve? Tell me more about your current situation.",c:true,f:""},
+{t:"Do you have budget for this?",c:false,f:"Jumping to budget before understanding their need is a red flag. Also a closed question that stops the conversation."},
+{t:"Have you seen our catalogue? It has everything you need.",c:false,f:"Pushing materials before understanding needs is backwards. First understand, then present. Always."}]},
+{t:"SCENARIO: A new prospect agreed to speak with you. What is the BEST first question?",o:[
+{t:"How much budget do you have?",c:false,f:"Asking for budget first feels like you're qualifying whether they're worth your time. Build value first."},
+{t:"What are the biggest challenges you're currently facing in your business?",c:true,f:""},
+{t:"Have you heard about our company before?",c:false,f:"This is a closed question about YOUR company. Your focus should be entirely on them in the first question."},
+{t:"When can you give me your order?",c:false,f:"Asking for an order in the first question is aggressive and tone-deaf. Build rapport and understand needs first."}]},
+{t:"SCENARIO: Customer says 'We might need some printing work.' Which follow-up question is best?",o:[
+{t:"How much quantity?",c:false,f:"Jumping to quantity before understanding the type of work narrows the conversation too early."},
+{t:"What kind of printing work are you thinking about, and what's the occasion or purpose?",c:true,f:""},
+{t:"When do you want it done?",c:false,f:"Timeline is important but secondary to understanding the NATURE of the work first. Start broad, then go specific."},
+{t:"Do you want our best quality or normal quality?",c:false,f:"Offering a quality choice before understanding their needs and budget puts them in an uncomfortable position."}]},
+{t:"SCENARIO: During a call, the customer goes silent for 5 seconds after you ask a question. What do you do?",o:[
+{t:"Quickly rephrase the question to fill the silence.",c:false,f:"The silence means they're thinking. If you fill it, you interrupt their thought process and lose a valuable answer."},
+{t:"Wait. The silence means they're thinking. Let them complete their thought.",c:true,f:""},
+{t:"Say 'Are you still there?'",c:false,f:"Interrupting thinking time breaks the flow. Wait at least 7-8 seconds before any response to silence."},
+{t:"Move to the next question to keep momentum.",c:false,f:"Moving on before they answer signals you don't actually care about their response. Always wait."}]},
+{t:"SCENARIO: Customer gives a very short answer 'Yes, we do printing.' How do you dig deeper?",o:[
+{t:"Ask: 'Do you need more volume?'",c:false,f:"Another closed question that gets a Yes/No. You need to open the conversation, not narrow it further."},
+{t:"Ask: 'That's great! What kind of printing takes up the most of your budget currently?'",c:true,f:""},
+{t:"Tell them about your printing services immediately.",c:false,f:"You don't have enough information yet to pitch. One short answer is not enough to understand their situation."},
+{t:"Ask: 'Are you happy with your current supplier?'",c:false,f:"Closed question again. Ask WHAT, HOW, or WHY to get a detailed, useful answer."}]}
+],
+needs:[
+{t:"SCENARIO: Customer says 'I want affordable printing.' What does this REALLY mean?",o:[
+{t:"He wants the cheapest price. Give maximum discount immediately.",c:false,f:"'Affordable' means good value, not just cheap. Ask what 'affordable' means to them specifically."},
+{t:"Ask: 'When you say affordable, what budget range are you thinking, and what quality level are you expecting?'",c:true,f:""},
+{t:"Send him the cheapest option from your catalogue.",c:false,f:"Assuming affordable means cheapest without understanding their context leads to wrong recommendations."},
+{t:"Tell him affordable is relative and your premium service is worth the price.",c:false,f:"Dismissing their stated need with a sales pitch is confrontational. First understand, then present value."}]},
+{t:"SCENARIO: A customer keeps asking about delivery speed. What underlying need should you explore?",o:[
+{t:"They just love fast delivery. Quote your fastest option.",c:false,f:"Speed is a symptom. The real need is WHY they need it fast. An event? A deadline? Understanding WHY opens up better solutions."},
+{t:"Ask: 'What's driving the urgency around delivery? Is there a specific event or deadline coming up?'",c:true,f:""},
+{t:"Tell them your delivery is the fastest in the market.",c:false,f:"Making a speed claim before understanding their specific requirement might not match what they actually need."},
+{t:"Ask if they're willing to pay extra for express delivery.",c:false,f:"Jumping to pricing before understanding their reason skips the discovery that could reveal a bigger opportunity."}]},
+{t:"SCENARIO: Customer says 'I want something that looks professional.' What is the best response?",o:[
+{t:"Show them your premium product range immediately.",c:false,f:"'Professional' means different things to different people. Understand what professional looks like to THEM before showing anything."},
+{t:"Ask: 'What does professional mean to you specifically? Do you have examples of designs you've liked?'",c:true,f:""},
+{t:"Tell them all our products look professional.",c:false,f:"Generic assurance without understanding their specific standard of 'professional' is meaningless."},
+{t:"Show them your most expensive option since that looks most professional.",c:false,f:"Expensive doesn't always mean professional to every customer. Understand their aesthetic and standard first."}]},
+{t:"SCENARIO: Customer seems interested but keeps changing the subject when you discuss details. What does this signal?",o:[
+{t:"They are not interested. Move on.",c:false,f:"Subject-changing is often a sign of an unspoken concern, not disinterest. The real objection hasn't surfaced yet."},
+{t:"Pause and ask: 'Rahul Sir, I sense something might be on your mind. Is there something specific you'd like to discuss?'",c:true,f:""},
+{t:"Keep pushing through your pitch regardless.",c:false,f:"Ignoring the customer's subtle signals and pushing your pitch creates resistance and feels tone-deaf."},
+{t:"Ask them directly: 'Are you going to buy or not?'",c:false,f:"A direct close when there's clearly an unspoken concern will result in a hard No. Surface the concern first."}]},
+{t:"SCENARIO: Two customers both say 'I need good quality printing.' One owns a salon, the other runs a corporate firm. Are their needs the same?",o:[
+{t:"Yes, quality means the same thing to both.",c:false,f:"Quality is relative to context. A salon owner cares about visual elegance and warmth. A corporate firm cares about precision, brand consistency, and professionalism. Always explore context."},
+{t:"No – ask each what 'good quality' means to their specific business and customer base.",c:true,f:""},
+{t:"Give both the same products since quality is quality.",c:false,f:"Sending the same solution without understanding context leads to mismatched recommendations and lost trust."},
+{t:"The corporate firm needs better quality. Give them premium and the salon standard.",c:false,f:"Never assume one business needs higher quality than another without understanding their specific requirements."}]}
+],
+value:[
+{t:"SCENARIO: A customer asks 'What makes your printing better than others?' What is the BEST response?",o:[
+{t:"We use the latest 8-color printing machines with German technology.",c:false,f:"This is a feature answer. Machines don't matter to the customer – what the machine PRODUCES for their business does."},
+{t:"Our printing gives your brand the premium look that makes your customers take you more seriously – which means more trust and more sales for you.",c:true,f:""},
+{t:"We are the best quality in the city.",c:false,f:"'Best quality' is an unsubstantiated claim every competitor also makes. Be specific about the outcome quality creates for them."},
+{t:"We have 10 years of experience and 500 happy clients.",c:false,f:"Experience and client count are credentials, not benefits. Connect them to a customer outcome."}]},
+{t:"SCENARIO: Customer says 'Let me compare with others first.' How do you respond?",o:[
+{t:"Sir please don't compare. We are the best.",c:false,f:"Telling someone not to compare triggers resistance. Comparison is natural buying behavior. Work with it."},
+{t:"Absolutely! While you compare, keep in mind what matters most: quality consistency, on-time delivery, and after-order support – these are where we shine.",c:true,f:""},
+{t:"Okay Sir, let me know what you find. Bye.",c:false,f:"Passive response with zero value framing. Set comparison criteria that favor your strengths before they compare."},
+{t:"Our price is lower than everyone else in the market.",c:false,f:"Competing purely on price is a race to the bottom. Frame value beyond price before comparison."}]},
+{t:"SCENARIO: You want to explain the benefit of same-day delivery. Which statement is BEST?",o:[
+{t:"We offer same-day delivery as a standard service.",c:false,f:"This is a feature. What does same-day delivery MEAN for the customer's business? Connect it to their outcome."},
+{t:"Same-day delivery means you can take last-minute orders from your clients and still deliver on time – which means you never lose a rush order again.",c:true,f:""},
+{t:"Same-day delivery is our USP.",c:false,f:"'USP' is business jargon that means nothing to a customer. Translate it into something they can feel and relate to."},
+{t:"We deliver faster than any competitor.",c:false,f:"Speed comparison without context of what it means for the customer's life or business is an empty claim."}]},
+{t:"SCENARIO: Customer says your competitor's product looks the same but costs less. How do you respond?",o:[
+{t:"Sir our product is actually very different. Let me explain all the technical differences.",c:false,f:"Launching into technical differences is not the same as communicating value. Focus on what those differences mean for their business."},
+{t:"Sir, you're right that they might look similar. The difference shows up in the results: our clients report 40% fewer reprints, which saves more money than the initial price difference.",c:true,f:""},
+{t:"Lower price always means lower quality. That's basic.",c:false,f:"This is a generalisation that may not be true and can sound arrogant. Prove your value specifically, don't make assumptions about competitors."},
+{t:"Okay Sir, I can match their price then.",c:false,f:"Immediately matching price without demonstrating value difference erases your margin and implies your original price was inflated."}]}
+],
+storytelling:[
+{t:"SCENARIO: A customer says 'I don't need better printing, mine is fine.' What story technique do you use?",o:[
+{t:"Tell them their current printing is probably low quality.",c:false,f:"Attacking their current choice creates defensiveness. Use a story to show what's possible, not criticize what they have."},
+{t:"'I hear you! I had a similar conversation with Vikram from Andheri 6 months ago. He said the same thing. Then he tried our samples... [tell specific before/after story]'",c:true,f:""},
+{t:"Tell them all the features of your printing machine.",c:false,f:"Feature lists don't change minds. Stories change minds. A customer who said the same thing and then changed – that's compelling."},
+{t:"Give them a big discount to change their mind.",c:false,f:"Discounting before a story skips the value-building step. Tell the story first, build the value, then price is secondary."}]},
+{t:"SCENARIO: You want to use the Before/After/Bridge storytelling structure. Which is correct?",o:[
+{t:"Our company is great. We have helped many clients. Buy from us.",c:false,f:"This is a generic claim, not a story. Before/After/Bridge requires specific structure: problem, outcome, then the solution."},
+{t:"'Before working with us, Priya's boutique had inconsistent label quality losing customers. After 3 months, her reorder rate doubled. The bridge? We created a custom template and free design review each order.'",c:true,f:""},
+{t:"Our printing is high quality and fast delivery.",c:false,f:"Feature claims without story context. A before/after story transforms features into lived experiences prospects can feel."},
+{t:"Many of our clients love us.",c:false,f:"Vague and unverifiable. Name a specific client, their specific problem, the specific result, and how you bridged the gap."}]},
+{t:"SCENARIO: What makes a sales story most believable and persuasive?",o:[
+{t:"Making it sound very dramatic and emotional.",c:false,f:"Overdramatic stories sound fabricated. Authenticity and specific detail create believability, not dramatic exaggeration."},
+{t:"Using specific names, locations, numbers, and realistic timelines.",c:true,f:""},
+{t:"Keeping it very short – one sentence.",c:false,f:"One sentence gives no detail and creates no emotional connection. A good story needs enough detail to transport the listener into the experience."},
+{t:"Making the story about your company's achievements.",c:false,f:"Sales stories should have the CUSTOMER as the hero. Your role is the guide or solution, not the star."}]},
+{t:"SCENARIO: Customer says 'I've heard promises like this before.' Which story response is BEST?",o:[
+{t:"Sir, I promise this time it will be different.",c:false,f:"Another promise after they just said they're tired of promises is counterproductive. Prove it with specific evidence, not another promise."},
+{t:"I understand completely Sir. Let me share what happened with Ravi, who had the exact same skepticism. [Tell specific story with outcome and his exact words]",c:true,f:""},
+{t:"Sir, we are honest people. You can trust us.",c:false,f:"'Trust us' without evidence is the weakest possible response to skepticism. Evidence is the only cure for broken trust."},
+{t:"Sir, if we don't deliver, we'll refund your money.",c:false,f:"A refund promise addresses the wrong fear. The customer isn't afraid of losing money – they're afraid of wasting time. Address that specifically."}]}
+],
+persuasion:[
+{t:"SCENARIO: Customer MEENA says 'Let me think about it.' You want to use SCARCITY ethically. What do you say?",o:[
+{t:"LAST CHANCE! Offer ends TODAY! Please decide now!",c:false,f:"Fake urgency is instantly detected and permanently destroys trust. Only use scarcity when it's absolutely real."},
+{t:"Meena Ma'am, of course take your time! Just so you know, our current pricing is valid through end of this month as costs are increasing. I can hold a slot for you while you decide.",c:true,f:""},
+{t:"Ma'am everyone is buying this. 50 people ordered yesterday.",c:false,f:"Unverifiable social proof sounds fake. Use specific, honest proof: 'Last month, 12 businesses in your area ordered from us.'"},
+{t:"Okay Ma'am. Call me whenever.",c:false,f:"Passive response with no urgency trigger. 'Think about it' customers rarely call back without a gentle nudge."}]},
+{t:"SCENARIO: A prospect hasn't heard of you. Which AUTHORITY-building statement is most effective?",o:[
+{t:"We are the best printing company in India.",c:false,f:"Self-proclaimed 'best in India' is meaningless without evidence. Use specific verifiable proof instead."},
+{t:"We've helped 200+ businesses in Lucknow, including Goel Brothers and Sharma Enterprises, increase their brand quality in the last 2 years.",c:true,f:""},
+{t:"We have been in business for 10 years.",c:false,f:"Years alone is not compelling authority. Connect your experience to specific outcomes and recognizable client names."},
+{t:"Our machines are the latest model from Germany.",c:false,f:"Machine specs are features, not authority. Authority comes from proven results and recognizable clients."}]},
+{t:"SCENARIO: You want to use RECIPROCITY to open a new relationship. What do you do?",o:[
+{t:"Give them a free gift and then immediately ask for the order.",c:false,f:"Reciprocity works when giving feels genuine. Giving with an immediate ask feels manipulative and cancels the effect."},
+{t:"Share a genuinely useful tip, insight, or resource relevant to their business – with no immediate sales ask.",c:true,f:""},
+{t:"Tell them they owe you because you've been trying to reach them.",c:false,f:"Reciprocity cannot be demanded. It must arise naturally from genuine generosity."},
+{t:"Promise a gift but deliver it only after they buy.",c:false,f:"Conditional gifts are incentives, not reciprocity. Reciprocity means giving FIRST, unconditionally."}]},
+{t:"SCENARIO: You want to use SOCIAL PROOF to convince a hesitant customer. Which is MOST effective?",o:[
+{t:"Many people buy from us and are very happy.",c:false,f:"Vague social proof has almost no persuasive power. Specific, local, named social proof is what actually moves people."},
+{t:"Last month, Anil from Gomti Nagar – who had the same concern you have – switched to us and saved ₹12,000 on his quarterly print order.",c:true,f:""},
+{t:"We have thousands of satisfied customers.",c:false,f:"Large vague numbers feel fabricated. One specific real story is more convincing than 'thousands of customers'."},
+{t:"Our Google rating is 4.8 stars.",c:false,f:"Ratings help but don't address specific concerns. A story from someone with the SAME concern is the most targeted proof."}]},
+{t:"SCENARIO: Customer says 'I'll decide next month.' You want to create genuine urgency. What do you say?",o:[
+{t:"Sir if you don't decide today, we can't guarantee availability.",c:false,f:"If this isn't true, it's a lie. Fake urgency is remembered and poisons the entire relationship permanently."},
+{t:"Of course Sir! Just to help with your planning – our current rate card is valid till month end as we have a cost revision coming. Would you like me to lock in today's pricing for a future order?",c:true,f:""},
+{t:"Okay Sir, talk to you next month.",c:false,f:"Accepting a month-long delay with no action creates a lost opportunity. Always leave with a clear next step."},
+{t:"Sir next month might be too late. Our products sell out fast.",c:false,f:"Artificial inventory scarcity that isn't real is manipulation. Use only honest urgency triggers."}]}
+],
+upselling:[
+{t:"SCENARIO: Customer just confirmed an order for 500 visiting cards. What is the BEST upsell?",o:[
+{t:"Sir please also buy our premium package. It has everything.",c:false,f:"Generic upsell without context or logic. The upsell must feel like a natural next step, not a sales grab."},
+{t:"Since you're getting visiting cards, many clients also add a letterhead at the same time – it saves the setup cost. Want me to include it?",c:true,f:""},
+{t:"Our premium service costs ₹5,000 more. Want that?",c:false,f:"No value explanation. Why would they pay ₹5,000 more? Explain the benefit before the cost."},
+{t:"Forget the 500. Let's talk about our biggest package instead.",c:false,f:"Replacing their confirmed order with a bigger one without context feels like you're after money, not serving their need."}]},
+{t:"SCENARIO: Customer says 'No thanks' to your cross-sell suggestion. What do you do?",o:[
+{t:"Convince them they are making a mistake.",c:false,f:"Arguing with a 'no' to an upsell is high pressure and damages the primary sale. Accept gracefully."},
+{t:"Accept gracefully: 'Of course Sir! No problem at all. Your main order is confirmed. I'll get started right away.'",c:true,f:""},
+{t:"Keep suggesting other products until one sticks.",c:false,f:"Multiple rejected upsells feel like harassment. One suggestion, graceful acceptance of 'no', done."},
+{t:"Add the cross-sell to the order without telling them.",c:false,f:"Adding unrequested items to an order is fraud and completely destroys trust."}]},
+{t:"SCENARIO: When is the BEST time to suggest an upsell?",o:[
+{t:"Before the customer has made any decision.",c:false,f:"Upselling before the primary decision is made overwhelms the customer and can derail the main sale."},
+{t:"Right after the customer confirms the primary purchase – while they're in 'buying mode'.",c:true,f:""},
+{t:"Only after you've delivered the order.",c:false,f:"Post-delivery upselling works for repeat orders but misses the powerful moment right after the purchase decision when the customer is most receptive."},
+{t:"At the very beginning of the conversation.",c:false,f:"Upselling at the start before understanding needs or building rapport is a significant mistake."}]},
+{t:"SCENARIO: Customer orders 500 business cards. You want to upsell to 1000. Which approach is BEST?",o:[
+{t:"Sir, 1000 is better. Take 1000.",c:false,f:"No reason given. 'Better' without explanation gives the customer nothing to agree with."},
+{t:"Sir, for just ₹300 more, you get 1000 cards – that's essentially half price for the extra 500. Many clients take this because cards run out faster than expected. Want me to add it?",c:true,f:""},
+{t:"Sir if you take less, you'll regret it later.",c:false,f:"Fear-based upsell feels manipulative. Give a positive reason to upgrade, not a negative consequence of not upgrading."},
+{t:"Our 1000-card package has better paper quality.",c:false,f:"Implying that the 500-card package has inferior quality undermines their current choice and creates doubt."}]}
+],
+retention:[
+{t:"SCENARIO: A regular customer hasn't ordered in 2 months. What do you do?",o:[
+{t:"Nothing – if they need something they'll call.",c:false,f:"Passive customer relationship management loses 20-30% of your customers every year to competitors. Always stay in contact."},
+{t:"Call or WhatsApp: 'Hi Rahul Sir! Just checking in – hope all is well! It's been a while since your last order. Is there anything I can help with?'",c:true,f:""},
+{t:"Send them a bulk promotional message with current offers.",c:false,f:"Generic bulk messages are impersonal. A personal check-in shows you noticed their absence and value the relationship."},
+{t:"Assume they switched to a competitor and focus on new customers.",c:false,f:"Assuming loss without investigation is a mistake. A simple check-in can reactivate 30-50% of inactive customers."}]},
+{t:"SCENARIO: A customer complains their order had a small printing error. How do you handle it?",o:[
+{t:"Sir it was a minor issue. Please adjust.",c:false,f:"Minimizing a customer's complaint is one of the fastest ways to lose them permanently."},
+{t:"Rahul Sir, I sincerely apologize. This should not have happened. I'm fixing this immediately and adding a priority slot for your next order at no extra charge.",c:true,f:""},
+{t:"Sir we have 99% accuracy. One error can happen.",c:false,f:"Defending with statistics when a customer has a complaint feels cold. Acknowledge first, fix second, explain later."},
+{t:"This is the courier's fault, not ours.",c:false,f:"Blame-shifting is a relationship killer. You are responsible for the complete customer experience including delivery."}]},
+{t:"SCENARIO: A loyal customer tells you they're thinking of trying a competitor. What do you say?",o:[
+{t:"Okay Sir, try them. You'll come back.",c:false,f:"Arrogance disguised as confidence. This dismissive response almost guarantees they'll leave and never return."},
+{t:"I appreciate you telling me Sir. May I ask what's making you consider the switch? I'd love the chance to address it if I can.",c:true,f:""},
+{t:"Sir don't go to them, their quality is bad.",c:false,f:"Never speak negatively about competitors. It sounds desperate and unprofessional."},
+{t:"I'll give you maximum discount to stay.",c:false,f:"Instantly offering maximum discount signals that you've been overcharging them all along. First understand their reason, then respond."}]},
+{t:"SCENARIO: After delivering an order, what is the BEST message to send within 24 hours?",o:[
+{t:"Nothing – the transaction is complete.",c:false,f:"The transaction ends at delivery but the relationship continues. A post-delivery check-in is one of the highest-ROI activities in sales."},
+{t:"Hi Rahul Sir, hope everything arrived perfectly! Was the quality as expected? Your feedback means a lot to us. 😊",c:true,f:""},
+{t:"Sir please leave us a 5-star review on Google.",c:false,f:"Asking for a review before checking if they're satisfied first is backwards and pushy. Confirm satisfaction, then ask."},
+{t:"Sir when is your next order?",c:false,f:"Asking for the next order before checking satisfaction on the current one signals you care more about revenue than their experience."}]}
+],
+referral:[
+{t:"SCENARIO: Customer just received their order and says 'This is exactly what I wanted!' When do you ask for a referral?",o:[
+{t:"Wait for the next order before asking.",c:false,f:"The best time to ask for a referral is RIGHT NOW – at peak happiness. This golden moment passes quickly."},
+{t:"Right now! 'I'm so glad it worked out! By the way, do you have one business owner friend who might also benefit from this?'",c:true,f:""},
+{t:"Never ask for referrals. It feels awkward.",c:false,f:"Referrals are the highest quality leads available – warm, pre-sold, and free. A happy customer is usually happy to help."},
+{t:"Send them a formal referral form to fill out.",c:false,f:"A formal form creates friction. Ask conversationally in the moment of happiness. Keep it personal and simple."}]},
+{t:"SCENARIO: Customer agrees to give a referral but seems unsure who to refer. How do you help?",o:[
+{t:"Okay Sir, think and let me know.",c:false,f:"'Think and let me know' rarely produces results. Help them think right now by giving specific prompts."},
+{t:"Think about your network – any business owners running a printing business, boutique, or restaurant? Even one name is perfect.",c:true,f:""},
+{t:"Give me all your contacts and I'll find the right people myself.",c:false,f:"Asking for a full contact list is invasive. Ask for specific names, not full contact lists."},
+{t:"It's okay. Don't worry about it.",c:false,f:"Letting the moment pass without a specific prompt wastes the referral opportunity. Guide them gently with category suggestions."}]},
+{t:"SCENARIO: You want to create a simple referral program. Which approach is MOST effective?",o:[
+{t:"Tell customers: 'Refer anyone and get a gift.'",c:false,f:"Vague rewards with no structure or clear value are quickly forgotten. Be specific about what they get and how it works."},
+{t:"'For every friend you refer who places an order, I'll give you ₹500 off your next order. Simple and straightforward.'",c:true,f:""},
+{t:"Don't create any referral program. Referrals should be natural.",c:false,f:"Natural referrals do happen, but a structured program makes them 3-5x more likely. Don't leave referrals to chance."},
+{t:"Post a referral request on your WhatsApp broadcast to all contacts.",c:false,f:"A broadcast message asking for referrals from people who don't know you is spam. Referral programs work between existing satisfied customers."}]},
+{t:"SCENARIO: A referred customer calls you. How do you open the conversation?",o:[
+{t:"Hello sir, how can I help you?",c:false,f:"Generic opener that doesn't acknowledge the referral. The referral is your most powerful trust asset – use it immediately."},
+{t:"Hi Suresh Sir! Rahul Ji suggested I should connect with you. He spoke very highly of your business. How are you?",c:true,f:""},
+{t:"Hi, I was referred to you by someone. Are you interested in printing?",c:false,f:"'Someone' weakens the referral. Always name the person who referred you – it's your credibility transfer."},
+{t:"Hi Sir, Rahul gave me your number. Do you want printing?",c:false,f:"Too abrupt. Acknowledge the referral warmly, build a moment of connection with the mutual contact, then ease into the conversation."}]}
+],
+telecalling:[
+{t:"SCENARIO: You're making a cold call. The person picks up and says 'Who is this?' How do you respond?",o:[
+{t:"Sir I'm calling from a company about printing.",c:false,f:"Vague and uninspiring. 'From a company' sounds like a robocall. Be specific about your name, company, and value."},
+{t:"Hi! I'm Rahul from PrintPro. I help businesses in your area reduce printing costs. Is this a good time for a 2-minute conversation?",c:true,f:""},
+{t:"Sir I'm calling because your number was given by someone. Can I explain?",c:false,f:"Vague 'someone' reference without specifics creates suspicion. Always name the referral if you have one."},
+{t:"Sir please don't disconnect, I have a very important offer for you.",c:false,f:"'Please don't disconnect' signals insecurity and immediately puts the customer in control. Lead with confidence and value."}]},
+{t:"SCENARIO: A gatekeeper says 'Sir is not available. Call tomorrow.' What is the best response?",o:[
+{t:"Okay. I'll call tomorrow.",c:false,f:"No information gathered, no relationship built with the gatekeeper. Treat gatekeepers as allies, not obstacles."},
+{t:"Could you help me? I want to make sure I call at a good time for him. When is he typically available? And may I know your name?",c:true,f:""},
+{t:"Can I have his direct number or email?",c:false,f:"Asking for direct contact before building any relationship with the gatekeeper is too forward. Win the gatekeeper first."},
+{t:"Tell him Rahul called. It's urgent.",c:false,f:"Fake urgency to a gatekeeper is transparent and unprofessional. Build authentic connection instead."}]},
+{t:"SCENARIO: You open a cold call and the prospect says 'I'm very busy right now.' What do you say?",o:[
+{t:"Okay Sir, I'll call later.",c:false,f:"'Call later' with no specific time means you'll play phone tag forever. Always try to schedule a specific time before hanging up."},
+{t:"Of course Sir! I completely understand. Would tomorrow at 10 AM or Thursday at 3 PM work for a 5-minute conversation?",c:true,f:""},
+{t:"Sir it will only take 1 minute. Please hear me out.",c:false,f:"Pressuring a busy person after they said they're busy damages the relationship before it starts."},
+{t:"Sir this is very important and urgent. Please give me 2 minutes.",c:false,f:"Creating fake urgency on a cold call with someone who said they're busy is disrespectful and counterproductive."}]},
+{t:"SCENARIO: A prospect answers your call and asks 'How did you get my number?' What do you say?",o:[
+{t:"It's publicly available on the internet.",c:false,f:"This answer feels invasive even if true. It immediately raises privacy concerns and puts the prospect on the defensive."},
+{t:"Vijay Singh from Karol Bagh suggested I reach out to you – he mentioned you might be looking for quality printing solutions.",c:true,f:""},
+{t:"I got it from a database.",c:false,f:"'Database' sounds like mass cold calling with no personal connection. This reduces your credibility instantly."},
+{t:"I don't remember exactly. Can I tell you about our service?",c:false,f:"Admitting you don't know how you got their number is the worst answer possible. Always be prepared with a clear, honest answer."}]},
+{t:"SCENARIO: After your opening pitch on a call, the customer says 'Not interested.' What do you do?",o:[
+{t:"Thank them and hang up immediately.",c:false,f:"'Not interested' at the opening stage usually means 'I don't have enough information yet.' One question can turn this around."},
+{t:"'I completely understand Sir! May I ask – is it the timing that's not right, or is there a specific reason? I just want to make sure I'm not bothering you with something irrelevant.'",c:true,f:""},
+{t:"Tell them why they should be interested.",c:false,f:"Telling someone why they should be interested after they said they're not is confrontational. Ask a question instead."},
+{t:"Ask them to reconsider and give you a chance.",c:false,f:"Begging undermines your professional position. A single curious question is far more effective than asking for a chance."}]}
+]
+};
+
+// Arena levels
+var ARENA=[
+{t:"Level 1 – The Curious Prospect",cu:"Ajay",op:"Hi! I got your message. You said you help businesses with printing? Tell me more.",
+ mv:[{ai:"What specifically do you offer? I don't want to waste time.",r:[{t:"We help businesses like yours get professional printing delivered in 24 hours, guaranteed.",s:10},{t:"We have many products. Please check our website.",s:0},{t:"We are the best company in the city.",s:-5}]},
+     {ai:"How is your quality? I've been burned by bad vendors before.",r:[{t:"I understand completely. Many current clients said the same thing. Can I ask what specifically went wrong before?",s:10},{t:"Our quality is 100% perfect. No problems ever.",s:-5},{t:"Please don't worry. Just try once.",s:2}]},
+     {ai:"Your price seems higher than what I currently pay.",r:[{t:"Ajay Sir, I understand. Besides price, what else matters to you – quality consistency or delivery reliability?",s:10},{t:"Okay I can give you discount.",s:0},{t:"Competitor's quality is worse. That's why they're cheaper.",s:-10}]},
+     {ai:"What guarantee do you offer?",r:[{t:"We offer a redo guarantee – if anything is not to your satisfaction, we redo it at no charge.",s:10},{t:"We've been in business 10 years so we are reliable.",s:2},{t:"We don't give guarantees but our quality is good.",s:-5}]},
+     {ai:"Okay, I might be interested. What do I do next?",r:[{t:"Excellent Ajay Sir! Let me prepare a sample pack for you at no cost. Shall I arrange delivery this week?",s:15},{t:"Send me your requirements by email.",s:0},{t:"First make payment then we start.",s:-10}]}],win:35},
+{t:"Level 2 – The Price Objector",cu:"Neha",op:"I've seen your work. But honestly, your pricing is quite high compared to others.",
+ mv:[{ai:"I can get the same work done for 30% less elsewhere.",r:[{t:"Neha Ma'am, that's possible! Was that the same paper quality, same design service, and same delivery guarantee?",s:10},{t:"Their quality must be bad if it's cheaper.",s:-5},{t:"Okay Ma'am, we can match that price.",s:2}]},
+     {ai:"Price is really the main factor for me.",r:[{t:"I respect that. Many clients feel price is the main factor until they experience a quality problem that costs more to fix. What's your budget range?",s:10},{t:"Okay then we will give cheapest price.",s:-5},{t:"Ma'am quality is more important than price.",s:2}]},
+     {ai:"Can you give me 25% discount?",r:[{t:"Neha Ma'am, if you commit to a 3-month package, I can offer free design service and priority delivery worth ₹4,000. Would that work?",s:15},{t:"Yes Ma'am, 25% done.",s:-5},{t:"Maximum 10% discount only.",s:0}]},
+     {ai:"Why should I stay loyal to you?",r:[{t:"Because your brand consistency matters – every time you switch vendors, your brand look changes slightly. Let me show you our 2-year client list.",s:10},{t:"Because we are the best.",s:-5},{t:"You don't have to. It's your choice.",s:-10}]}],win:30}
+];
+
+// ================================================================
+// APP STATE
+// ================================================================
+var APP={user:null,xp:0,level:1,cm:[],ss:0,curMod:null,curSc:0,am:0,as_:0,al:1};
+var SD={};
+var step=0;
+
+function save(){
+  if(!APP.user)return;
+  try{
+    var data={user:APP.user,xp:APP.xp,level:APP.level,cm:APP.cm,ss:APP.ss};
+    localStorage.setItem('rc_u_'+APP.user.email,JSON.stringify(data));
+    localStorage.setItem('rc_last',JSON.stringify(data));
+  }catch(e){}
+}
+function load(){
+  try{
+    var s=localStorage.getItem('rc_last');
+    if(s){var d=JSON.parse(s);if(d&&d.user){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;return true;}}
+  }catch(e){}
+  return false;
+}
+
+// ================================================================
+// NAV
+// ================================================================
+var PAGES=['plo','psu','pfp','pd','pmods','pl','psc','par','pset'];
+function show(id){
+  PAGES.forEach(function(p){var e=document.getElementById(p);if(e)e.style.display='none'});
+  var t=document.getElementById(id);if(t){t.style.display='flex';t.scrollTop=0}
+}
+
+// ================================================================
+// AUTH
+// ================================================================
+function tpw(id,btn){var i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈'}
+
+function checkPwd(v){
+  var bars=[document.getElementById('pb0'),document.getElementById('pb1'),document.getElementById('pb2')];
+  var lbl=document.getElementById('pstrlbl');
+  bars.forEach(function(b){b.className='pstr-bar'});
+  if(!v){lbl.textContent='';return}
+  var str=0;
+  if(v.length>=6)str++;
+  if(v.length>=8&&/[A-Z]/.test(v))str++;
+  if(/[0-9]/.test(v)&&/[^A-Za-z0-9]/.test(v))str++;
+  var cls=['w','m','s'][str-1]||'w';
+  var msg=['Weak','Medium','Strong'][str-1]||'Weak';
+  for(var i=0;i<str;i++)bars[i].classList.add(cls);
+  lbl.textContent=msg+' password';lbl.style.color=str===1?'var(--danger)':str===2?'var(--accent)':'var(--success)';
+}
+
+function showErr(id,msg){var e=document.getElementById(id);if(e){e.textContent=msg;e.style.display='flex'}}
+function hideErr(id){var e=document.getElementById(id);if(e)e.style.display='none'}
+
+function renderSteps(){
+  for(var i=0;i<3;i++){
+    var c=document.getElementById('sc'+i),l=document.getElementById('sl'+i);
+    var ln=document.getElementById('sln'+i);
+    if(c){c.className='sp-circle'+(i===step?' act':i<step?' dn':'')}
+    if(l){l.className='sp-label'+(i===step?' act':i<step?' dn':'')}
+    if(ln&&i<2){ln.className='sp-line'+(i<step?' dn':'')}
+    var ss=document.getElementById('ss'+i);
+    if(ss)ss.className='sstep'+(i===step?' active':'');
+  }
+}
+
+function nxt(dir){
+  hideErr('sue');
+  if(dir<step){step=dir;renderSteps();return}
+  if(step===0){
+    var fn=document.getElementById('sfn').value.trim();
+    var ln=document.getElementById('sln_').value.trim();
+    var em=document.getElementById('se').value.trim();
+    var pw=document.getElementById('sp').value;
+    var pw2=document.getElementById('sp2').value;
+    if(!fn||!ln){showErr('sue','Please enter your full name.');return}
+    if(!em||!em.includes('@')){showErr('sue','Please enter a valid email address.');return}
+    if(pw.length<6){showErr('sue','Password must be at least 6 characters.');return}
+    if(pw!==pw2){showErr('sue','Passwords do not match. Please re-enter.');return}
+    SD.name=fn+' '+ln;SD.email=em;SD.pass=pw;step=1;
+  } else if(step===1){
+    var bz=document.getElementById('sb').value.trim();
+    var rl=document.getElementById('sr').value;
+    var ind=document.getElementById('si').value;
+    var lg=document.getElementById('sl_').value;
+    if(!bz){showErr('sue','Please enter your business name.');return}
+    if(!rl){showErr('sue','Please select your role.');return}
+    if(!ind){showErr('sue','Please select your industry.');return}
+    SD.biz=bz;SD.role=rl;SD.industry=ind;SD.lang=lg;step=2;
+  }
+  renderSteps();
+}
+
+function doSignup(){
+  var agr=document.getElementById('agr');
+  if(!agr.checked){showErr('sue','Please accept the Terms of Service to continue.');return}
+  APP.user={name:SD.name,email:SD.email,pass:SD.pass,biz:SD.biz,role:SD.role,industry:SD.industry,lang:SD.lang||'en',exp:document.getElementById('sex').value,channel:document.getElementById('sch').value,team:document.getElementById('su-team').value};
+  APP.xp=0;APP.level=1;APP.cm=[];APP.ss=0;
+  save();loadDash();show('pd');
+}
+
+function doLogin(){
+  var em=document.getElementById('lem').value.trim();
+  var pw=document.getElementById('lpw').value;
+  hideErr('le');
+  if(!em){showErr('le','Please enter your email address.');return;}
+  if(!pw){showErr('le','Please enter your password.');return;}
+  // Try email-specific key first
+  try{
+    var sk=localStorage.getItem('rc_u_'+em);
+    if(sk){
+      var dk=JSON.parse(sk);
+      if(dk&&dk.user&&dk.user.email===em&&dk.user.pass===pw){
+        APP.user=dk.user;APP.xp=dk.xp||0;APP.level=dk.level||1;APP.cm=Array.isArray(dk.cm)?dk.cm:[];APP.ss=dk.ss||0;
+        loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
+  // Try last session key
+  try{
+    var s=localStorage.getItem('rc_last');
+    if(s){
+      var d=JSON.parse(s);
+      if(d&&d.user&&d.user.email===em&&d.user.pass===pw){
+        APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;
+        loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
+  // Try old key for backwards compatibility
+  try{
+    var so=localStorage.getItem('rc4');
+    if(so){
+      var do_=JSON.parse(so);
+      if(do_&&do_.user&&do_.user.email===em&&do_.user.pass===pw){
+        APP.user=do_.user;APP.xp=do_.xp||0;APP.level=do_.level||1;APP.cm=Array.isArray(do_.cm)?do_.cm:[];APP.ss=do_.ss||0;
+        save();loadDash();show('pd');return;
+      }
+    }
+  }catch(e){}
+  showErr('le','Email or password is incorrect. Please try again.');
+}
+
+function doForgot(){
+  var em=document.getElementById('fem').value.trim();
+  if(!em||!em.includes('@')){alert('Please enter a valid email address.');return}
+  var ok=document.getElementById('fok');ok.style.display='flex';
+}
+
+function socialLogin(p){showToast(p+' login coming soon! Please use email signup for now.')}
+
+function logout(){
+  if(confirm('Are you sure you want to logout?')){
+    APP.user=null;APP.xp=0;APP.level=1;APP.cm=[];APP.ss=0;
+    try{localStorage.removeItem('rc_last');}catch(e){}
+    show('plo');
+  }
+}
+
+// ================================================================
+// DASHBOARD
+// ================================================================
+function loadDash(){
+  if(!APP.user)return;
+  var u=APP.user;
+  var h=new Date().getHours();
+  var gr=h<12?'Good morning,':h<17?'Good afternoon,':'Good evening,';
+  document.getElementById('dg').textContent=gr;
+  document.getElementById('dn').textContent=u.name.split(' ')[0]+'! 👋';
+  var ind=IND[u.industry]?IND[u.industry].l:u.industry||'Your Business';
+  document.getElementById('dc').innerHTML='<span>🏢</span><span>'+u.biz+' • '+ind+'</span>';
+  var lv=APP.level,xnw=APP.xp-LVXP[lv-1],xmx=LVXP[lv]-LVXP[lv-1];
+  document.getElementById('xlv').textContent=lv;
+  document.getElementById('xln').textContent=LVNAMES[lv-1]||'Champion';
+  document.getElementById('xnw').textContent=APP.xp;
+  document.getElementById('xmx').textContent=LVXP[lv]||'∞';
+  document.getElementById('xpfi').style.width=Math.min(100,Math.round(xnw/xmx*100))+'%';
+  var sr=document.getElementById('strk');sr.innerHTML='';
+  for(var i=0;i<7;i++){var d=document.createElement('div');d.className='sd'+(i<APP.cm.length%8?' on':'');sr.appendChild(d)}
+  document.getElementById('stm').textContent=APP.cm.length;
+  document.getElementById('ssc').textContent=APP.ss;
+  var ar=document.getElementById('alvrow');ar.innerHTML='';
+  for(var i=1;i<=5;i++){var d=document.createElement('div');d.className='alv'+(APP.cm.length>=(i-1)*2?' ulk':'');d.textContent='Lv '+i;ar.appendChild(d)}
+  var dmp=document.getElementById('dmp');dmp.innerHTML='';
+  for(var i=0;i<Math.min(4,MODS.length);i++)dmp.appendChild(mkMCard(MODS[i],i));
+  updSet();
+}
+
+function mkMCard(m,i){
+  var dn=APP.cm.indexOf(m.id)!==-1;
+  var lk=i>0&&APP.cm.indexOf(MODS[i-1].id)===-1;
+  var div=document.createElement('div');
+  div.className='mcard'+(dn?' mdn':lk?' mlk':' mac');
+  div.innerHTML='<div class="micn" style="background:'+m.bg+'">'+m.ic+'</div><div class="minf"><div class="mname">'+m.name+'</div><div class="mdesc">'+m.desc+'</div><div class="mprg"><div class="mpr" style="width:'+(dn?100:0)+'%"></div></div></div><div class="mbadge '+(dn?'bdn':lk?'blk':'bgo')+'">'+(dn?'✓ Done':lk?'🔒':'▶ Go')+'</div>';
+  if(!lk)(function(mod){div.onclick=function(){openLesson(mod.id)}})(m);
+  return div;
+}
+
+function loadMods(){var l=document.getElementById('aml');l.innerHTML='';for(var i=0;i<MODS.length;i++)l.appendChild(mkMCard(MODS[i],i))}
+
+// ================================================================
+// LESSON
+// ================================================================
+var LCONTENT={
+  greeting:{ic:"👋",bg:"#fff4ed",ti:"Greeting Customers by Name",intro:"The first 7 seconds define the relationship. Dale Carnegie: A person's name is the sweetest sound in any language. Always greet with NAME + TITLE + TIME GREETING.",tips:[{l:"3-Part Formula",t:"NAME + TITLE + TIME: 'Hi Prashant Sir, Good Morning! Hope you're doing well 😊' – This works in person, on phone, and WhatsApp."},{l:"Smile First",t:"Even on a phone call your smile is heard in your voice. Smile before you dial."},{l:"WhatsApp Rule",t:"Always start: 'Hi [Name] Sir/Ma'am 🙏 Good [Morning/Afternoon/Evening]!' Never just 'Hi' or 'Hello'."}],q:{t:"You can make more friends in two months by becoming genuinely interested in people than in two years trying to get them interested in you.",a:"Dale Carnegie"},do:"Hi Prashant Sir, Good Morning! Hope you are doing great today 😊",dont:"Hey buddy! / Kaise ho bhai? / Hello, what's your requirement?"},
+  mindset:{ic:"🧘",bg:"#eef0fd",ti:"The Sales Champion Mindset",intro:"Before mastering any technique, master your mind. Every rejection is feedback. Every No brings you closer to Yes. Top salespeople treat every call as an opportunity, not a risk.",tips:[{l:"Reject Rejection Fear",t:"Champions EXPECT rejection. 10 calls, 8 rejections is completely normal. Your job is to keep going while learning."},{l:"The 10X Rule",t:"Grant Cardone: Whatever you think you need to do – do 10X more. Sales success = numbers × skill."},{l:"Morning Ritual",t:"Spend 30 min on mindset before any call. Read, visualize, affirm. Your energy transfers to the customer."}],q:{t:"Success is not owned, it is rented – and rent is due every day.",a:"Rory Vaden"},do:"I will make 20 calls today and learn from every conversation.",dont:"I only call when I feel motivated. I can't handle rejection."},
+  objections:{ic:"🛡️",bg:"#fdf2f8",ti:"Handling Objections Like a Pro",intro:"Objections are not rejections – they are requests for more information. Tom Hopkins: The best salespeople welcome objections because objections = engagement. Every objection reveals what the customer needs to buy.",tips:[{l:"Feel-Felt-Found",t:"'I understand how you feel. Many clients felt the same. But what they found was...' Validates, creates social proof, delivers reframe."},{l:"Clarify First",t:"When you hear an objection, ask: 'When you say X, what specifically do you mean?' Most objections are vague."},{l:"Agree, Then Pivot",t:"Never argue. Instead: 'That's a great point – and here's what makes us different...' Agreement creates openness."}],q:{t:"Every sale has five basic obstacles: no need, no money, no hurry, no desire, no trust.",a:"Zig Ziglar"},do:"I understand your concern. Many clients felt the same. What they found was the quality saved money long-term.",dont:"No no Sir, you are wrong. Our product is actually very good. Let me explain..."},
+  closing:{ic:"🎯",bg:"#ecfeff",ti:"Closing Techniques That Work",intro:"Zig Ziglar: Every sale has 5 closing attempts on average. Most salespeople ask once, hear hesitation, and walk away. The close is not a single moment – it's a series of micro-commitments.",tips:[{l:"Assumptive Close",t:"'Shall I book this for Tuesday delivery?' You assume the sale is done and move to logistics."},{l:"Silence Close",t:"Ask your closing question. Then STOP TALKING. The next person to speak loses. Every. Single. Time."},{l:"Summary Close",t:"'We agreed on 500 cards, delivered Friday, with logo. Total ₹2,400. Shall I proceed?' Summarize and ask confirmation."}],q:{t:"Ask for the order. Be quiet. The silence is more uncomfortable for the person who has nothing to lose.",a:"Zig Ziglar – Secrets of Closing"},do:"So Deepak Sir, we discussed quality, price, and delivery. Shall I go ahead and book this for you today?",dont:"Sir please think about it and let me know whenever you're ready. I'll be waiting."},
+  spin:{ic:"🔍",bg:"#eef0fd",ti:"SPIN Selling – The Proven System",intro:"Neil Rackham's SPIN is based on analysis of 35,000 sales calls. Used by IBM, Xerox, and Fortune 500 companies. S=Situation P=Problem I=Implication N=Need-Payoff.",tips:[{l:"S = Situation",t:"Understand current state: 'Which supplier do you use? How long? Typical volume per month?' Fact-finding only."},{l:"P = Problem",t:"Uncover dissatisfaction: 'Do you face delays? Quality issues?' Let THEM name the pain."},{l:"I + N = Impact",t:"I: 'How do delays affect your clients?' N: 'If you had reliable delivery, how would that help?' Let them sell themselves."}],q:{t:"In major sales, the ability to ask excellent questions is more important than giving excellent presentations.",a:"Neil Rackham – SPIN Selling"},do:"What challenges do you face with your current supplier? How do delays affect your deadlines?",dont:"Our product is the best! Let me tell you all the features..."},
+  negotiation:{ic:"⚖️",bg:"#eef0fd",ti:"Negotiation – Never Split the Difference",intro:"Chris Voss, former FBI negotiator: Never make a concession without getting something in return. Price is rarely the real issue – perceived value is.",tips:[{l:"Label Emotions",t:"'It sounds like you're concerned about the budget for this quarter.' Labeling defuses resistance."},{l:"Never Give First",t:"When asked for discount: 'What would make this a perfect deal for you?' Let them name the number."},{l:"Add Value, Don't Cut Price",t:"'I can't reduce price, but I can add free delivery + support worth ₹3,000.' Protect margin, customer feels they won."}],q:{t:"The most dangerous negotiating mistake: making the first concession without getting anything in return.",a:"Chris Voss – Never Split the Difference"},do:"Anil Sir, if you commit to 3 months, I'll add free delivery and priority support. Would that work?",dont:"Okay Sir, 20% discount. Done. When will you pay?"},
+  followup:{ic:"📲",bg:"#fff4ed",ti:"Follow-Up – The Fortune Is Here",intro:"80% of sales happen between the 5th and 12th contact. 48% of salespeople never follow up even once. The fortune is literally in the follow-up.",tips:[{l:"Value-First Follow-Up",t:"Every follow-up must carry NEW value: testimonial, article, limited offer, or useful insight. Never just ask 'did you decide?'"},{l:"5-Touch System",t:"Day 1: Call → Day 3: WhatsApp value message → Day 7: Call → Day 14: New info → Day 30: Reconnect."},{l:"Create a Reason",t:"If customer mentioned an event, call right before it. 'With Diwali coming, I remembered you were considering our gift packaging...'"}],q:{t:"The fortune is in the follow-up. Most salespeople quit after the 3rd no. Champions follow up until the customer buys.",a:"Jim Rohn"},do:"Hi Pooja Ma'am 🙏 One of our clients saved ₹8,000 this month. Thought this might help your decision. Any questions? 😊",dont:"Hi Pooja, did you decide? Waiting for your reply. Please confirm."},
+  whatsapp:{ic:"💚",bg:"#f0fdf4",ti:"WhatsApp Sales Mastery",intro:"In India, 90%+ of business communication happens on WhatsApp. Yet most salespeople spam catalogues. WhatsApp selling is about conversations, not broadcasts.",tips:[{l:"First Message Formula",t:"Hi [Name] 🙏 I'm [Name] from [Company]. [Reference]. We help [type] with [benefit]. Open to a quick chat? 😊"},{l:"Status Strategy",t:"Daily Status: client results, behind-the-scenes, tips. People viewing your status are warm leads – follow up naturally."},{l:"Response Time",t:"Reply within 2 minutes. WhatsApp is instant. Slow reply = low priority. Fast reply = high value and professionalism."}],q:{t:"Speed of response is a form of respect. Every minute you delay is a minute your competitor could be responding.",a:"Gary Vaynerchuk"},do:"Hi Sameer Sir 🙏 I'm Rahul from PrintPro. Vijay referred me – said you need quality label printing. Open to chat? 😊",dont:"[Sends 10-page catalogue PDF] Hi, check this and tell me what you need."}
+};
+
+function openLesson(id){
+  APP.curMod=id;APP.curSc=0;
+  var m=null;
+  for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){m=MODS[mi];break;}}
+  var c=LCONTENT[id];
+  var scens=SC[id]||[];
+  document.getElementById('lhn').textContent=m?m.name:id;
+  document.getElementById('lpfi').style.width='15%';
+  document.getElementById('lbk').onclick=function(){show('pd');loadDash()};
+  var lb=document.getElementById('lb');
+  var html='';
+  if(c){
+    html+='<div class="li" style="background:'+c.bg+'">'+c.ic+'</div>';
+    html+='<h1 class="ltit">'+c.ti+'</h1>';
+    html+='<p class="lint">'+c.intro+'</p>';
+    for(var ti=0;ti<c.tips.length;ti++){
+      html+='<div class="tbox"><div class="ttag">💡 '+c.tips[ti].l+'</div><p>'+c.tips[ti].t+'</p></div>';
+    }
+    html+='<div class="qbox"><p>'+c.q.t+'</p><div class="qau">— '+c.q.a+'</div></div>';
+    html+='<div class="dodont"><div class="docard"><div class="dolbl">✅ Do This</div><p>'+c.do+'</p></div><div class="dntcard"><div class="dolbl">❌ Not This</div><p>'+c.dont+'</p></div></div>';
+  } else {
+    html+='<div style="text-align:center;padding:2rem 1rem">';
+    html+='<div style="font-size:3.5rem;margin-bottom:.8rem">'+(m?m.ic:'📚')+'</div>';
+    html+='<h2 style="font-family:var(--fn);font-size:1.2rem;font-weight:900;margin-bottom:.5rem">'+(m?m.name:'Module')+'</h2>';
+    html+='<p style="font-size:.88rem;line-height:1.6;color:var(--t2);margin-bottom:1.5rem">'+(m?m.desc:'Learning module')+'</p>';
+    html+='</div>';
+  }
+  if(scens.length>0){
+    html+='<button class="spcta" onclick="openScens(\''+id+'\')">⚡ Start Practice ('+scens.length+' Scenarios)</button>';
+  } else {
+    html+='<div style="text-align:center;padding:1rem;color:var(--t3);font-size:.85rem;background:var(--bg);border-radius:10px;margin-top:1rem">✏️ More scenarios coming soon!</div>';
+  }
+  html+='<div style="height:2rem"></div>';
+  lb.innerHTML=html;
+  show('pl');
+}
+
+// ================================================================
+// SCENARIOS
+// ================================================================
+function openScens(id){
+  APP.curMod=id;APP.curSc=0;
+  var m=MODS.filter(function(x){return x.id===id})[0];
+  document.getElementById('stn').textContent=m?m.name:id;
+  show('psc');
+  setTimeout(function(){renderScen();},30);
+}
+
+function bkScen(){if(APP.curMod){openLesson(APP.curMod)}else{show('pd');loadDash()}}
+
+function renderScen(){
+  var id=APP.curMod;
+  var scens=SC[id]||[];
+  var i=APP.curSc;
+  var sct=document.getElementById('sct');
+  var spfi=document.getElementById('spfi');
+  var body=document.getElementById('scenBody');
+  if(!body){alert('ERROR: scenBody not found. Please hard refresh with Ctrl+Shift+R');return;}
+  if(!scens.length||i>=scens.length){showCompl();return;}
+  var sc=scens[i];
+  var tot=scens.length;
+  var L=['A','B','C','D'];
+  if(sct)sct.textContent=(i+1)+'/'+tot;
+  if(spfi)spfi.style.width=Math.round(i/tot*100)+'%';
+  var html='<div class="sccard">';
+  html+='<div class="sctag">📋 Scenario '+(i+1)+' of '+tot+'</div>';
+  html+='<div class="sctxt">'+sc.t+'</div>';
+  html+='</div>';
+  html+='<div class="owrap">';
+  for(var j=0;j<sc.o.length;j++){
+    html+='<button class="obtn" onclick="pickAns('+j+')" id="scopt'+j+'">';
+    html+='<div class="oltr">'+L[j]+'</div>';
+    html+='<div style="flex:1">'+sc.o[j].t+'</div>';
+    html+='</button>';
+  }
+  html+='</div>';
+  html+='<div id="fbw" style="margin-top:.5rem"></div>';
+  html+='<div style="height:3rem"></div>';
+  body.innerHTML=html;
+  body.scrollTop=0;
+}
+
+function pickAns(idx){
+  var id=APP.curMod;
+  if(!SC[id]||!SC[id][APP.curSc])return;
+  var sc=SC[id][APP.curSc];
+  var opt=sc.o[idx];
+  // Disable all option buttons
+  for(var i=0;i<sc.o.length;i++){
+    var b=document.getElementById('scopt'+i);
+    if(b){b.setAttribute('onclick','');b.style.pointerEvents='none';b.style.opacity='0.7';}
+  }
+  // Highlight selected button
+  var selBtn=document.getElementById('scopt'+idx);
+  if(selBtn){
+    selBtn.style.opacity='1';
+    selBtn.style.pointerEvents='none';
+    if(opt.c){
+      selBtn.style.borderColor='#10b981';
+      selBtn.style.background='#ecfdf5';
+      var ltr=selBtn.querySelector('.oltr');
+      if(ltr){ltr.style.background='#10b981';ltr.style.color='#fff';}
+    } else {
+      selBtn.style.borderColor='#ef4444';
+      selBtn.style.background='#fef2f2';
+      var ltr=selBtn.querySelector('.oltr');
+      if(ltr){ltr.style.background='#ef4444';ltr.style.color='#fff';}
+    }
+  }
+  var fb=document.getElementById('fbw');
+  if(!fb)return;
+  if(opt.c){
+    APP.xp+=50;APP.ss++;chkLvl();save();
+    fb.innerHTML='<div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:12px;padding:1rem;margin-bottom:.8rem"><div style="font-family:var(--fn);font-weight:800;color:#10b981;margin-bottom:.3rem">✅ Correct Answer!</div><div style="font-size:.82rem;color:#374151;line-height:1.6">Perfect technique! +50 XP earned! 🔥</div></div><button onclick="APP.curSc++;renderScen()" style="background:#4f46e5;color:#fff;font-family:var(--fn);font-weight:800;border:none;border-radius:12px;padding:.9rem;width:100%;cursor:pointer;font-size:.9rem;display:block">Next Scenario →</button>';
+    var xnwEl=document.getElementById('xnw');if(xnwEl)xnwEl.textContent=APP.xp;
+    showXP();
+  } else {
+    fb.innerHTML='<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:12px;padding:1rem;margin-bottom:.8rem"><div style="font-family:var(--fn);font-weight:800;color:#ef4444;margin-bottom:.3rem">❌ Not Quite Right</div><div style="font-size:.82rem;color:#374151;line-height:1.6">'+opt.f+'</div></div><button onclick="renderScen()" style="background:transparent;color:#4f46e5;font-family:var(--fn);font-weight:700;border:2px solid #4f46e5;border-radius:12px;padding:.85rem;width:100%;cursor:pointer;font-size:.86rem;display:block">🔄 Try Again</button>';
+  }
+  setTimeout(function(){if(fb)fb.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+}
+
+function showCompl(){
+  var id=APP.curMod;
+  var m=null;
+  for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){m=MODS[mi];break;}}
+  if(m&&APP.cm.indexOf(id)===-1){APP.cm.push(id);APP.xp+=200;chkLvl();save();}
+  var body=document.getElementById('scenBody');
+  if(!body)return;
+  var nextIdx=-1;
+  for(var mi=0;mi<MODS.length;mi++){if(MODS[mi].id===id){nextIdx=mi+1;break;}}
+  var nextId=nextIdx<MODS.length?MODS[nextIdx].id:'';
+  body.innerHTML=
+    '<div style="text-align:center;padding:2rem 1.5rem">'+
+    '<div style="font-size:4rem;margin-bottom:.8rem">🏆</div>'+
+    '<h2 style="font-family:var(--fn);font-size:1.45rem;font-weight:900;color:#10b981;margin-bottom:.4rem">Module Mastered!</h2>'+
+    '<p style="font-size:.87rem;color:#374151;line-height:1.6;margin-bottom:1.2rem">You completed <strong>'+(m?m.name:'this module')+'</strong>!<br>Keep going – every module unlocks new skills.</p>'+
+    '<div style="display:inline-flex;align-items:center;gap:.35rem;background:#fffbeb;color:#f59e0b;border-radius:20px;padding:.42rem 1.05rem;font-family:var(--fn);font-weight:900;font-size:.95rem;margin-bottom:1.2rem">+200 XP earned! 🔥</div><br>'+
+    (nextId?'<button onclick="openLesson(\''+nextId+'\')" style="background:#10b981;color:#fff;font-family:var(--fn);font-weight:800;border:none;border-radius:12px;padding:.92rem;width:100%;cursor:pointer;font-size:.92rem;margin-bottom:.55rem;display:block">▶ Next Module</button>':'')+
+    '<button onclick="loadDash();show(\'pd\')" style="background:transparent;color:#4f46e5;font-family:var(--fn);font-weight:700;border:2px solid #4f46e5;border-radius:12px;padding:.88rem;width:100%;cursor:pointer;font-size:.88rem;display:block">← Back to Dashboard</button>'+
+    '</div>';
+}
+
+function chkLvl(){
+  while(APP.level<LVNAMES.length&&APP.xp>=LVXP[APP.level]){APP.level++;showToast('🎉 Level Up! You are now Level '+APP.level+' – '+LVNAMES[APP.level-1]+'!')}
+}
+
+// ================================================================
+// ARENA
+// ================================================================
+function loadArena(lv){
+  var a=ARENA[lv-1]||ARENA[0];
+  APP.al=lv;APP.as_=0;APP.am=0;
+  document.getElementById('alt').textContent=a.t;
+  document.getElementById('asp').textContent='Score: 0';
+  document.getElementById('ach').innerHTML='';
+  document.getElementById('arp').innerHTML='';
+  setTimeout(function(){addMsg('ai',a.cu,a.op);setTimeout(arenaMove,900)},300);
+}
+
+function addMsg(type,name,text){
+  var chat=document.getElementById('ach');
+  if(type==='typing'){var d=document.createElement('div');d.className='cmsg aimsg';d.id='tdiv';d.innerHTML='<div class="mlbl">🤖 AI Customer</div><div class="mbbl"><div class="tdots"><span></span><span></span><span></span></div></div>';chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return}
+  var td=document.getElementById('tdiv');if(td)td.remove();
+  var d=document.createElement('div');d.className='cmsg '+(type==='ai'?'aimsg':'umsg');
+  d.innerHTML='<div class="mlbl">'+(type==='ai'?'🤖 '+name:'👤 You')+'</div><div class="mbbl">'+text+'</div>';
+  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+}
+
+function arenaMove(){
+  var a=ARENA[APP.al-1]||ARENA[0];
+  if(APP.am>=a.mv.length){arenaEnd();return}
+  var mv=a.mv[APP.am];
+  var rp=document.getElementById('arp');rp.innerHTML='';
+  addMsg('typing','','');
+  setTimeout(function(){
+    addMsg('ai',a.cu,mv.ai);
+    setTimeout(function(){
+      mv.r.forEach(function(r){
+        var btn=document.createElement('button');btn.className='repbtn';btn.textContent=r.t;
+        btn.onclick=function(){
+          rp.innerHTML='';addMsg('user','',r.t);APP.as_+=r.s;APP.am++;
+          document.getElementById('asp').textContent='Score: '+APP.as_;
+          var react=r.s>=10?'Hmm, that makes sense..':r.s>0?'Okay..':'That doesn\'t quite address my concern.';
+          setTimeout(function(){addMsg('typing','','');setTimeout(function(){addMsg('ai',a.cu,react);setTimeout(arenaMove,700)},700)},300);
+        };
+        rp.appendChild(btn);
+      });
+    },300);
+  },800);
+}
+
+function arenaEnd(){
+  var a=ARENA[APP.al-1]||ARENA[0];
+  var rp=document.getElementById('arp');rp.innerHTML='';
+  var chat=document.getElementById('ach');
+  if(APP.as_>=a.win){
+    addMsg('ai',a.cu,'🎉 You know what – you\'ve convinced me! Let\'s go ahead. Can you send me the final details?');
+    APP.xp+=500;save();
+    setTimeout(function(){
+      var d=document.createElement('div');d.style.cssText='margin:.8rem';
+      d.innerHTML='<div style="text-align:center;padding:1.2rem;background:var(--sg);border-radius:var(--r);border:1px solid #6ee7b7"><div style="font-size:3.5rem;margin-bottom:.6rem">🏆</div><h2 style="font-family:var(--fn);font-size:1.3rem;font-weight:900;color:var(--success);margin-bottom:.3rem">You Closed the Sale!</h2><p style="font-size:.85rem;color:var(--t2)">Score: '+APP.as_+'/'+a.win+' needed<br>+500 XP earned! 🔥</p></div>';
+      chat.appendChild(d);
+      var btn=document.createElement('button');btn.className='btn btn-p';btn.style.cssText='margin:.5rem .8rem;width:calc(100% - 1.6rem)';btn.textContent='🏠 Back to Dashboard';btn.onclick=function(){loadDash();show('pd')};chat.appendChild(btn);chat.scrollTop=chat.scrollHeight;
+      showToast('🏆 Congratulations! +500 XP earned!');
+    },1200);
+  } else {
+    addMsg('ai',a.cu,'I\'m not fully convinced yet. Score: '+APP.as_+'/'+a.win+' needed to close.');
+    var btn=document.createElement('button');btn.className='btn btn-p';btn.style.cssText='margin:.6rem';btn.textContent='🔄 Try Again';btn.onclick=function(){loadArena(APP.al)};rp.appendChild(btn);
+  }
+}
+
+// ================================================================
+// SETTINGS
+// ================================================================
+function updSet(){
+  if(!APP.user)return;
+  var u=APP.user;
+  document.getElementById('uav').textContent=u.name.charAt(0).toUpperCase();
+  document.getElementById('unm').textContent=u.name;
+  document.getElementById('uco').textContent=u.biz;
+  document.getElementById('url').textContent=u.role;
+  var langs={en:'English',hi:'Hindi',hinglish:'Hinglish'};
+  document.getElementById('slv').textContent=langs[u.lang]||'English';
+  var chs={telecalling:'📞 Telecalling',whatsapp:'💬 WhatsApp',face:'🤝 Face-to-Face',retail:'🏪 Retail',online:'🌐 Online'};
+  document.getElementById('scv').textContent=chs[u.channel]||'–';
+  document.getElementById('siv').textContent=IND[u.industry]?IND[u.industry].l:u.industry||'–';
+  document.getElementById('sxv').textContent=APP.xp+' XP';
+  document.getElementById('smv').textContent=APP.cm.length;
+  document.getElementById('ssv').textContent=APP.ss;
+}
+function chLang(){
+  var ls=['en','hi','hinglish'],ln=['English','Hindi','Hinglish'];
+  var c=APP.user?APP.user.lang:'en';
+  var i=ls.indexOf(c);
+  var n=(i+1)%ls.length;
+  if(APP.user){
+    APP.user.lang=ls[n];
+    save();
+    var slv=document.getElementById('slv');if(slv)slv.textContent=ln[n];
+    // Apply language to scenario topic labels
+    applyLang(ls[n]);
+    showToast('✅ Language changed to '+ln[n]);
+  }
+}
+
+function applyLang(lang){
+  // Update lesson tips language label
+  var hints={
+    en:{greeting:"Greet with Name + Title + Time",practice:"Start Practice"},
+    hi:{greeting:"नाम + शीर्षक + समय के साथ अभिवादन करें",practice:"अभ्यास शुरू करें"},
+    hinglish:{greeting:"Name ke saath greet karein",practice:"Practice Shuru Karein"}
+  };
+  // Update start practice button if visible
+  var spBtn=document.getElementById('lessonStartBtn');
+  if(spBtn&&hints[lang]){
+    var scens=SC[APP.curMod]||[];
+    spBtn.textContent='⚡ '+(hints[lang].practice||'Start Practice')+' ('+scens.length+' Scenarios)';
+  }
+  // Update scenario instruction text based on language
+  var sctag=document.querySelector('.sctag');
+  if(sctag){
+    var labels={en:'SCENARIO',hi:'परिदृश्य',hinglish:'SCENARIO'};
+    // Will apply on next renderScen call
+  }
+  // Save language preference
+  if(APP.user)APP.user.lang=lang;
+}
+
+// ================================================================
+// UTILS
+// ================================================================
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('sh');setTimeout(function(){t.classList.remove('sh')},3000)}
+function showXP(){var p=document.getElementById('xppop');p.classList.add('sh');setTimeout(function(){p.classList.remove('sh')},1400)}
+if(!Array.prototype.findIndex){Array.prototype.findIndex=function(fn){for(var i=0;i<this.length;i++)if(fn(this[i],i))return i;return -1}}
+
+window.onload=function(){
+  var loaded=false;
+  // Try new key
+  try{var s=localStorage.getItem('rc_last');if(s){var d=JSON.parse(s);if(d&&d.user){APP.user=d.user;APP.xp=d.xp||0;APP.level=d.level||1;APP.cm=Array.isArray(d.cm)?d.cm:[];APP.ss=d.ss||0;loaded=true;}}}catch(e){}
+  // Try old key rc4 for backward compatibility
+  if(!loaded){try{var s2=localStorage.getItem('rc4');if(s2){var d2=JSON.parse(s2);if(d2&&d2.user){APP.user=d2.user;APP.xp=d2.xp||0;APP.level=d2.level||1;APP.cm=Array.isArray(d2.cm)?d2.cm:[];APP.ss=d2.ss||0;loaded=true;save();}}}catch(e){}}
+  if(loaded&&APP.user){loadDash();show('pd');}else{show('plo');}
+};
+</script>
+</body>
+</html>
