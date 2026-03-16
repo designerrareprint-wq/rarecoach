@@ -1475,15 +1475,15 @@ function pickAns(idx){
   var id=APP.curMod;
   var sc=SC[id][APP.curSc];
   var opt=sc.o[idx];
-  var L=['A','B','C','D'];
+  // Disable all buttons WITHOUT replacing them (replaceWith breaks getElementById)
   for(var i=0;i<sc.o.length;i++){
     var b=document.getElementById('scopt'+i);
-    if(b){b.classList.add('dis');b.replaceWith(b.cloneNode(true));}
+    if(b){b.classList.add('dis');b.onclick=null;b.style.pointerEvents='none';}
   }
   var btn=document.getElementById('scopt'+idx);
   var fb=document.getElementById('fbw');
   if(opt.c){
-    if(btn)btn.classList.add('crt');
+    if(btn){btn.classList.remove('dis');btn.classList.add('crt');}
     APP.xp+=50;APP.ss++;chkLvl();save();
     fb.innerHTML='<div class="fbpnl fbc"><div class="fbhd">✅ Correct Answer!</div><div class="fbbd">Perfect technique! +50 XP earned! 🔥</div></div><button class="nqbtn" id="nqbtn">Next →</button>';
     var nqbtn=document.getElementById('nqbtn');
@@ -1491,12 +1491,12 @@ function pickAns(idx){
     showXP();
     var xnwEl=document.getElementById('xnw');if(xnwEl)xnwEl.textContent=APP.xp;
   } else {
-    if(btn)btn.classList.add('wrg');
+    if(btn){btn.classList.remove('dis');btn.classList.add('wrg');}
     fb.innerHTML='<div class="fbpnl fbw"><div class="fbhd">❌ Not Quite Right</div><div class="fbbd">'+opt.f+'</div></div><button class="rtbtn" id="rtbtn">🔄 Try Again</button>';
     var rtbtn=document.getElementById('rtbtn');
     if(rtbtn){rtbtn.addEventListener('click',function(){renderScen();});}
   }
-  if(fb){fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(fb){setTimeout(function(){fb.scrollIntoView({behavior:'smooth',block:'nearest'});},80);}
 }
 
 function showCompl(){
